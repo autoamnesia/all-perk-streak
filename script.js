@@ -1,6 +1,4 @@
-
 // Global variable to track which character is currently selected
-
 let selectedCharacter = null;
 
 // Utility function to check if the character is a killer based on filename
@@ -13,14 +11,26 @@ function getCurrentPageType() {
   return location.pathname.includes("killer") ? "killers" : "survivors";
 }
 
+function filterPerks(searchTerm, type) {
+  const perks = window.allPerks[type] || [];
+  return perks.filter(perk => 
+    perk.name.toLowerCase().includes(searchTerm.toLowerCase())
+  );
+}
+
 // Updates the list of available perks based on which side
 function updateAvailablePerks(type) {
   const perkContainer = document.getElementById("available-perks");
   if (!perkContainer) return;
-  perkContainer.innerHTML = "";
 
-  const path = type === "survivors" ? "survivors" : "killers";
-  const perks = window.allPerks[path] || [];
+  const searchInput = document.getElementById("perk-search");
+  const searchTerm = searchInput ? searchInput.value : "";
+  
+  const perks = searchTerm ? 
+    filterPerks(searchTerm, type) : 
+    window.allPerks[type] || [];
+
+  perkContainer.innerHTML = "";
 
   const usedPerks = JSON.parse(localStorage.getItem("dbd_used_perks") || "{}");
 
@@ -31,7 +41,7 @@ function updateAvailablePerks(type) {
     wrapper.style.margin = "4px";
 
     const img = document.createElement("img");
-    img.src = `assets/perks/${path}/${perk.file}`;
+    img.src = `assets/perks/${type}/${perk.file}`;
     img.alt = perk.name;
     img.title = perk.name;
     img.className = "perk-icon";
@@ -395,6 +405,7 @@ async function initCharacterList() {
   } else {
     renderCharacters(data.killers, "killer-list");
   }
+  updateAvailablePerks(page);
 }
 
 window.addEventListener("DOMContentLoaded", () => {
@@ -426,4 +437,15 @@ window.addEventListener("DOMContentLoaded", () => {
   controls.appendChild(btnSave);
   controls.appendChild(btnResetPage);
   controls.appendChild(btnResetSelected);
+
+  const searchInput = document.getElementById("perk-search");
+  if (searchInput) {
+    searchInput.addEventListener("input", () => {
+      if (selectedCharacter) {
+        updateAvailablePerks(selectedCharacter.type);
+      } else {
+        updateAvailablePerks(getCurrentPageType());
+      }
+    });
+  }
 });
