@@ -13,3 +13,7 @@ If I ever stop updating, it's very simple to add in new killers, survivors and p
  1. Download the perk/character icon. As a .webp file.
  2. Put in in assets\perks or characters\killers or survivors.
  3. Go into the characters.json and copy one already in their and update the info to the new names and file name.
+
+
+I'm very new to website making, so I got help from my dad and used chatgpt to help out with the more advanced fucntions.
+In the future when I get more knowledgable, I'm gonna try to make the code all by myself.
