@@ -1,0 +1,113 @@
+
+body {
+  font-family: sans-serif;
+  background: #121212;
+  color: #fff;
+  padding: 20px;
+}
+
+h1, h2 {
+  color: #f0db4f;
+}
+
+.character-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.character-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100px;
+  height: 120px;
+  box-sizing: border-box;
+}
+
+html {
+  overflow-y: scroll;
+}
+
+.character-card img {
+  width: 100px;
+  height: 100px;
+  border: 2px solid transparent;
+  outline: none;
+  box-sizing: border-box;
+  cursor: pointer;
+  border-radius: 4px;
+}
+
+.character-card img:hover {
+  outline: 2px solid #f0db4f;
+}
+
+.character-card img.selected {
+  outline: 2px solid dodgerblue;
+}
+
+.character-card img.locked {
+  border-color: limegreen;
+}
+
+.character-name {
+  margin-top: 4px;
+  font-size: 0.85rem;
+  text-align: center;
+  color: #ddd;
+}
+
+.perk-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.perk-icon {
+  width: 80px;
+  height: 80px;
+  cursor: pointer;
+  border: 2px solid transparent;
+  border-radius: 4px;
+  box-sizing: border-box;
+}
+
+.perk-icon:hover {
+  border-color: #f0db4f;
+}
+
+.perk-slots {
+  display: flex;
+  gap: 10px;
+  margin: 20px 0;
+}
+
+.perk-slot {
+  width: 80px;
+  height: 80px;
+  background: #333;
+  border: 2px dashed #555;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 4px;
+}
+
+.perk-slot img {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+}
+
+#available-perks div {
+  position: relative;
+  display: inline-block;
+  margin: 60px;
+}
+
+#available-perks {
+  max-height: 450px;
+  overflow-y: auto;
+}

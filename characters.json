@@ -1,0 +1,1616 @@
+{
+  "survivors": [
+    {
+      "name": "Ace Visconti",
+      "file": "ace-visconti",
+      "type": "survivors"
+    },
+    {
+      "name": "Ada Wong",
+      "file": "ada-wong",
+      "type": "survivors"
+    },
+    {
+      "name": "Adam Francis",
+      "file": "adam-francis",
+      "type": "survivors"
+    },
+    {
+      "name": "Alan Wake",
+      "file": "alan-wake",
+      "type": "survivors"
+    },
+    {
+      "name": "Ash Williams",
+      "file": "ash-williams",
+      "type": "survivors"
+    },
+    {
+      "name": "Bill Overbeck",
+      "file": "bill-overbeck",
+      "type": "survivors"
+    },
+    {
+      "name": "Cheryl Mason",
+      "file": "cheryl-mason",
+      "type": "survivors"
+    },
+    {
+      "name": "Claudette Morel",
+      "file": "claudette-morel",
+      "type": "survivors"
+    },
+    {
+      "name": "David King",
+      "file": "david-king",
+      "type": "survivors"
+    },
+    {
+      "name": "David Tapp",
+      "file": "david-tapp",
+      "type": "survivors"
+    },
+    {
+      "name": "Dwight Fairfield",
+      "file": "dwight-fairfield",
+      "type": "survivors"
+    },
+    {
+      "name": "Ellen Ripley",
+      "file": "ellen-ripley",
+      "type": "survivors"
+    },
+    {
+      "name": "Elodie Rakoto",
+      "file": "elodie-rakoto",
+      "type": "survivors"
+    },
+    {
+      "name": "Felix Richter",
+      "file": "felix-richter",
+      "type": "survivors"
+    },
+    {
+      "name": "Feng Min",
+      "file": "feng-min",
+      "type": "survivors"
+    },
+    {
+      "name": "Gabriel Soma",
+      "file": "gabriel-soma",
+      "type": "survivors"
+    },
+    {
+      "name": "Haddie Kaur",
+      "file": "haddie-kaur",
+      "type": "survivors"
+    },
+    {
+      "name": "Jake Park",
+      "file": "jake-park",
+      "type": "survivors"
+    },
+    {
+      "name": "Jane Romero",
+      "file": "jane-romero",
+      "type": "survivors"
+    },
+    {
+      "name": "Jeff Johansen",
+      "file": "jeff-johansen",
+      "type": "survivors"
+    },
+    {
+      "name": "Jill Valentine",
+      "file": "jill-valentine",
+      "type": "survivors"
+    },
+    {
+      "name": "Jonah Vasquez",
+      "file": "jonah-vasquez",
+      "type": "survivors"
+    },
+    {
+      "name": "Kate Denson",
+      "file": "kate-denson",
+      "type": "survivors"
+    },
+    {
+      "name": "Lara Croft",
+      "file": "lara-croft",
+      "type": "survivors"
+    },
+    {
+      "name": "Laurie Strode",
+      "file": "laurie-strode",
+      "type": "survivors"
+    },
+    {
+      "name": "Leon Scott Kennedy",
+      "file": "leon-scott-kennedy",
+      "type": "survivors"
+    },
+    {
+      "name": "Meg Thomas",
+      "file": "meg-thomas",
+      "type": "survivors"
+    },
+    {
+      "name": "Michonne Grimes",
+      "file": "michonne-grimes",
+      "type": "survivors"
+    },
+    {
+      "name": "Mikaela Reid",
+      "file": "mikaela-reid",
+      "type": "survivors"
+    },
+    {
+      "name": "Nancy Wheeler",
+      "file": "nancy-wheeler",
+      "type": "survivors"
+    },
+    {
+      "name": "Nea Karlsson",
+      "file": "nea-karlsson",
+      "type": "survivors"
+    },
+    {
+      "name": "Nicolas Cage",
+      "file": "nicolas-cage",
+      "type": "survivors"
+    },
+    {
+      "name": "Orela Rose",
+      "file": "orela-rose",
+      "type": "survivors"
+    },
+    {
+      "name": "Quentin Smith",
+      "file": "quentin-smith",
+      "type": "survivors"
+    },
+    {
+      "name": "Rebecca Chambers",
+      "file": "rebecca-chambers",
+      "type": "survivors"
+    },
+    {
+      "name": "Renato Lyra",
+      "file": "renato-lyra",
+      "type": "survivors"
+    },
+    {
+      "name": "Rick Grimes",
+      "file": "rick-grimes",
+      "type": "survivors"
+    },
+    {
+      "name": "Sable Ward",
+      "file": "sable-ward",
+      "type": "survivors"
+    },
+    {
+      "name": "Steve Harrington",
+      "file": "steve-harrington",
+      "type": "survivors"
+    },
+    {
+      "name": "Taurie Cain",
+      "file": "taurie-cain",
+      "type": "survivors"
+    },
+    {
+      "name": "Thalita Lyra",
+      "file": "thalita-lyra",
+      "type": "survivors"
+    },
+    {
+      "name": "The Troupe",
+      "file": "the-troupe",
+      "type": "survivors"
+    },
+    {
+      "name": "Trevor Belmont",
+      "file": "trevor-belmont",
+      "type": "survivors"
+    },
+    {
+      "name": "Vittorio Toscano",
+      "file": "vittorio-toscano",
+      "type": "survivors"
+    },
+    {
+      "name": "Yoichi Asakawa",
+      "file": "yoichi-asakawa",
+      "type": "survivors"
+    },
+    {
+      "name": "Yui Kimura",
+      "file": "yui-kimura",
+      "type": "survivors"
+    },
+    {
+      "name": "Yunjin Lee",
+      "file": "yunjin-lee",
+      "type": "survivors"
+    },
+    {
+      "name": "Zarina Kassir",
+      "file": "zarina-kassir",
+      "type": "survivors"
+    }
+  ],
+  "killers": [
+    {
+      "name": "The Animatronic",
+      "file": "the-animatronic",
+      "type": "killers"
+    },
+    {
+      "name": "The Artist",
+      "file": "the-artist",
+      "type": "killers"
+    },
+    {
+      "name": "The Blight",
+      "file": "the-blight",
+      "type": "killers"
+    },
+    {
+      "name": "The Cannibal",
+      "file": "the-cannibal",
+      "type": "killers"
+    },
+    {
+      "name": "The Cenobite",
+      "file": "the-cenobite",
+      "type": "killers"
+    },
+    {
+      "name": "The Clown",
+      "file": "the-clown",
+      "type": "killers"
+    },
+    {
+      "name": "The Dark Lord",
+      "file": "the-dark-lord",
+      "type": "killers"
+    },
+    {
+      "name": "The Deathslinger",
+      "file": "the-deathslinger",
+      "type": "killers"
+    },
+    {
+      "name": "The Demogorgon",
+      "file": "the-demogorgon",
+      "type": "killers"
+    },
+    {
+      "name": "The Doctor",
+      "file": "the-doctor",
+      "type": "killers"
+    },
+    {
+      "name": "The Dredge",
+      "file": "the-dredge",
+      "type": "killers"
+    },
+    {
+      "name": "The Executioner",
+      "file": "the-executioner",
+      "type": "killers"
+    },
+    {
+      "name": "The Ghost Face",
+      "file": "the-ghost-face",
+      "type": "killers"
+    },
+    {
+      "name": "The Ghoul",
+      "file": "the-ghoul",
+      "type": "killers"
+    },
+    {
+      "name": "The Good Guy",
+      "file": "the-good-guy",
+      "type": "killers"
+    },
+    {
+      "name": "The Hag",
+      "file": "the-hag",
+      "type": "killers"
+    },
+    {
+      "name": "The Hillbilly",
+      "file": "the-hillbilly",
+      "type": "killers"
+    },
+    {
+      "name": "The Houndmaster",
+      "file": "the-houndmaster",
+      "type": "killers"
+    },
+    {
+      "name": "The Huntress",
+      "file": "the-huntress",
+      "type": "killers"
+    },
+    {
+      "name": "The Knight",
+      "file": "the-knight",
+      "type": "killers"
+    },
+    {
+      "name": "The Legion",
+      "file": "the-legion",
+      "type": "killers"
+    },
+    {
+      "name": "The Lich",
+      "file": "the-lich",
+      "type": "killers"
+    },
+    {
+      "name": "The Mastermind",
+      "file": "the-mastermind",
+      "type": "killers"
+    },
+    {
+      "name": "The Nemesis",
+      "file": "the-nemesis",
+      "type": "killers"
+    },
+    {
+      "name": "The Nightmare",
+      "file": "the-nightmare",
+      "type": "killers"
+    },
+    {
+      "name": "The Nurse",
+      "file": "the-nurse",
+      "type": "killers"
+    },
+    {
+      "name": "The Oni",
+      "file": "the-oni",
+      "type": "killers"
+    },
+    {
+      "name": "The Onryo",
+      "file": "the-onryo",
+      "type": "killers"
+    },
+    {
+      "name": "The Pig",
+      "file": "the-pig",
+      "type": "killers"
+    },
+    {
+      "name": "The Plague",
+      "file": "the-plague",
+      "type": "killers"
+    },
+    {
+      "name": "The Shape",
+      "file": "the-shape",
+      "type": "killers"
+    },
+    {
+      "name": "The Singularity",
+      "file": "the-singularity",
+      "type": "killers"
+    },
+    {
+      "name": "The Skull Merchant",
+      "file": "the-skull-merchant",
+      "type": "killers"
+    },
+    {
+      "name": "The Spirit",
+      "file": "the-spirit",
+      "type": "killers"
+    },
+    {
+      "name": "The Trapper",
+      "file": "the-trapper",
+      "type": "killers"
+    },
+    {
+      "name": "The Trickster",
+      "file": "the-trickster",
+      "type": "killers"
+    },
+    {
+      "name": "The Twins",
+      "file": "the-twins",
+      "type": "killers"
+    },
+    {
+      "name": "The Unknown",
+      "file": "the-unknown",
+      "type": "killers"
+    },
+    {
+      "name": "The Wraith",
+      "file": "the-wraith",
+      "type": "killers"
+    },
+    {
+      "name": "The Xenomorph",
+      "file": "the-xenomorph",
+      "type": "killers"
+    }
+  ],
+  "perks": {
+    "survivors": [
+      {
+        "name": "Ace In The Hole",
+        "file": "ace-in-the-hole.webp"
+      },
+      {
+        "name": "Adrenaline",
+        "file": "adrenaline.webp"
+      },
+      {
+        "name": "Aftercare",
+        "file": "aftercare.webp"
+      },
+      {
+        "name": "Alert",
+        "file": "alert.webp"
+      },
+      {
+        "name": "Any Means Necessary",
+        "file": "any-means-necessary.webp"
+      },
+      {
+        "name": "Apocalyptic Ingenuity",
+        "file": "apocalyptic-ingenuity.webp"
+      },
+      {
+        "name": "Appraisal",
+        "file": "appraisal.webp"
+      },
+      {
+        "name": "Autodidact",
+        "file": "autodidact.webp"
+      },
+      {
+        "name": "Babysitter",
+        "file": "babysitter.webp"
+      },
+      {
+        "name": "Background Player",
+        "file": "background-player.webp"
+      },
+      {
+        "name": "Balanced Landing",
+        "file": "balanced-landing.webp"
+      },
+      {
+        "name": "Bardic Inspiration",
+        "file": "bardic-inspiration.webp"
+      },
+      {
+        "name": "Better Than New",
+        "file": "better-than-new.webp"
+      },
+      {
+        "name": "Better Together",
+        "file": "better-together.webp"
+      },
+      {
+        "name": "Bite The Bullet",
+        "file": "bite-the-bullet.webp"
+      },
+      {
+        "name": "Blast Mine",
+        "file": "blast-mine.webp"
+      },
+      {
+        "name": "Blood Pact",
+        "file": "blood-pact.webp"
+      },
+      {
+        "name": "Blood Rush",
+        "file": "blood-rush.webp"
+      },
+      {
+        "name": "Boil Over",
+        "file": "boil-over.webp"
+      },
+      {
+        "name": "Bond",
+        "file": "bond.webp"
+      },
+      {
+        "name": "Boon Circle Of Healing",
+        "file": "boon-circle-of-healing.webp"
+      },
+      {
+        "name": "Boon Dark Theory",
+        "file": "boon-dark-theory.webp"
+      },
+      {
+        "name": "Boon Exponential",
+        "file": "boon-exponential.webp"
+      },
+      {
+        "name": "Boon Illumination",
+        "file": "boon-illumination.webp"
+      },
+      {
+        "name": "Boon Shadow Step",
+        "file": "boon-shadow-step.webp"
+      },
+      {
+        "name": "Borrowed Time",
+        "file": "borrowed-time.webp"
+      },
+      {
+        "name": "Botany Knowledge",
+        "file": "botany-knowledge.webp"
+      },
+      {
+        "name": "Breakdown",
+        "file": "breakdown.webp"
+      },
+      {
+        "name": "Breakout",
+        "file": "breakout.webp"
+      },
+      {
+        "name": "Buckle Up",
+        "file": "buckle-up.webp"
+      },
+      {
+        "name": "Built To Last",
+        "file": "built-to-last.webp"
+      },
+      {
+        "name": "Calm Spirit",
+        "file": "calm-spirit.webp"
+      },
+      {
+        "name": "Camaraderie",
+        "file": "camaraderie.webp"
+      },
+      {
+        "name": "Champion Of Light",
+        "file": "champion-of-light.webp"
+      },
+      {
+        "name": "Chemical Trap",
+        "file": "chemical-trap.webp"
+      },
+      {
+        "name": "Clairvoyance",
+        "file": "clairvoyance.webp"
+      },
+      {
+        "name": "Clean Break",
+        "file": "clean-break.webp"
+      },
+      {
+        "name": "Come And Get Me",
+        "file": "come-and-get-me.webp"
+      },
+      {
+        "name": "Conviction",
+        "file": "conviction.webp"
+      },
+      {
+        "name": "Corrective Action",
+        "file": "corrective-action.webp"
+      },
+      {
+        "name": "Counterforce",
+        "file": "counterforce.webp"
+      },
+      {
+        "name": "Cut Loose",
+        "file": "cut-loose.webp"
+      },
+      {
+        "name": "Dance With Me",
+        "file": "dance-with-me.webp"
+      },
+      {
+        "name": "Dark Sense",
+        "file": "dark-sense.webp"
+      },
+      {
+        "name": "Dead Hard",
+        "file": "dead-hard.webp"
+      },
+      {
+        "name": "Deadline",
+        "file": "deadline.webp"
+      },
+      {
+        "name": "Deception",
+        "file": "deception.webp"
+      },
+      {
+        "name": "Decisive Strike",
+        "file": "decisive-strike.webp"
+      },
+      {
+        "name": "Deja Vu",
+        "file": "deja-vu.webp"
+      },
+      {
+        "name": "Deliverance",
+        "file": "deliverance.webp"
+      },
+      {
+        "name": "Desperate Measures",
+        "file": "desperate-measures.webp"
+      },
+      {
+        "name": "Detectives Hunch",
+        "file": "detectives-hunch.webp"
+      },
+      {
+        "name": "Distortion",
+        "file": "distortion.webp"
+      },
+      {
+        "name": "Diversion",
+        "file": "diversion.webp"
+      },
+      {
+        "name": "Do No Harm",
+        "file": "do-no-harm.webp"
+      },
+      {
+        "name": "Dramaturgy",
+        "file": "dramaturgy.webp"
+      },
+      {
+        "name": "Duty Of Care",
+        "file": "duty-of-care.webp"
+      },
+      {
+        "name": "Empathic Connection",
+        "file": "empathic-connection.webp"
+      },
+      {
+        "name": "Empathy",
+        "file": "empathy.webp"
+      },
+      {
+        "name": "Exultation",
+        "file": "exultation.webp"
+      },
+      {
+        "name": "Eyes Of Belmont",
+        "file": "eyes-of-belmont.webp"
+      },
+      {
+        "name": "Fast Track",
+        "file": "fast-track.webp"
+      },
+      {
+        "name": "Finesse",
+        "file": "finesse.webp"
+      },
+      {
+        "name": "Fixated",
+        "file": "fixated.webp"
+      },
+      {
+        "name": "Flashbang",
+        "file": "flashbang.webp"
+      },
+      {
+        "name": "Flip Flop",
+        "file": "flip-flop.webp"
+      },
+      {
+        "name": "Fogwise",
+        "file": "fogwise.webp"
+      },
+      {
+        "name": "For The People",
+        "file": "for-the-people.webp"
+      },
+      {
+        "name": "Friendly Competition",
+        "file": "friendly-competition.webp"
+      },
+      {
+        "name": "Hardened",
+        "file": "hardened.webp"
+      },
+      {
+        "name": "Head On",
+        "file": "head-on.webp"
+      },
+      {
+        "name": "Hope",
+        "file": "hope.webp"
+      },
+      {
+        "name": "Hyperfocus",
+        "file": "hyperfocus.webp"
+      },
+      {
+        "name": "Inner Focus",
+        "file": "inner-focus.webp"
+      },
+      {
+        "name": "Inner Strength",
+        "file": "inner-strength.webp"
+      },
+      {
+        "name": "Invocation Treacherous Crows",
+        "file": "invocation-treacherous-crows.webp"
+      },
+      {
+        "name": "Invocation Weaving Spiders",
+        "file": "invocation-weaving-spiders.webp"
+      },
+      {
+        "name": "Iron Will",
+        "file": "iron-will.webp"
+      },
+      {
+        "name": "Kindred",
+        "file": "kindred.webp"
+      },
+      {
+        "name": "Last Stand",
+        "file": "last-stand.webp"
+      },
+      {
+        "name": "Leader",
+        "file": "leader.webp"
+      },
+      {
+        "name": "Left Behind",
+        "file": "left-behind.webp"
+      },
+      {
+        "name": "Light Footed",
+        "file": "light-footed.webp"
+      },
+      {
+        "name": "Lightweight",
+        "file": "lightweight.webp"
+      },
+      {
+        "name": "Lithe",
+        "file": "lithe.webp"
+      },
+      {
+        "name": "Low Profile",
+        "file": "low-profile.webp"
+      },
+      {
+        "name": "Lucky Break",
+        "file": "lucky-break.webp"
+      },
+      {
+        "name": "Lucky Star",
+        "file": "lucky-star.webp"
+      },
+      {
+        "name": "Made For This",
+        "file": "made-for-this.webp"
+      },
+      {
+        "name": "Mettle Of Man",
+        "file": "mettle-of-man.webp"
+      },
+      {
+        "name": "Mirrored Illusion",
+        "file": "mirrored-illusion.webp"
+      },
+      {
+        "name": "Moment Of Glory",
+        "file": "moment-of-glory.webp"
+      },
+      {
+        "name": "No Mither",
+        "file": "no-mither.webp"
+      },
+      {
+        "name": "No One Left Behind",
+        "file": "no-one-left-behind.webp"
+      },
+      {
+        "name": "Object Of Obsession",
+        "file": "object-of-obsession.webp"
+      },
+      {
+        "name": "Off The Record",
+        "file": "off-the-record.webp"
+      },
+      {
+        "name": "Open Handed",
+        "file": "open-handed.webp"
+      },
+      {
+        "name": "Overcome",
+        "file": "overcome.webp"
+      },
+      {
+        "name": "Overzealous",
+        "file": "overzealous.webp"
+      },
+      {
+        "name": "Parental Guidance",
+        "file": "parental-guidance.webp"
+      },
+      {
+        "name": "Pharmacy",
+        "file": "pharmacy.webp"
+      },
+      {
+        "name": "Plot Twist",
+        "file": "plot-twist.webp"
+      },
+      {
+        "name": "Plunderers Instinct",
+        "file": "plunderers-instinct.webp"
+      },
+      {
+        "name": "Poised",
+        "file": "poised.webp"
+      },
+      {
+        "name": "Potential Energy",
+        "file": "potential-energy.webp"
+      },
+      {
+        "name": "Power Struggle",
+        "file": "power-struggle.webp"
+      },
+      {
+        "name": "Premonition",
+        "file": "premonition.webp"
+      },
+      {
+        "name": "Prove Thyself",
+        "file": "prove-thyself.webp"
+      },
+      {
+        "name": "Quick And Quiet",
+        "file": "quick-and-quiet.webp"
+      },
+      {
+        "name": "Quick Gambit",
+        "file": "quick-gambit.webp"
+      },
+      {
+        "name": "Rapid Response",
+        "file": "rapid-response.webp"
+      },
+      {
+        "name": "Reactive Healing",
+        "file": "reactive-healing.webp"
+      },
+      {
+        "name": "Reassurance",
+        "file": "reassurance.webp"
+      },
+      {
+        "name": "Red Herring",
+        "file": "red-herring.webp"
+      },
+      {
+        "name": "Repressed Alliance",
+        "file": "repressed-alliance.webp"
+      },
+      {
+        "name": "Residual Manifest",
+        "file": "residual-manifest.webp"
+      },
+      {
+        "name": "Resilience",
+        "file": "resilience.webp"
+      },
+      {
+        "name": "Resurgence",
+        "file": "resurgence.webp"
+      },
+      {
+        "name": "Rookie Spirit",
+        "file": "rookie-spirit.webp"
+      },
+      {
+        "name": "Saboteur",
+        "file": "saboteur.webp"
+      },
+      {
+        "name": "Scavenger",
+        "file": "scavenger.webp"
+      },
+      {
+        "name": "Scene Partner",
+        "file": "scene-partner.webp"
+      },
+      {
+        "name": "Second Wind",
+        "file": "second-wind.webp"
+      },
+      {
+        "name": "Self Care",
+        "file": "self-care.webp"
+      },
+      {
+        "name": "Self Preservation",
+        "file": "self-preservation.webp"
+      },
+      {
+        "name": "Shoulder The Burden",
+        "file": "shoulder-the-burden.webp"
+      },
+      {
+        "name": "Slippery Meat",
+        "file": "slippery-meat.webp"
+      },
+      {
+        "name": "Small Game",
+        "file": "small-game.webp"
+      },
+      {
+        "name": "Smash Hit",
+        "file": "smash-hit.webp"
+      },
+      {
+        "name": "Sole Survivor",
+        "file": "sole-survivor.webp"
+      },
+      {
+        "name": "Solidarity",
+        "file": "solidarity.webp"
+      },
+      {
+        "name": "Soul Guard",
+        "file": "soul-guard.webp"
+      },
+      {
+        "name": "Specialist",
+        "file": "specialist.webp"
+      },
+      {
+        "name": "Spine Chill",
+        "file": "spine-chill.webp"
+      },
+      {
+        "name": "Sprint Burst",
+        "file": "sprint-burst.webp"
+      },
+      {
+        "name": "Stake Out",
+        "file": "stake-out.webp"
+      },
+      {
+        "name": "Still Sight",
+        "file": "still-sight.webp"
+      },
+      {
+        "name": "Streetwise",
+        "file": "streetwise.webp"
+      },
+      {
+        "name": "Strength In Shadows",
+        "file": "strength-in-shadows.webp"
+      },
+      {
+        "name": "Teamwork Collective Stealth",
+        "file": "teamwork-collective-stealth.webp"
+      },
+      {
+        "name": "Teamwork Power Of Two",
+        "file": "teamwork-power-of-two.webp"
+      },
+      {
+        "name": "Teamwork Throw Down",
+        "file": "teamwork-throw-down.webp"
+      },
+      {
+        "name": "Teamwork Toughen Up",
+        "file": "teamwork-toughen-up.webp"
+      },
+      {
+        "name": "Technician",
+        "file": "technician.webp"
+      },
+      {
+        "name": "Tenacity",
+        "file": "tenacity.webp"
+      },
+      {
+        "name": "This Is Not Happening",
+        "file": "this-is-not-happening.webp"
+      },
+      {
+        "name": "Troubleshooter",
+        "file": "troubleshooter.webp"
+      },
+      {
+        "name": "Unbreakable",
+        "file": "unbreakable.webp"
+      },
+      {
+        "name": "Up The Ante",
+        "file": "up-the-ante.webp"
+      },
+      {
+        "name": "Urban Evasion",
+        "file": "urban-evasion.webp"
+      },
+      {
+        "name": "Vigil",
+        "file": "vigil.webp"
+      },
+      {
+        "name": "Visionary",
+        "file": "visionary.webp"
+      },
+      {
+        "name": "Wake Up",
+        "file": "wake-up.webp"
+      },
+      {
+        "name": "Well Make It",
+        "file": "well-make-it.webp"
+      },
+      {
+        "name": "Were Gonna Live Forever",
+        "file": "were-gonna-live-forever.webp"
+      },
+      {
+        "name": "Wicked",
+        "file": "wicked.webp"
+      },
+      {
+        "name": "Windows Of Opportunity",
+        "file": "windows-of-opportunity.webp"
+      },
+      {
+        "name": "Wiretap",
+        "file": "wiretap.webp"
+      }
+    ],
+    "killers": [
+      {
+        "name": "A Nurses Calling",
+        "file": "a-nurses-calling.webp"
+      },
+      {
+        "name": "Agitation",
+        "file": "agitation.webp"
+      },
+      {
+        "name": "Alien Instinct",
+        "file": "alien-instinct.webp"
+      },
+      {
+        "name": "All Shaking Thunder",
+        "file": "all-shaking-thunder.webp"
+      },
+      {
+        "name": "Awakened Awareness",
+        "file": "awakened-awareness.webp"
+      },
+      {
+        "name": "Bamboozle",
+        "file": "bamboozle.webp"
+      },
+      {
+        "name": "Barbecue And Chilli",
+        "file": "barbecue-and-chilli.webp"
+      },
+      {
+        "name": "Batteries Included",
+        "file": "batteries-included.webp"
+      },
+      {
+        "name": "Beast Of Prey",
+        "file": "beast-of-prey.webp"
+      },
+      {
+        "name": "Bitter Murmur",
+        "file": "bitter-murmur.webp"
+      },
+      {
+        "name": "Blood Echo",
+        "file": "blood-echo.webp"
+      },
+      {
+        "name": "Blood Warden",
+        "file": "blood-warden.webp"
+      },
+      {
+        "name": "Bloodhound",
+        "file": "bloodhound.webp"
+      },
+      {
+        "name": "Brutal Strength",
+        "file": "brutal-strength.webp"
+      },
+      {
+        "name": "Call Of Brine",
+        "file": "call-of-brine.webp"
+      },
+      {
+        "name": "Corrupt Intervention",
+        "file": "corrupt-intervention.webp"
+      },
+      {
+        "name": "Coulrophobia",
+        "file": "coulrophobia.webp"
+      },
+      {
+        "name": "Coup De Grace",
+        "file": "coup-de-grace.webp"
+      },
+      {
+        "name": "Cruel Limits",
+        "file": "cruel-limits.webp"
+      },
+      {
+        "name": "Dark Arrogance",
+        "file": "dark-arrogance.webp"
+      },
+      {
+        "name": "Dark Devotion",
+        "file": "dark-devotion.webp"
+      },
+      {
+        "name": "Darkness Revealed",
+        "file": "darkness-revealed.webp"
+      },
+      {
+        "name": "Dead Mans Switch",
+        "file": "dead-mans-switch.webp"
+      },
+      {
+        "name": "Deadlock",
+        "file": "deadlock.webp"
+      },
+      {
+        "name": "Deathbound",
+        "file": "deathbound.webp"
+      },
+      {
+        "name": "Deerstalker",
+        "file": "deerstalker.webp"
+      },
+      {
+        "name": "Discordance",
+        "file": "discordance.webp"
+      },
+      {
+        "name": "Dissolution",
+        "file": "dissolution.webp"
+      },
+      {
+        "name": "Distressing",
+        "file": "distressing.webp"
+      },
+      {
+        "name": "Dominance",
+        "file": "dominance.webp"
+      },
+      {
+        "name": "Dragons Grip",
+        "file": "dragons-grip.webp"
+      },
+      {
+        "name": "Dying Light",
+        "file": "dying-light.webp"
+      },
+      {
+        "name": "Enduring",
+        "file": "enduring.webp"
+      },
+      {
+        "name": "Eruption",
+        "file": "eruption.webp"
+      },
+      {
+        "name": "Fire Up",
+        "file": "fire-up.webp"
+      },
+      {
+        "name": "Forced Hesitation",
+        "file": "forced-hesitation.webp"
+      },
+      {
+        "name": "Forced Penance",
+        "file": "forced-penance.webp"
+      },
+      {
+        "name": "Forever Entwined",
+        "file": "forever-entwined.webp"
+      },
+      {
+        "name": "Franklins Demise",
+        "file": "franklins-demise.webp"
+      },
+      {
+        "name": "Friends Till The End",
+        "file": "friends-till-the-end.webp"
+      },
+      {
+        "name": "Furtive Chase",
+        "file": "furtive-chase.webp"
+      },
+      {
+        "name": "Game Afoot",
+        "file": "game-afoot.webp"
+      },
+      {
+        "name": "Gearhead",
+        "file": "gearhead.webp"
+      },
+      {
+        "name": "Genetic Limits",
+        "file": "genetic-limits.webp"
+      },
+      {
+        "name": "Grim Embrace",
+        "file": "grim-embrace.webp"
+      },
+      {
+        "name": "Haywire",
+        "file": "haywire.webp"
+      },
+      {
+        "name": "Help Wanted",
+        "file": "help-wanted.webp"
+      },
+      {
+        "name": "Hex Blood Favour",
+        "file": "hex-blood-favour.webp"
+      },
+      {
+        "name": "Hex Crowd Control",
+        "file": "hex-crowd-control.webp"
+      },
+      {
+        "name": "Hex Devour Hope",
+        "file": "hex-devour-hope.webp"
+      },
+      {
+        "name": "Hex Face The Darkness",
+        "file": "hex-face-the-darkness.webp"
+      },
+      {
+        "name": "Hex Haunted Ground",
+        "file": "hex-haunted-ground.webp"
+      },
+      {
+        "name": "Hex Huntress Lullaby",
+        "file": "hex-huntress-lullaby.webp"
+      },
+      {
+        "name": "Hex No One Escapes Death",
+        "file": "hex-no-one-escapes-death.webp"
+      },
+      {
+        "name": "Hex Nothing But Misery",
+        "file": "hex-nothing-but-misery.webp"
+      },
+      {
+        "name": "Hex Pentimento",
+        "file": "hex-pentimento.webp"
+      },
+      {
+        "name": "Hex Plaything",
+        "file": "hex-plaything.webp"
+      },
+      {
+        "name": "Hex Retribution",
+        "file": "hex-retribution.webp"
+      },
+      {
+        "name": "Hex Ruin",
+        "file": "hex-ruin.webp"
+      },
+      {
+        "name": "Hex The Third Seal",
+        "file": "hex-the-third-seal.webp"
+      },
+      {
+        "name": "Hex Thrill Of The Hunt",
+        "file": "hex-thrill-of-the-hunt.webp"
+      },
+      {
+        "name": "Hex Two Can Play",
+        "file": "hex-two-can-play.webp"
+      },
+      {
+        "name": "Hex Undying",
+        "file": "hex-undying.webp"
+      },
+      {
+        "name": "Hex Wretched Fate",
+        "file": "hex-wretched-fate.webp"
+      },
+      {
+        "name": "Hoarder",
+        "file": "hoarder.webp"
+      },
+      {
+        "name": "Hubris",
+        "file": "hubris.webp"
+      },
+      {
+        "name": "Human Greed",
+        "file": "human-greed.webp"
+      },
+      {
+        "name": "Hysteria",
+        "file": "hysteria.webp"
+      },
+      {
+        "name": "Im All Ears",
+        "file": "im-all-ears.webp"
+      },
+      {
+        "name": "Infectious Fright",
+        "file": "infectious-fright.webp"
+      },
+      {
+        "name": "Insidious",
+        "file": "insidious.webp"
+      },
+      {
+        "name": "Iron Grasp",
+        "file": "iron-grasp.webp"
+      },
+      {
+        "name": "Iron Maiden",
+        "file": "iron-maiden.webp"
+      },
+      {
+        "name": "Knock Out",
+        "file": "knock-out.webp"
+      },
+      {
+        "name": "Languid Touch",
+        "file": "languid-touch.webp"
+      },
+      {
+        "name": "Lethal Pursuer",
+        "file": "lethal-pursuer.webp"
+      },
+      {
+        "name": "Leverage",
+        "file": "leverage.webp"
+      },
+      {
+        "name": "Lightborn",
+        "file": "lightborn.webp"
+      },
+      {
+        "name": "Machine Learning",
+        "file": "machine-learning.webp"
+      },
+      {
+        "name": "Mad Grit",
+        "file": "mad-grit.webp"
+      },
+      {
+        "name": "Make Your Choice",
+        "file": "make-your-choice.webp"
+      },
+      {
+        "name": "Merciless Storm",
+        "file": "merciless-storm.webp"
+      },
+      {
+        "name": "Mindbreaker",
+        "file": "mindbreaker.webp"
+      },
+      {
+        "name": "Monitor And Abuse",
+        "file": "monitor-and-abuse.webp"
+      },
+      {
+        "name": "Nemesis",
+        "file": "nemesis.webp"
+      },
+      {
+        "name": "No Quarter",
+        "file": "no-quarter.webp"
+      },
+      {
+        "name": "No Way Out",
+        "file": "no-way-out.webp"
+      },
+      {
+        "name": "None Are Free",
+        "file": "none-are-free.webp"
+      },
+      {
+        "name": "Nowhere To Hide",
+        "file": "nowhere-to-hide.webp"
+      },
+      {
+        "name": "Oppression",
+        "file": "oppression.webp"
+      },
+      {
+        "name": "Overcharge",
+        "file": "overcharge.webp"
+      },
+      {
+        "name": "Overwhelming Presence",
+        "file": "overwhelming-presence.webp"
+      },
+      {
+        "name": "Phantom Fear",
+        "file": "phantom-fear.webp"
+      },
+      {
+        "name": "Play With Your Food",
+        "file": "play-with-your-food.webp"
+      },
+      {
+        "name": "Pop Goes The Weasel",
+        "file": "pop-goes-the-weasel.webp"
+      },
+      {
+        "name": "Predator",
+        "file": "predator.webp"
+      },
+      {
+        "name": "Rancor",
+        "file": "rancor.webp"
+      },
+      {
+        "name": "Rapid Brutality",
+        "file": "rapid-brutality.webp"
+      },
+      {
+        "name": "Remember Me",
+        "file": "remember-me.webp"
+      },
+      {
+        "name": "Save The Best For Last",
+        "file": "save-the-best-for-last.webp"
+      },
+      {
+        "name": "Scourge Hook Floods Of Rage",
+        "file": "scourge-hook-floods-of-rage.webp"
+      },
+      {
+        "name": "Scourge Hook Gift Of Pain",
+        "file": "scourge-hook-gift-of-pain.webp"
+      },
+      {
+        "name": "Scourge Hook Hangmans Trick",
+        "file": "scourge-hook-hangmans-trick.webp"
+      },
+      {
+        "name": "Scourge Hook Jagged Compass",
+        "file": "scourge-hook-jagged-compass.webp"
+      },
+      {
+        "name": "Scourge Hook Monstrous Shrine",
+        "file": "scourge-hook-monstrous-shrine.webp"
+      },
+      {
+        "name": "Scourge Hook Pain Resonance",
+        "file": "scourge-hook-pain-resonance.webp"
+      },
+      {
+        "name": "Septic Touch",
+        "file": "septic-touch.webp"
+      },
+      {
+        "name": "Shadowborn",
+        "file": "shadowborn.webp"
+      },
+      {
+        "name": "Shattered Hope",
+        "file": "shattered-hope.webp"
+      },
+      {
+        "name": "Sloppy Butcher",
+        "file": "sloppy-butcher.webp"
+      },
+      {
+        "name": "Spies From The Shadows",
+        "file": "spies-from-the-shadows.webp"
+      },
+      {
+        "name": "Spirit Fury",
+        "file": "spirit-fury.webp"
+      },
+      {
+        "name": "Starstruck",
+        "file": "starstruck.webp"
+      },
+      {
+        "name": "Stridor",
+        "file": "stridor.webp"
+      },
+      {
+        "name": "Superior Anatomy",
+        "file": "superior-anatomy.webp"
+      },
+      {
+        "name": "Surge",
+        "file": "surge.webp"
+      },
+      {
+        "name": "Surveillance",
+        "file": "surveillance.webp"
+      },
+      {
+        "name": "Terminus",
+        "file": "terminus.webp"
+      },
+      {
+        "name": "Territorial Imperative",
+        "file": "territorial-imperative.webp"
+      },
+      {
+        "name": "Thanatophobia",
+        "file": "thanatophobia.webp"
+      },
+      {
+        "name": "Thrilling Tremors",
+        "file": "thrilling-tremors.webp"
+      },
+      {
+        "name": "Thwack",
+        "file": "thwack.webp"
+      },
+      {
+        "name": "Tinkerer",
+        "file": "tinkerer.webp"
+      },
+      {
+        "name": "Trail Of Torment",
+        "file": "trail-of-torment.webp"
+      },
+      {
+        "name": "Ultimate Weapon",
+        "file": "ultimate-weapon.webp"
+      },
+      {
+        "name": "Unbound",
+        "file": "unbound.webp"
+      },
+      {
+        "name": "Undone",
+        "file": "undone.webp"
+      },
+      {
+        "name": "Unforeseen",
+        "file": "unforeseen.webp"
+      },
+      {
+        "name": "Unnerving Presence",
+        "file": "unnerving-presence.webp"
+      },
+      {
+        "name": "Unrelenting",
+        "file": "unrelenting.webp"
+      },
+      {
+        "name": "Weave Attunement",
+        "file": "weave-attunement.webp"
+      },
+      {
+        "name": "Whispers",
+        "file": "whispers.webp"
+      },
+      {
+        "name": "Zanshin Tactics",
+        "file": "zanshin-tactics.webp"
+      }
+    ]
+  }
+}

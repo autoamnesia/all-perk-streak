@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>DBD All Perks Streak Progress</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 20px;
+      background-color: #1e1e1e; 
+      color: #f0f0f0; 
+    }
+    #container {
+      display: flex;
+      gap: 40px;
+    }
+    .column {
+      flex: 1;
+      background-color: #2a2a2a;
+      padding: 10px;
+      border-radius: 6px;
+      box-shadow: 0 0 8px rgba(0,0,0,0.5);
+    }
+    h1, h2 {
+      color: #f0f0f0;
+    }
+    .saved-character {
+      display: flex;
+      align-items: center;
+      margin-bottom: 10px;
+      border-bottom: 1px solid #444;
+      padding-bottom: 8px;
+    }
+    .saved-character img.char-icon {
+      width: 80px;
+      height: 80px;
+      margin-right: 10px;
+      border-radius: 8px;
+      object-fit: contain;
+    }
+    .saved-perks img {
+      width: 40px;
+      height: 40px;
+      margin-right: 5px;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>DBD All Perks Streak - Progress</h1>
+  <a href="killers.html">Switch to Killers<br></a>
+  <a href="survivors.html">Switch to Survivors<br></a>
+
+  <div id="container">
+    <div class="column" id="saved-survivors">
+      <h2>Survivors</h2>
+      <div id="saved-survivors-list">
+        <!-- Saved survivors -->
+      </div>
+    </div>
+
+    <div class="column" id="saved-killers">
+      <h2>Killers</h2>
+      <div id="saved-killers-list">
+        <!-- Saved killers -->
+      </div>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+  <script>
+
+    function renderSavedProgress() {
+      const usedPerks = JSON.parse(localStorage.getItem("dbd_used_perks") || "{}");
+
+      const survivorsContainer = document.getElementById("saved-survivors-list");
+      const killersContainer = document.getElementById("saved-killers-list");
+
+      survivorsContainer.innerHTML = "";
+      killersContainer.innerHTML = "";
+
+      if (Object.keys(usedPerks).length === 0) {
+        survivorsContainer.textContent = "No saved progress.";
+        killersContainer.textContent = "No saved progress.";
+        return;
+      }
+
+      for (const [charFile, perks] of Object.entries(usedPerks)) {
+        const type = charFile.startsWith("the-") ? "killers" : "survivors";
+
+        const charDiv = document.createElement("div");
+        charDiv.classList.add("saved-character");
+
+        const charImg = document.createElement("img");
+        charImg.src = `assets/characters/${type}/${charFile}.webp`;
+        charImg.alt = charFile;
+        charImg.className = "char-icon";
+
+        const perksDiv = document.createElement("div");
+        perksDiv.classList.add("saved-perks");
+        perks.forEach(perkFile => {
+          const perkImg = document.createElement("img");
+          perkImg.src = `assets/perks/${type}/${perkFile}`;
+          perkImg.alt = perkFile;
+          perkImg.title = perkFile;
+          perksDiv.appendChild(perkImg);
+        });
+
+        charDiv.appendChild(charImg);
+        charDiv.appendChild(perksDiv);
+
+        if (type === "survivors") {
+          survivorsContainer.appendChild(charDiv);
+        } else {
+          killersContainer.appendChild(charDiv);
+        }
+      }
+    }
+    window.addEventListener("DOMContentLoaded", () => {
+      renderSavedProgress();
+    });
+  </script>
+
+</body>
+</html>
