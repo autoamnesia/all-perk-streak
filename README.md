@@ -1,4 +1,4 @@
-# DBD All Perk Streak Tracker 🌟
+# All Perk Streak Tracker 🌟
 
 A sleek and intuitive website to track your all-perks streak in Dead by Daylight, whether you're playing as Killer or Survivor.
 
