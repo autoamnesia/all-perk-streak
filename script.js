@@ -4,6 +4,18 @@ let selectedCharacter = null;
 // Store character data globally for type checking
 let characterData = null;
 
+// Global variable to track if perks are locked
+let perksLocked = JSON.parse(localStorage.getItem("dbd_perks_locked") || "true");
+
+// Global variable to track if user wants to always reassign from completed characters
+let alwaysReassignFromCompleted = JSON.parse(localStorage.getItem("dbd_always_reassign_completed") || "false");
+
+// Global variable to track if used perks are shown
+let showUsedPerks = JSON.parse(localStorage.getItem("dbd_show_used_perks") || "true");
+
+// Global variable to track if perks can be removed from completed characters
+let allowRemoveFromCompleted = JSON.parse(localStorage.getItem("dbd_allow_remove_completed") || "false");
+
 // Utility function to check if the character is a killer based on actual data
 function isKillerCharFile(charFile) {
   if (!characterData) return false;
@@ -61,17 +73,65 @@ function updateAvailablePerks(type) {
     }
 
     if (usedByChar) {
+      // If showUsedPerks is false, hide used perks
+      if (!showUsedPerks) {
+        wrapper.style.display = "none";
+        wrapper.appendChild(img);
+        perkContainer.appendChild(wrapper);
+        return;
+      }
+
       img.style.opacity = "1";
-      img.style.pointerEvents = "none";
+      
+      if (perksLocked) {
+        img.style.pointerEvents = "auto"; // Allow right-click
+        img.title = `${perk.name} - Used by ${usedByChar} (Right-click to remove)`;
+      } else {
+        img.style.pointerEvents = "auto";
+        img.title = `${perk.name} - Used by ${usedByChar} (Click to reassign, Right-click to remove)`;
+        img.onclick = () => selectPerk(perk.file);
+      }
+
+      // Right-click to remove perk from character
+      img.addEventListener("contextmenu", (e) => {
+        e.preventDefault(); // Prevent default context menu
+        
+        // Remove perk from the character
+        let currentUsedPerks = JSON.parse(localStorage.getItem("dbd_used_perks") || "{}");
+        if (currentUsedPerks[usedByChar]) {
+          currentUsedPerks[usedByChar] = currentUsedPerks[usedByChar].filter(p => p !== perk.file);
+          
+          // If no perks left for this character, remove the character entry
+          if (currentUsedPerks[usedByChar].length === 0) {
+            delete currentUsedPerks[usedByChar];
+          }
+          
+          localStorage.setItem("dbd_used_perks", JSON.stringify(currentUsedPerks));
+          
+          // Refresh the display
+          updateAvailablePerks(type);
+          renderSavedProgress();
+          
+          // If this character is currently selected, update their perk slots
+          if (selectedCharacter && selectedCharacter.file === usedByChar) {
+            const updatedPerks = currentUsedPerks[usedByChar] || [];
+            populatePerkSlots(updatedPerks);
+          }
+        }
+      });
 
       const charType = isKillerCharFile(usedByChar) ? "killers" : "survivors";
       const charIcon = document.createElement("img");
       charIcon.src = `assets/characters/${charType}/${usedByChar}.webp`;
       charIcon.style.position = "absolute";
-      charIcon.style.width = "60px";
-      charIcon.style.height = "60px";
-      charIcon.style.bottom = "0";
-      charIcon.style.left = "0";
+      charIcon.style.width = "24px";
+      charIcon.style.height = "24px";
+      charIcon.style.top = "0";
+      charIcon.style.right = "0";
+      charIcon.style.pointerEvents = "none"; // Don't block clicks
+      charIcon.style.borderRadius = "50%";
+      charIcon.style.border = "1px solid #fff";
+      charIcon.style.zIndex = "5";
       charIcon.title = usedByChar;
       wrapper.appendChild(charIcon);
     } else {
@@ -83,6 +143,29 @@ function updateAvailablePerks(type) {
     wrapper.appendChild(img);
     perkContainer.appendChild(wrapper);
   });
+}
+
+// Toggle show used perks state
+function toggleShowUsedPerks() {
+  showUsedPerks = !showUsedPerks;
+  localStorage.setItem("dbd_show_used_perks", JSON.stringify(showUsedPerks));
+  
+  // Update the button appearance and text
+  const toggleButton = document.getElementById("show-used-toggle");
+  if (toggleButton) {
+    toggleButton.textContent = showUsedPerks ? "👁️ Hide Used" : "👁️ Show Used";
+    toggleButton.style.backgroundColor = showUsedPerks ? "#2196F3" : "#666";
+    toggleButton.title = showUsedPerks ? 
+      "Click to hide used perks" : 
+      "Click to show used perks";
+  }
+  
+  // Refresh available perks to update visibility
+  if (selectedCharacter) {
+    updateAvailablePerks(selectedCharacter.type);
+  } else {
+    updateAvailablePerks(getCurrentPageType());
+  }
 }
 
 // Renders characters
@@ -342,30 +425,71 @@ function isPerkUsed(perkFile) {
 //Select perks
 function selectPerk(perkFile) {
   if (!selectedCharacter) {
-    //alert("Pick a character.");
     return;
   }
 
-  if (isPerkUsed(perkFile)) {
-    alert("This perk is already used.");
+  // Check if perk is used by another character
+  const usedPerks = JSON.parse(localStorage.getItem("dbd_used_perks") || "{}");
+  let usedByChar = null;
+  
+  for (const [charFile, perksList] of Object.entries(usedPerks)) {
+    if (perksList.includes(perkFile)) {
+      usedByChar = charFile;
+      break;
+    }
+  }
+
+  // If perks are locked and perk is used by someone else, prevent selection
+  if (perksLocked && usedByChar && usedByChar !== selectedCharacter.file) {
+    alert("This perk is already used. Toggle the lock to reassign perks.");
     return;
   }
 
   const slots = document.querySelectorAll(".perk-slot");
 
+  // Check if this perk is already in the current character's slots
   for (let slot of slots) {
     const imgWrapper = slot.querySelector("div");
     if (imgWrapper) {
       const img = imgWrapper.querySelector("img.perk-icon");
       if (img && img.src.endsWith(perkFile)) {
         slot.innerHTML = "";
-        // Auto-save when removing perk
         saveCurrentPerks();
         return;
       }
     }
   }
 
+  // If perk is used by another character and unlocked, check for removal from completed
+  if (!perksLocked && usedByChar && usedByChar !== selectedCharacter.file) {
+    const completedChars = JSON.parse(localStorage.getItem("dbd_completed_chars") || "[]");
+    const isUsedByCompletedChar = completedChars.includes(usedByChar);
+    
+    // If used by completed character and not allowed to remove, prevent selection
+    if (isUsedByCompletedChar && !allowRemoveFromCompleted) {
+      const characterName = characterData ? 
+        (characterData.survivors.find(s => s.file === usedByChar) || 
+         characterData.killers.find(k => k.file === usedByChar))?.name || usedByChar : 
+        usedByChar;
+      
+      alert(`This perk is assigned to ${characterName} (completed). Enable "Allow Remove from Completed" to reassign it.`);
+      return;
+    }
+    
+    // Remove perk from previous character
+    let currentUsedPerks = JSON.parse(localStorage.getItem("dbd_used_perks") || "{}");
+    if (currentUsedPerks[usedByChar]) {
+      currentUsedPerks[usedByChar] = currentUsedPerks[usedByChar].filter(p => p !== perkFile);
+      
+      if (currentUsedPerks[usedByChar].length === 0) {
+        delete currentUsedPerks[usedByChar];
+      }
+      
+      localStorage.setItem("dbd_used_perks", JSON.stringify(currentUsedPerks));
+    }
+  }
+
+  // Add perk to first available slot
   for (let slot of slots) {
     if (slot.children.length === 0) {
       const img = document.createElement("img");
@@ -392,15 +516,52 @@ function selectPerk(perkFile) {
 
       wrapper.addEventListener("click", () => {
         slot.innerHTML = "";
-        // Auto-save when removing perk
         saveCurrentPerks();
       });
 
       slot.appendChild(wrapper);
-      // Auto-save when adding perk
       saveCurrentPerks();
       break;
     }
+  }
+}
+
+// Toggle perk lock state
+function togglePerkLock() {
+  perksLocked = !perksLocked;
+  localStorage.setItem("dbd_perks_locked", JSON.stringify(perksLocked));
+  
+  // Update the button appearance and text
+  const lockButton = document.getElementById("perk-lock-toggle");
+  if (lockButton) {
+    lockButton.textContent = perksLocked ? "🔒 Unlock Perks" : "🔓 Lock Perks";
+    lockButton.style.backgroundColor = perksLocked ? "#f44336" : "#4CAF50";
+    lockButton.title = perksLocked ? 
+      "Click to unlock perks (allows reassigning used perks)" : 
+      "Click to lock perks (prevents reassigning used perks)";
+  }
+  
+  // Refresh available perks to update interaction behavior
+  if (selectedCharacter) {
+    updateAvailablePerks(selectedCharacter.type);
+  } else {
+    updateAvailablePerks(getCurrentPageType());
+  }
+}
+
+// Toggle allow remove from completed state
+function toggleAllowRemoveFromCompleted() {
+  allowRemoveFromCompleted = !allowRemoveFromCompleted;
+  localStorage.setItem("dbd_allow_remove_completed", JSON.stringify(allowRemoveFromCompleted));
+  
+  // Update the button appearance and text
+  const toggleButton = document.getElementById("allow-remove-completed-toggle");
+  if (toggleButton) {
+    toggleButton.textContent = allowRemoveFromCompleted ? "🔓 Allow Remove from Completed" : "🔒 Protect Completed";
+    toggleButton.style.backgroundColor = allowRemoveFromCompleted ? "#FF9800" : "#4CAF50";
+    toggleButton.title = allowRemoveFromCompleted ? 
+      "Click to protect perks assigned to completed characters" : 
+      "Click to allow removing perks from completed characters";
   }
 }
 
@@ -881,11 +1042,37 @@ window.addEventListener("DOMContentLoaded", () => {
   if (!controls) return;
   controls.innerHTML = "";
 
-  const btnResetAllPerks = document.createElement("button");
-  btnResetAllPerks.textContent = "Reset All";
-  btnResetAllPerks.style.padding = "10px";
-  btnResetAllPerks.style.margin = "10px 5px 10px 0";
-  btnResetAllPerks.addEventListener("click", resetAll);
+  // Add perk lock toggle button
+  const btnPerkLock = document.createElement("button");
+  btnPerkLock.id = "perk-lock-toggle";
+  btnPerkLock.textContent = perksLocked ? "🔒 Unlock Perks" : "🔓 Lock Perks";
+  btnPerkLock.style.padding = "10px";
+  btnPerkLock.style.margin = "10px 5px 10px 0";
+  btnPerkLock.style.backgroundColor = perksLocked ? "#f44336" : "#4CAF50";
+  btnPerkLock.style.color = "white";
+  btnPerkLock.style.border = "none";
+  btnPerkLock.style.borderRadius = "4px";
+  btnPerkLock.style.cursor = "pointer";
+  btnPerkLock.title = perksLocked ? 
+    "Click to unlock perks (allows reassigning used perks)" : 
+    "Click to lock perks (prevents reassigning used perks)";
+  btnPerkLock.addEventListener("click", togglePerkLock);
+
+  // Add allow remove from completed toggle button
+  const btnAllowRemoveCompleted = document.createElement("button");
+  btnAllowRemoveCompleted.id = "allow-remove-completed-toggle";
+  btnAllowRemoveCompleted.textContent = allowRemoveFromCompleted ? "🔓 Allow Remove from Completed" : "🔒 Protect Completed";
+  btnAllowRemoveCompleted.style.padding = "10px";
+  btnAllowRemoveCompleted.style.margin = "10px 5px 10px 0";
+  btnAllowRemoveCompleted.style.backgroundColor = allowRemoveFromCompleted ? "#FF9800" : "#4CAF50";
+  btnAllowRemoveCompleted.style.color = "white";
+  btnAllowRemoveCompleted.style.border = "none";
+  btnAllowRemoveCompleted.style.borderRadius = "4px";
+  btnAllowRemoveCompleted.style.cursor = "pointer";
+  btnAllowRemoveCompleted.title = allowRemoveFromCompleted ? 
+    "Click to protect perks assigned to completed characters" : 
+    "Click to allow removing perks from completed characters";
+  btnAllowRemoveCompleted.addEventListener("click", toggleAllowRemoveFromCompleted);
 
   const btnResetPage = document.createElement("button");
   btnResetPage.textContent = "Reset Streak Progress";
@@ -898,6 +1085,12 @@ window.addEventListener("DOMContentLoaded", () => {
   btnResetPerks.style.padding = "10px";
   btnResetPerks.style.margin = "10px 5px 10px 0";
   btnResetPerks.addEventListener("click", resetAllPerks);
+
+  const btnResetAll = document.createElement("button");
+  btnResetAll.textContent = "Reset All";
+  btnResetAll.style.padding = "10px";
+  btnResetAll.style.margin = "10px 5px 10px 0";
+  btnResetAll.addEventListener("click", resetAll);
 
   const btnDownload = document.createElement("button");
   btnDownload.textContent = "Download Progress";
@@ -919,9 +1112,34 @@ window.addEventListener("DOMContentLoaded", () => {
   btnUpload.style.borderRadius = "4px";
   btnUpload.addEventListener("click", uploadProgress);
 
+  // Add all buttons to controls
+  controls.appendChild(btnPerkLock);
+  controls.appendChild(btnAllowRemoveCompleted);
+  
+  // Add reset always reassign button if it's currently enabled
+  if (alwaysReassignFromCompleted) {
+    const btnResetAlways = document.createElement("button");
+    btnResetAlways.textContent = "Reset Auto-Reassign";
+    btnResetAlways.style.padding = "10px";
+    btnResetAlways.style.margin = "10px 5px 10px 0";
+    btnResetAlways.style.backgroundColor = "#FF9800";
+    btnResetAlways.style.color = "white";
+    btnResetAlways.style.border = "none";
+    btnResetAlways.style.borderRadius = "4px";
+    btnResetAlways.style.cursor = "pointer";
+    btnResetAlways.title = "Reset the 'always reassign from completed characters' setting";
+    btnResetAlways.addEventListener("click", () => {
+      alwaysReassignFromCompleted = false;
+      localStorage.setItem("dbd_always_reassign_completed", JSON.stringify(false));
+      alert("Auto-reassign setting reset. You'll be asked for confirmation again.");
+      location.reload();
+    });
+    controls.appendChild(btnResetAlways);
+  }
+  
   controls.appendChild(btnResetPage);
   controls.appendChild(btnResetPerks);
-  controls.appendChild(btnResetAllPerks);
+  controls.appendChild(btnResetAll);
   controls.appendChild(btnDownload);
   controls.appendChild(btnUpload);
 
@@ -934,6 +1152,28 @@ window.addEventListener("DOMContentLoaded", () => {
         updateAvailablePerks(getCurrentPageType());
       }
     });
+
+    // Add toggle button next to search input
+    const searchContainer = searchInput.parentElement;
+    if (searchContainer) {
+      const toggleButton = document.createElement("button");
+      toggleButton.id = "show-used-toggle";
+      toggleButton.textContent = showUsedPerks ? "👁️ Hide Used" : "👁️ Show Used";
+      toggleButton.style.padding = "8px 12px";
+      toggleButton.style.marginLeft = "10px";
+      toggleButton.style.backgroundColor = showUsedPerks ? "#2196F3" : "#666";
+      toggleButton.style.color = "white";
+      toggleButton.style.border = "none";
+      toggleButton.style.borderRadius = "4px";
+      toggleButton.style.cursor = "pointer";
+      toggleButton.style.fontSize = "14px";
+      toggleButton.title = showUsedPerks ? 
+        "Click to hide used perks" : 
+        "Click to show used perks";
+      toggleButton.addEventListener("click", toggleShowUsedPerks);
+      
+      searchContainer.appendChild(toggleButton);
+    }
   }
 
   // Add CSS for random perk button
@@ -967,4 +1207,3 @@ window.addEventListener("DOMContentLoaded", () => {
   `;
   document.head.appendChild(style);
 });
-
