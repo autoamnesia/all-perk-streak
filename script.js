@@ -698,6 +698,23 @@ async function updateNavProgress(data) {
   const totalKillers = data.killers ? data.killers.length : 0;
   const totalSurvivors = data.survivors ? data.survivors.length : 0;
   
+  // Update main progress bar based on current page
+  const currentPage = getCurrentPageType();
+  const mainProgressBar = document.getElementById("main-progress-bar");
+  const mainProgressText = document.getElementById("main-progress-text");
+  
+  if (mainProgressBar && mainProgressText) {
+    if (currentPage === "killers") {
+      const killersPercentage = totalKillers > 0 ? (completedKillers / totalKillers) * 100 : 0;
+      mainProgressBar.style.width = `${killersPercentage}%`;
+      mainProgressText.textContent = `${completedKillers}/${totalKillers} Completed`;
+    } else {
+      const survivorsPercentage = totalSurvivors > 0 ? (completedSurvivors / totalSurvivors) * 100 : 0;
+      mainProgressBar.style.width = `${survivorsPercentage}%`;
+      mainProgressText.textContent = `${completedSurvivors}/${totalSurvivors} Completed`;
+    }
+  }
+  
   // Update killers progress in nav (shown on survivors page)
   const navKillersCounter = document.getElementById("nav-killers-counter");
   const navKillersProgress = document.getElementById("nav-killers-progress");
