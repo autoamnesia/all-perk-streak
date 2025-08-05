@@ -1,9 +1,15 @@
 // Global variable to track which character is currently selected
 let selectedCharacter = null;
 
-// Utility function to check if the character is a killer based on filename
+// Store character data globally for type checking
+let characterData = null;
+
+// Utility function to check if the character is a killer based on actual data
 function isKillerCharFile(charFile) {
-  return charFile.startsWith("the-");
+  if (!characterData) return false;
+  
+  // Check if the character file exists in killers array
+  return characterData.killers && characterData.killers.some(killer => killer.file === charFile);
 }
 
 // URL based checker to find what side you doing
@@ -661,6 +667,9 @@ async function initCharacterList() {
   const res = await fetch("characters.json");
   const data = await res.json();
   window.allPerks = data.perks;
+  
+  // Store character data globally for type checking
+  characterData = data;
 
   const page = getCurrentPageType();
   if (page === "survivors") {
