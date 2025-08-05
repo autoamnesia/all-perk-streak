@@ -4,13 +4,88 @@
   <meta charset="UTF-8">
   <title>DBD Survivors</title>
   <link rel="stylesheet" href="style.css">
+  <style>
+    .top-nav {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      display: flex;
+      gap: 15px;
+      align-items: center;
+    }
+    .nav-icon {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-decoration: none;
+      color: #f0f0f0;
+      background: #2a2a2a;
+      padding: 10px;
+      border-radius: 8px;
+      transition: transform 0.2s ease;
+    }
+    .nav-icon:hover {
+      transform: scale(1.05);
+      background: #3a3a3a;
+    }
+    .nav-icon img {
+      width: 50px;
+      height: 50px;
+      border-radius: 6px;
+      margin-bottom: 5px;
+    }
+    .nav-icon span {
+      font-size: 12px;
+      font-weight: bold;
+      margin-bottom: 3px;
+    }
+    .nav-progress-container {
+      width: 50px;
+      height: 8px;
+      background-color: #1e1e1e;
+      border: 1px solid #444;
+      border-radius: 4px;
+      overflow: hidden;
+      position: relative;
+    }
+    .nav-progress-bar {
+      height: 100%;
+      background: linear-gradient(90deg, #8B0000, #DC143C, #B22222);
+      transition: width 0.5s ease;
+      border-radius: 3px;
+    }
+    .nav-progress-text {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      font-size: 8px;
+      font-weight: bold;
+      color: #fff;
+      text-shadow: 1px 1px 1px rgba(0,0,0,0.8);
+    }
+  </style>
 </head>
 <body>
+  <div class="top-nav">
+    <a href="index.html" class="nav-icon">
+      <img src="assets/icons/Survivor_Icon.webp" alt="Home">
+      <span>Home</span>
+    </a>
+    <a href="killers.html" class="nav-icon">
+      <img src="assets/icons/Killer-Icon.webp" alt="Killers">
+      <span>Killers</span>
+      <div class="nav-progress-container">
+        <div class="nav-progress-bar" id="killer-nav-progress" style="width: 0%;"></div>
+        <div class="nav-progress-text" id="killer-nav-text">0/0</div>
+      </div>
+    </a>
+  </div>
+
   <h1>Dead by Daylight - Survivors</h1>
-  <a href="killers.html">Switch to Killers<br></a>
-  <a href="index.html">Check Progress</a>
 
   <div id="controls"></div>
+  <p>Right Click (Desktop) or Long Press (Mobile) to Mark / Unmark as Completed</p>
 
   <div class="character-section">
     <h2>Survivors</h2>

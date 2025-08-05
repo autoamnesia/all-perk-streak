@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>DBD All Perks Streak Progress</title>
+  <title>All Perks Streak</title>
   <style>
     body {
       font-family: Arial, sans-serif;
@@ -25,6 +25,9 @@
     h1, h2 {
       color: #f0f0f0;
     }
+    h1 {
+      text-align: center;
+    }
     .saved-character {
       display: flex;
       align-items: center;
@@ -44,81 +47,160 @@
       height: 40px;
       margin-right: 5px;
     }
+    .icon-navigation {
+      display: flex;
+      justify-content: center;
+      gap: 60px;
+      margin: 30px 0;
+    }
+    .icon-link {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-decoration: none;
+      color: #f0f0f0;
+      transition: transform 0.2s ease;
+    }
+    .icon-link:hover {
+      transform: scale(1.05);
+      color: #f0db4f;
+    }
+    .icon-link img {
+      width: 120px;
+      height: 120px;
+      margin-bottom: 10px;
+      border-radius: 12px;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+    }
+    .icon-link span {
+      font-size: 18px;
+      font-weight: bold;
+    }
+    .completion-counter {
+      font-size: 16px;
+      color: #bbb;
+      margin-top: 5px;
+      display: none; /* Hide the old text counter */
+    }
+    .progress-container {
+      width: 120px;
+      height: 25px;
+      background-color: #2a2a2a;
+      border: 2px solid #444;
+      border-radius: 12px;
+      margin-top: 8px;
+      overflow: hidden;
+      position: relative;
+    }
+    .progress-bar {
+      height: 100%;
+      background: linear-gradient(90deg, #8B0000, #DC143C, #B22222);
+      transition: width 0.5s ease;
+      border-radius: 10px;
+    }
+    .progress-text {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      font-size: 12px;
+      font-weight: bold;
+      color: #fff;
+      text-shadow: 1px 1px 2px rgba(0,0,0,0.8);
+      z-index: 10;
+    }
   </style>
 </head>
 <body>
 
-  <h1>DBD All Perks Streak - Progress</h1>
-  <a href="killers.html">Switch to Killers<br></a>
-  <a href="survivors.html">Switch to Survivors<br></a>
-
-  <div id="container">
-    <div class="column" id="saved-survivors">
-      <h2>Survivors</h2>
-      <div id="saved-survivors-list">
-        <!-- Saved survivors -->
+  <h1>All Perks Streak</h1>
+  
+  <div class="icon-navigation">
+    <a href="killers.html" class="icon-link">
+      <img src="assets/icons/Killer-Icon.webp" alt="Killer">
+      <span>Killers</span>
+      <div class="progress-container">
+        <div class="progress-bar" id="killers-progress"></div>
+        <div class="progress-text" id="killers-counter">0/0</div>
       </div>
-    </div>
-
-    <div class="column" id="saved-killers">
-      <h2>Killers</h2>
-      <div id="saved-killers-list">
-        <!-- Saved killers -->
+    </a>
+    <a href="survivors.html" class="icon-link">
+      <img src="assets/icons/Survivor_Icon.webp" alt="Survivor">
+      <span>Survivors</span>
+      <div class="progress-container">
+        <div class="progress-bar" id="survivors-progress"></div>
+        <div class="progress-text" id="survivors-counter">0/0</div>
       </div>
-    </div>
+    </a>
   </div>
 
   <script src="script.js"></script>
   <script>
 
-    function renderSavedProgress() {
-      const usedPerks = JSON.parse(localStorage.getItem("dbd_used_perks") || "{}");
-
-      const survivorsContainer = document.getElementById("saved-survivors-list");
-      const killersContainer = document.getElementById("saved-killers-list");
-
-      survivorsContainer.innerHTML = "";
-      killersContainer.innerHTML = "";
-
-      if (Object.keys(usedPerks).length === 0) {
-        survivorsContainer.textContent = "No saved progress.";
-        killersContainer.textContent = "No saved progress.";
-        return;
-      }
-
-      for (const [charFile, perks] of Object.entries(usedPerks)) {
-        const type = charFile.startsWith("the-") ? "killers" : "survivors";
-
-        const charDiv = document.createElement("div");
-        charDiv.classList.add("saved-character");
-
-        const charImg = document.createElement("img");
-        charImg.src = `assets/characters/${type}/${charFile}.webp`;
-        charImg.alt = charFile;
-        charImg.className = "char-icon";
-
-        const perksDiv = document.createElement("div");
-        perksDiv.classList.add("saved-perks");
-        perks.forEach(perkFile => {
-          const perkImg = document.createElement("img");
-          perkImg.src = `assets/perks/${type}/${perkFile}`;
-          perkImg.alt = perkFile;
-          perkImg.title = perkFile;
-          perksDiv.appendChild(perkImg);
+    async function updateCompletionCounters() {
+      try {
+        const res = await fetch("characters.json");
+        const data = await res.json();
+        
+        console.log("Characters data structure:", data); // Debug
+        
+        const completedChars = JSON.parse(localStorage.getItem("dbd_completed_chars") || "[]");
+        
+        console.log("Completed characters:", completedChars); // Debug
+        
+        // Count completed killers and survivors
+        let completedKillers = 0;
+        let completedSurvivors = 0;
+        
+        completedChars.forEach(charFile => {
+          if (charFile.startsWith("the-")) {
+            completedKillers++;
+          } else {
+            completedSurvivors++;
+          }
         });
-
-        charDiv.appendChild(charImg);
-        charDiv.appendChild(perksDiv);
-
-        if (type === "survivors") {
-          survivorsContainer.appendChild(charDiv);
-        } else {
-          killersContainer.appendChild(charDiv);
+        
+        // Get totals - handle different possible data structures
+        let totalKillers = 0;
+        let totalSurvivors = 0;
+        
+        if (data.killers && Array.isArray(data.killers)) {
+          totalKillers = data.killers.length;
+        } else if (data.characters) {
+          // If data structure is different, count by type
+          totalKillers = data.characters.filter(char => char.type === "killers").length;
+          totalSurvivors = data.characters.filter(char => char.type === "survivors").length;
         }
+        
+        if (data.survivors && Array.isArray(data.survivors)) {
+          totalSurvivors = data.survivors.length;
+        }
+        
+        console.log(`Counts - Killers: ${completedKillers}/${totalKillers}, Survivors: ${completedSurvivors}/${totalSurvivors}`); // Debug
+        
+        // Update the counters and progress bars
+        const killersCounter = document.getElementById("killers-counter");
+        const survivorsCounter = document.getElementById("survivors-counter");
+        const killersProgress = document.getElementById("killers-progress");
+        const survivorsProgress = document.getElementById("survivors-progress");
+        
+        if (killersCounter && killersProgress) {
+          killersCounter.textContent = `${completedKillers}/${totalKillers}`;
+          const killersPercentage = totalKillers > 0 ? (completedKillers / totalKillers) * 100 : 0;
+          killersProgress.style.width = `${killersPercentage}%`;
+        }
+        if (survivorsCounter && survivorsProgress) {
+          survivorsCounter.textContent = `${completedSurvivors}/${totalSurvivors}`;
+          const survivorsPercentage = totalSurvivors > 0 ? (completedSurvivors / totalSurvivors) * 100 : 0;
+          survivorsProgress.style.width = `${survivorsPercentage}%`;
+        }
+      } catch (error) {
+        console.error("Error updating completion counters:", error);
       }
     }
+    
     window.addEventListener("DOMContentLoaded", () => {
-      renderSavedProgress();
+      updateCompletionCounters();
     });
   </script>
 

@@ -85,8 +85,7 @@ function renderCharacters(characters, containerId) {
   if (!container) return;
 
   container.innerHTML = "";
-  const usedPerks = JSON.parse(localStorage.getItem("dbd_used_perks") || "{}");
-  const lockedChars = Object.keys(usedPerks);
+  const completedChars = JSON.parse(localStorage.getItem("dbd_completed_chars") || "[]");
 
   characters.forEach(character => {
     const card = document.createElement("div");
@@ -96,7 +95,7 @@ function renderCharacters(characters, containerId) {
     img.src = `assets/characters/${character.type}/${character.file}.webp`;
     img.alt = character.name;
 
-    if (lockedChars.includes(character.file)) {
+    if (completedChars.includes(character.file)) {
       img.style.border = "3px solid limegreen";
       img.dataset.locked = "true";
     } else {
@@ -127,9 +126,11 @@ function renderCharacters(characters, containerId) {
         titleEl.textContent = `Selected Perks For ${character.name}`;
       }
 
-      const perksForChar = usedPerks[character.file] || [];
+      // Get fresh perks data from localStorage
+      const currentUsedPerks = JSON.parse(localStorage.getItem("dbd_used_perks") || "{}");
+      const perksForChar = currentUsedPerks[character.file] || [];
 
-      if (selectedCharacter && perksForChar.length > 0) {
+      if (perksForChar.length > 0) {
         populatePerkSlots(perksForChar);
       } else {
         clearPerkSlots();
@@ -137,6 +138,78 @@ function renderCharacters(characters, containerId) {
 
       updateAvailablePerks(character.type);
       renderSavedProgress();
+    });
+
+    // Right-click to toggle completion status
+    img.addEventListener("contextmenu", (e) => {
+      e.preventDefault(); // Prevent default context menu
+      
+      let completedChars = JSON.parse(localStorage.getItem("dbd_completed_chars") || "[]");
+      const isCompleted = completedChars.includes(character.file);
+      
+      if (isCompleted) {
+        // Remove from completed
+        completedChars = completedChars.filter(char => char !== character.file);
+        localStorage.setItem("dbd_completed_chars", JSON.stringify(completedChars));
+      } else {
+        // Add to completed
+        completedChars.push(character.file);
+        localStorage.setItem("dbd_completed_chars", JSON.stringify(completedChars));
+      }
+      
+      updateCharacterBorders();
+    });
+
+    // Mobile long press to toggle completion status
+    let touchTimer = null;
+    let touchMoved = false;
+    
+    img.addEventListener("touchstart", (e) => {
+      touchMoved = false;
+      touchTimer = setTimeout(() => {
+        // Long press detected
+        let completedChars = JSON.parse(localStorage.getItem("dbd_completed_chars") || "[]");
+        const isCompleted = completedChars.includes(character.file);
+        
+        if (isCompleted) {
+          // Remove from completed
+          completedChars = completedChars.filter(char => char !== character.file);
+          localStorage.setItem("dbd_completed_chars", JSON.stringify(completedChars));
+        } else {
+          // Add to completed
+          completedChars.push(character.file);
+          localStorage.setItem("dbd_completed_chars", JSON.stringify(completedChars));
+        }
+        
+        updateCharacterBorders();
+        
+        // Provide haptic feedback if available
+        if (navigator.vibrate) {
+          navigator.vibrate(50);
+        }
+      }, 500); // 500ms long press
+    });
+    
+    img.addEventListener("touchmove", () => {
+      touchMoved = true;
+      if (touchTimer) {
+        clearTimeout(touchTimer);
+        touchTimer = null;
+      }
+    });
+    
+    img.addEventListener("touchend", () => {
+      if (touchTimer) {
+        clearTimeout(touchTimer);
+        touchTimer = null;
+      }
+    });
+
+    img.addEventListener("touchcancel", () => {
+      if (touchTimer) {
+        clearTimeout(touchTimer);
+        touchTimer = null;
+      }
     });
 
     card.appendChild(img);
@@ -177,6 +250,8 @@ function populatePerkSlots(perkFiles) {
 
       wrapper.addEventListener("click", () => {
         slot.innerHTML = "";
+        // Auto-save when removing perk from slot
+        saveCurrentPerks();
       });
 
       slot.appendChild(wrapper);
@@ -196,6 +271,62 @@ function saveUsedPerks(characterFile, perkFiles) {
   localStorage.setItem("dbd_used_perks", JSON.stringify(usedPerks));
 }
 
+//Updates character borders to reflect completion status in real-time
+function updateCharacterBorders() {
+  const usedPerks = JSON.parse(localStorage.getItem("dbd_used_perks") || "{}");
+  const completedChars = JSON.parse(localStorage.getItem("dbd_completed_chars") || "[]");
+  
+  document.querySelectorAll(".character-list img").forEach(img => {
+    const characterFile = img.src.split("/").pop().replace(".webp", "");
+    const isCompleted = completedChars.includes(characterFile);
+    const isSelected = selectedCharacter && selectedCharacter.file === characterFile;
+    
+    if (isCompleted && isSelected) {
+      // Both completed and selected - show green with blue inner border
+      img.style.border = "4px solid limegreen";
+      img.style.boxShadow = "inset 0 0 0 2px dodgerblue";
+      img.dataset.locked = "true";
+    } else if (isCompleted) {
+      // Just completed
+      img.style.border = "3px solid limegreen";
+      img.style.boxShadow = "none";
+      img.dataset.locked = "true";
+    } else if (isSelected) {
+      // Just selected
+      img.style.border = "2px solid dodgerblue";
+      img.style.boxShadow = "none";
+      img.dataset.locked = "";
+    } else {
+      // Default state
+      img.style.border = "2px solid transparent";
+      img.style.boxShadow = "none";
+      img.dataset.locked = "";
+    }
+  });
+  
+  // Update navigation progress bars when completion status changes
+  updateNavProgress();
+}
+
+//Saves currently selected perks for the selected character
+function saveCurrentPerks() {
+  if (!selectedCharacter) return;
+  
+  const selectedPerks = [];
+  document.querySelectorAll(".perk-slot div img.perk-icon").forEach(img => {
+    if (img && img.src) {
+      const fileName = img.src.split("/").pop();
+      selectedPerks.push(fileName);
+    }
+  });
+  
+  saveUsedPerks(selectedCharacter.file, selectedPerks);
+  
+  // Update the available perks list to reflect the changes
+  updateAvailablePerks(selectedCharacter.type);
+  renderSavedProgress();
+}
+
 //Checks which perks are used
 function isPerkUsed(perkFile) {
   let usedPerks = JSON.parse(localStorage.getItem("dbd_used_perks") || "{}");
@@ -205,7 +336,7 @@ function isPerkUsed(perkFile) {
 //Select perks
 function selectPerk(perkFile) {
   if (!selectedCharacter) {
-    alert("Pick a character.");
+    //alert("Pick a character.");
     return;
   }
 
@@ -222,6 +353,8 @@ function selectPerk(perkFile) {
       const img = imgWrapper.querySelector("img.perk-icon");
       if (img && img.src.endsWith(perkFile)) {
         slot.innerHTML = "";
+        // Auto-save when removing perk
+        saveCurrentPerks();
         return;
       }
     }
@@ -253,46 +386,145 @@ function selectPerk(perkFile) {
 
       wrapper.addEventListener("click", () => {
         slot.innerHTML = "";
+        // Auto-save when removing perk
+        saveCurrentPerks();
       });
 
       slot.appendChild(wrapper);
+      // Auto-save when adding perk
+      saveCurrentPerks();
       break;
     }
   }
 }
 
-//Function to mark character that has been completed
+//Function to complete character selection and clear slots
 function markCharacterCompleted() {
   if (!selectedCharacter) {
-    alert("No character chosen.");
+    //alert("No character chosen.");
+    showPopup()
     return;
   }
-  const selectedPerks = [];
-  document.querySelectorAll(".perk-slot div img.perk-icon").forEach(img => {
-    if (img && img.src) {
-      const fileName = img.src.split("/").pop();
-      selectedPerks.push(fileName);
-    }
-  });
-  saveUsedPerks(selectedCharacter.file, selectedPerks);
 
-  const titleEl = document.getElementById("selected-perks-title");
-  if (titleEl) {
-    titleEl.textContent = "Selected Perks";
+  // Mark character as completed
+  let completedChars = JSON.parse(localStorage.getItem("dbd_completed_chars") || "[]");
+  if (!completedChars.includes(selectedCharacter.file)) {
+    completedChars.push(selectedCharacter.file);
+    localStorage.setItem("dbd_completed_chars", JSON.stringify(completedChars));
   }
 
-  alert("Progress saved!");
-  renderSavedProgress();
-  initCharacterList();
-  clearPerkSlots();
-  selectedCharacter = null;
+  //alert("Character completed and progress saved!");
+  updateCharacterBorders();
 }
 
 //Resets the entire progress on the side you currently on
 function resetPageProgress() {
   const page = getCurrentPageType(); // "killers" or "survivors"
-  let usedPerks = JSON.parse(localStorage.getItem("dbd_used_perks") || "{}");
+  
+  // Try to show confirmation, but proceed if user has disabled dialogs
+  let userConfirmed = true;
+  try {
+    userConfirmed = confirm(`Are you sure you want to reset all Completion Progress for ${page}? This will remove all Completion selections but keep Perks selected.`);
+  } catch (e) {
+    // If confirm() fails or is blocked, assume user wants to proceed
+    userConfirmed = true;
+  }
+  
+  if (!userConfirmed) {
+    return;
+  }
+  let completedChars = JSON.parse(localStorage.getItem("dbd_completed_chars") || "[]");
   let changed = false;
+  
+  // Only reset completed characters for this page, keep perks
+  const originalLength = completedChars.length;
+  completedChars = completedChars.filter(charFile => {
+    const isKiller = isKillerCharFile(charFile);
+    if (page === "killers" && isKiller) {
+      return false; // Remove killer characters from completed list
+    } else if (page === "survivors" && !isKiller) {
+      return false; // Remove survivor characters from completed list
+    }
+    return true; // Keep characters from other page
+  });
+  
+  if (completedChars.length !== originalLength) {
+    changed = true;
+    localStorage.setItem("dbd_completed_chars", JSON.stringify(completedChars));
+  }
+  
+  if (changed) {
+    //alert(`Completed progress for ${page} is reset. Perks are kept.`);
+  } else {
+    //alert(`No completed progress for ${page} to reset.`);
+  }
+  selectedCharacter = null;
+  const titleEl = document.getElementById("selected-perks-title");
+  if (titleEl) titleEl.textContent = "Selected Perks";
+  clearPerkSlots();
+  initCharacterList();
+  renderSavedProgress();
+  updateCharacterBorders();
+}
+
+//Resets a picked character if accidently completed
+function resetSelectedCharacter() {
+  if (!selectedCharacter) {
+    // Should rework this to not use alert and insted have a small notification
+   // alert("No character chosen.");
+    return;
+  }
+  
+  let userConfirmed = true;
+  try {
+    userConfirmed = confirm(`Reset completion status for ${selectedCharacter.name}? This will remove the green border but keep perks.`);
+  } catch (e) {
+    // If confirm() fails or is blocked, assume user wants to proceed
+    userConfirmed = true;
+  }
+  
+  if (!userConfirmed) return;
+
+  let completedChars = JSON.parse(localStorage.getItem("dbd_completed_chars") || "[]");
+  let changed = false;
+  
+  if (completedChars.includes(selectedCharacter.file)) {
+    completedChars = completedChars.filter(char => char !== selectedCharacter.file);
+    changed = true;
+  }
+  
+  if (changed) {
+    localStorage.setItem("dbd_completed_chars", JSON.stringify(completedChars));
+    //alert(`Completion status for ${selectedCharacter.name} is reset.`);
+  } else {
+    //alert(`${selectedCharacter.name} is not marked as completed.`);
+  }
+
+  // Don't clear perk slots or reset selectedCharacter - just update borders
+  updateCharacterBorders();
+}
+
+//Resets all perks on the current side but keeps completion status
+function resetAll() {
+  const page = getCurrentPageType(); // "killers" or "survivors"
+  
+  let userConfirmed = true;
+  try {
+    userConfirmed = confirm(`Are you sure you want to reset EVERYTHING for ${page}? This will remove all perk selections and reset completion progress.`);
+  } catch (e) {
+    // If confirm() fails or is blocked, assume user wants to proceed
+    userConfirmed = true;
+  }
+  
+  if (!userConfirmed) {
+    return;
+  }
+  
+  let usedPerks = JSON.parse(localStorage.getItem("dbd_used_perks") || "{}");
+  let completedChars = JSON.parse(localStorage.getItem("dbd_completed_chars") || "[]");
+  let changed = false;
+  
+  // Reset perks for current page
   for (const charFile of Object.keys({...usedPerks})) {
     const isKiller = isKillerCharFile(charFile);
     if (page === "killers" && isKiller) {
@@ -303,47 +535,78 @@ function resetPageProgress() {
       changed = true;
     }
   }
+  
+  // Reset completion status for current page
+  const originalLength = completedChars.length;
+  completedChars = completedChars.filter(charFile => {
+    const isKiller = isKillerCharFile(charFile);
+    if (page === "killers" && isKiller) {
+      return false; // Remove killer characters from completed list
+    } else if (page === "survivors" && !isKiller) {
+      return false; // Remove survivor characters from completed list
+    }
+    return true; // Keep characters from other page
+  });
+  
+  if (completedChars.length !== originalLength) {
+    changed = true;
+  }
+  
   if (changed) {
     localStorage.setItem("dbd_used_perks", JSON.stringify(usedPerks));
-    alert(`Progress ${page} is reset.`);
-  } else {
-    alert(`No progress for ${page} to reset.`);
+    localStorage.setItem("dbd_completed_chars", JSON.stringify(completedChars));
   }
+  
   selectedCharacter = null;
   const titleEl = document.getElementById("selected-perks-title");
   if (titleEl) titleEl.textContent = "Selected Perks";
   clearPerkSlots();
   initCharacterList();
   renderSavedProgress();
+  updateAvailablePerks(page);
 }
 
-//Resets a picked character if accidently completed
-function resetSelectedCharacter() {
-  if (!selectedCharacter) {
-    alert("No character chosen.");
+//Resets only perks on the current side but keeps completion status
+function resetAllPerks() {
+  const page = getCurrentPageType(); // "killers" or "survivors"
+  
+  let userConfirmed = true;
+  try {
+    userConfirmed = confirm(`Are you sure you want to reset all perks for ${page}? This will remove all perk selections but keep completion status.`);
+  } catch (e) {
+    // If confirm() fails or is blocked, assume user wants to proceed
+    userConfirmed = true;
+  }
+  
+  if (!userConfirmed) {
     return;
   }
-  if (!confirm(`Reset progress for ${selectedCharacter.name}?`)) return;
-
+  
   let usedPerks = JSON.parse(localStorage.getItem("dbd_used_perks") || "{}");
-  if (usedPerks[selectedCharacter.file]) {
-    delete usedPerks[selectedCharacter.file];
+  let changed = false;
+  
+  for (const charFile of Object.keys({...usedPerks})) {
+    const isKiller = isKillerCharFile(charFile);
+    if (page === "killers" && isKiller) {
+      delete usedPerks[charFile];
+      changed = true;
+    } else if (page === "survivors" && !isKiller) {
+      delete usedPerks[charFile];
+      changed = true;
+    }
+  }
+  
+  if (changed) {
     localStorage.setItem("dbd_used_perks", JSON.stringify(usedPerks));
-    alert(`Progress ${selectedCharacter.name} is reset.`);
-  } else {
-    alert(`${selectedCharacter.name} has no saved progress.`);
   }
-
-  clearPerkSlots();
+  
   selectedCharacter = null;
-
   const titleEl = document.getElementById("selected-perks-title");
-  if (titleEl) {
-    titleEl.textContent = "Selected Perks";
-  }
-
+  if (titleEl) titleEl.textContent = "Selected Perks";
+  clearPerkSlots();
   initCharacterList();
   renderSavedProgress();
+  updateAvailablePerks(page);
 }
 
 //Render to see what is saved
@@ -406,6 +669,54 @@ async function initCharacterList() {
     renderCharacters(data.killers, "killer-list");
   }
   updateAvailablePerks(page);
+  
+  // Update navigation progress bars
+  updateNavProgress(data);
+}
+
+// Function to update navigation progress bars
+async function updateNavProgress(data) {
+  if (!data) {
+    const res = await fetch("characters.json");
+    data = await res.json();
+  }
+  
+  const completedChars = JSON.parse(localStorage.getItem("dbd_completed_chars") || "[]");
+  
+  // Count completed killers and survivors
+  let completedKillers = 0;
+  let completedSurvivors = 0;
+  
+  completedChars.forEach(charFile => {
+    if (charFile.startsWith("the-")) {
+      completedKillers++;
+    } else {
+      completedSurvivors++;
+    }
+  });
+  
+  const totalKillers = data.killers ? data.killers.length : 0;
+  const totalSurvivors = data.survivors ? data.survivors.length : 0;
+  
+  // Update killers progress in nav (shown on survivors page)
+  const navKillersCounter = document.getElementById("nav-killers-counter");
+  const navKillersProgress = document.getElementById("nav-killers-progress");
+  
+  if (navKillersCounter && navKillersProgress) {
+    navKillersCounter.textContent = `${completedKillers}/${totalKillers}`;
+    const killersPercentage = totalKillers > 0 ? (completedKillers / totalKillers) * 100 : 0;
+    navKillersProgress.style.width = `${killersPercentage}%`;
+  }
+  
+  // Update survivors progress in nav (shown on killers page)
+  const navSurvivorsCounter = document.getElementById("nav-survivors-counter");
+  const navSurvivorsProgress = document.getElementById("nav-survivors-progress");
+  
+  if (navSurvivorsCounter && navSurvivorsProgress) {
+    navSurvivorsCounter.textContent = `${completedSurvivors}/${totalSurvivors}`;
+    const survivorsPercentage = totalSurvivors > 0 ? (completedSurvivors / totalSurvivors) * 100 : 0;
+    navSurvivorsProgress.style.width = `${survivorsPercentage}%`;
+  }
 }
 
 window.addEventListener("DOMContentLoaded", () => {
@@ -416,27 +727,27 @@ window.addEventListener("DOMContentLoaded", () => {
   if (!controls) return;
   controls.innerHTML = "";
 
-  const btnSave = document.createElement("button");
-  btnSave.textContent = "Mark Character as Completed";
-  btnSave.style.padding = "10px";
-  btnSave.style.margin = "10px 5px 10px 0";
-  btnSave.addEventListener("click", markCharacterCompleted);
+  const btnResetAllPerks = document.createElement("button");
+  btnResetAllPerks.textContent = "Reset All";
+  btnResetAllPerks.style.padding = "10px";
+  btnResetAllPerks.style.margin = "10px 5px 10px 0";
+  btnResetAllPerks.addEventListener("click", resetAll);
 
   const btnResetPage = document.createElement("button");
-  btnResetPage.textContent = "Reset Progress";
+  btnResetPage.textContent = "Reset Streak Progress";
   btnResetPage.style.padding = "10px";
   btnResetPage.style.margin = "10px 5px 10px 0";
   btnResetPage.addEventListener("click", resetPageProgress);
 
-  const btnResetSelected = document.createElement("button");
-  btnResetSelected.textContent = "Reset Selected Character";
-  btnResetSelected.style.padding = "10px";
-  btnResetSelected.style.margin = "10px 0";
-  btnResetSelected.addEventListener("click", resetSelectedCharacter);
+  const btnResetPerks = document.createElement("button");
+  btnResetPerks.textContent = "Reset Perks";
+  btnResetPerks.style.padding = "10px";
+  btnResetPerks.style.margin = "10px 5px 10px 0";
+  btnResetPerks.addEventListener("click", resetAllPerks);
 
-  controls.appendChild(btnSave);
   controls.appendChild(btnResetPage);
-  controls.appendChild(btnResetSelected);
+  controls.appendChild(btnResetPerks);
+  controls.appendChild(btnResetAllPerks);
 
   const searchInput = document.getElementById("perk-search");
   if (searchInput) {
@@ -449,3 +760,4 @@ window.addEventListener("DOMContentLoaded", () => {
     });
   }
 });
+
