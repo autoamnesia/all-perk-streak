@@ -185,33 +185,38 @@
         
         console.log("Completed characters:", completedChars); // Debug
         
-        // Count completed killers and survivors
+        // Clean up invalid completed characters
+        const validKillerFiles = data.killers ? data.killers.map(k => k.file) : [];
+        const validSurvivorFiles = data.survivors ? data.survivors.map(s => s.file) : [];
+        const allValidFiles = [...validKillerFiles, ...validSurvivorFiles];
+        
+        // Filter out any invalid character files
+        const validCompletedChars = completedChars.filter(charFile => allValidFiles.includes(charFile));
+        
+        // Update localStorage if we found invalid entries
+        if (validCompletedChars.length !== completedChars.length) {
+          localStorage.setItem("dbd_completed_chars", JSON.stringify(validCompletedChars));
+        }
+        
+        // Count completed killers and survivors using valid data
         let completedKillers = 0;
         let completedSurvivors = 0;
         
-        completedChars.forEach(charFile => {
-          if (charFile.startsWith("the-")) {
+        validCompletedChars.forEach(charFile => {
+          if (validKillerFiles.includes(charFile)) {
             completedKillers++;
-          } else {
+          } else if (validSurvivorFiles.includes(charFile)) {
             completedSurvivors++;
           }
         });
         
-        // Get totals - handle different possible data structures
-        let totalKillers = 0;
-        let totalSurvivors = 0;
+        // Get totals
+        const totalKillers = data.killers ? data.killers.length : 0;
+        const totalSurvivors = data.survivors ? data.survivors.length : 0;
         
-        if (data.killers && Array.isArray(data.killers)) {
-          totalKillers = data.killers.length;
-        } else if (data.characters) {
-          // If data structure is different, count by type
-          totalKillers = data.characters.filter(char => char.type === "killers").length;
-          totalSurvivors = data.characters.filter(char => char.type === "survivors").length;
-        }
-        
-        if (data.survivors && Array.isArray(data.survivors)) {
-          totalSurvivors = data.survivors.length;
-        }
+        // Ensure completed counts don't exceed totals
+        completedKillers = Math.min(completedKillers, totalKillers);
+        completedSurvivors = Math.min(completedSurvivors, totalSurvivors);
         
         console.log(`Counts - Killers: ${completedKillers}/${totalKillers}, Survivors: ${completedSurvivors}/${totalSurvivors}`); // Debug
         

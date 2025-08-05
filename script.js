@@ -683,20 +683,37 @@ async function updateNavProgress(data) {
   
   const completedChars = JSON.parse(localStorage.getItem("dbd_completed_chars") || "[]");
   
-  // Count completed killers and survivors
+  // Clean up invalid completed characters
+  const validKillerFiles = data.killers ? data.killers.map(k => k.file) : [];
+  const validSurvivorFiles = data.survivors ? data.survivors.map(s => s.file) : [];
+  const allValidFiles = [...validKillerFiles, ...validSurvivorFiles];
+  
+  // Filter out any invalid character files
+  const validCompletedChars = completedChars.filter(charFile => allValidFiles.includes(charFile));
+  
+  // Update localStorage if we found invalid entries
+  if (validCompletedChars.length !== completedChars.length) {
+    localStorage.setItem("dbd_completed_chars", JSON.stringify(validCompletedChars));
+  }
+  
+  // Count completed killers and survivors using valid data
   let completedKillers = 0;
   let completedSurvivors = 0;
   
-  completedChars.forEach(charFile => {
-    if (charFile.startsWith("the-")) {
+  validCompletedChars.forEach(charFile => {
+    if (validKillerFiles.includes(charFile)) {
       completedKillers++;
-    } else {
+    } else if (validSurvivorFiles.includes(charFile)) {
       completedSurvivors++;
     }
   });
   
   const totalKillers = data.killers ? data.killers.length : 0;
   const totalSurvivors = data.survivors ? data.survivors.length : 0;
+  
+  // Ensure completed counts don't exceed totals
+  completedKillers = Math.min(completedKillers, totalKillers);
+  completedSurvivors = Math.min(completedSurvivors, totalSurvivors);
   
   // Update main progress bar based on current page
   const currentPage = getCurrentPageType();
