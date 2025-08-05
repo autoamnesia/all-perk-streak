@@ -2,7 +2,7 @@
 
 A sleek and intuitive website to track your all-perks streak in Dead by Daylight, whether you're playing as Killer or Survivor.
 
-🔗 **Live Website:** [allperkstreak.help](https://www.allperkstreak.help)
+#🔗 **Live Website:** [allperkstreak.help](https://www.allperkstreak.help)
 
 ![DBD Perk Streak Tracker Preview](preview.jpg)
 
