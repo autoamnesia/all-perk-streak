@@ -762,6 +762,117 @@ async function updateNavProgress(data) {
   }
 }
 
+// Download progress data as JSON file
+function downloadProgress() {
+  const progressData = {
+    completedChars: JSON.parse(localStorage.getItem("dbd_completed_chars") || "[]"),
+    usedPerks: JSON.parse(localStorage.getItem("dbd_used_perks") || "{}"),
+    exportDate: new Date().toISOString(),
+    version: "1.0"
+  };
+
+  const dataStr = JSON.stringify(progressData, null, 2);
+  const dataBlob = new Blob([dataStr], { type: 'application/json' });
+  
+  const link = document.createElement('a');
+  link.href = URL.createObjectURL(dataBlob);
+  link.download = `dbd-progress-${new Date().toISOString().split('T')[0]}.json`;
+  link.click();
+  
+  // Cleanup
+  URL.revokeObjectURL(link.href);
+}
+
+// Upload and restore progress data from JSON file
+function uploadProgress() {
+  const input = document.createElement('input');
+  input.type = 'file';
+  input.accept = '.json';
+  
+  input.onchange = (event) => {
+    const file = event.target.files[0];
+    if (!file) return;
+    
+    const reader = new FileReader();
+    reader.onload = (e) => {
+      try {
+        const progressData = JSON.parse(e.target.result);
+        
+        // Validate the data structure
+        if (!progressData.completedChars || !progressData.usedPerks) {
+          alert('Invalid progress file format.');
+          return;
+        }
+        
+        // Confirm before overwriting
+        let userConfirmed = true;
+        try {
+          userConfirmed = confirm('This will overwrite your current progress. Continue?');
+        } catch (e) {
+          userConfirmed = true;
+        }
+        
+        if (!userConfirmed) return;
+        
+        // Restore the data
+        localStorage.setItem("dbd_completed_chars", JSON.stringify(progressData.completedChars));
+        localStorage.setItem("dbd_used_perks", JSON.stringify(progressData.usedPerks));
+        
+        // Refresh the page to show updated data
+        location.reload();
+        
+      } catch (error) {
+        alert('Error reading progress file. Please check the file format.');
+        console.error('Upload error:', error);
+      }
+    };
+    
+    reader.readAsText(file);
+  };
+  
+  input.click();
+}
+
+// Add random unused perk to available slot
+function addRandomPerk() {
+  if (!selectedCharacter) {
+    return;
+  }
+
+  // Check if there are any empty slots
+  const slots = document.querySelectorAll(".perk-slot");
+  let hasEmptySlot = false;
+  for (let slot of slots) {
+    if (slot.children.length === 0) {
+      hasEmptySlot = true;
+      break;
+    }
+  }
+  
+  if (!hasEmptySlot) {
+    return; // All slots are full
+  }
+
+  // Get all available perks for this character type
+  const allPerks = window.allPerks[selectedCharacter.type] || [];
+  const usedPerks = JSON.parse(localStorage.getItem("dbd_used_perks") || "{}");
+  
+  // Filter out perks that are already used by any character
+  const unusedPerks = allPerks.filter(perk => {
+    return !Object.values(usedPerks).some(perksList => perksList.includes(perk.file));
+  });
+  
+  if (unusedPerks.length === 0) {
+    return; // No unused perks available
+  }
+  
+  // Select a random unused perk
+  const randomPerk = unusedPerks[Math.floor(Math.random() * unusedPerks.length)];
+  
+  // Add the random perk to the first available slot
+  selectPerk(randomPerk.file);
+}
+
 window.addEventListener("DOMContentLoaded", () => {
   initCharacterList();
   renderSavedProgress();
@@ -788,9 +899,31 @@ window.addEventListener("DOMContentLoaded", () => {
   btnResetPerks.style.margin = "10px 5px 10px 0";
   btnResetPerks.addEventListener("click", resetAllPerks);
 
+  const btnDownload = document.createElement("button");
+  btnDownload.textContent = "Download Progress";
+  btnDownload.style.padding = "10px";
+  btnDownload.style.margin = "10px 5px 10px 0";
+  btnDownload.style.backgroundColor = "#4CAF50";
+  btnDownload.style.color = "white";
+  btnDownload.style.border = "none";
+  btnDownload.style.borderRadius = "4px";
+  btnDownload.addEventListener("click", downloadProgress);
+
+  const btnUpload = document.createElement("button");
+  btnUpload.textContent = "Upload Progress";
+  btnUpload.style.padding = "10px";
+  btnUpload.style.margin = "10px 5px 10px 0";
+  btnUpload.style.backgroundColor = "#2196F3";
+  btnUpload.style.color = "white";
+  btnUpload.style.border = "none";
+  btnUpload.style.borderRadius = "4px";
+  btnUpload.addEventListener("click", uploadProgress);
+
   controls.appendChild(btnResetPage);
   controls.appendChild(btnResetPerks);
   controls.appendChild(btnResetAllPerks);
+  controls.appendChild(btnDownload);
+  controls.appendChild(btnUpload);
 
   const searchInput = document.getElementById("perk-search");
   if (searchInput) {
@@ -802,5 +935,36 @@ window.addEventListener("DOMContentLoaded", () => {
       }
     });
   }
+
+  // Add CSS for random perk button
+  const style = document.createElement('style');
+  style.textContent = `
+    .random-perk-button {
+      display: inline-block;
+      width: 80px;
+      height: 80px;
+      border: 2px solid #666;
+      border-radius: 8px;
+      background-color: #2a2a2a;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      margin-left: 15px;
+      vertical-align: top;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .random-perk-button:hover {
+      border-color: #888;
+      background-color: #3a3a3a;
+      transform: scale(1.05);
+    }
+    .random-perk-button img {
+      width: 60px;
+      height: 60px;
+      object-fit: contain;
+    }
+  `;
+  document.head.appendChild(style);
 });
 

@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>DBD Killers</title>
+  <title>Killers</title>
   <link rel="stylesheet" href="style.css">
   <style>
     .top-nav {
@@ -66,10 +66,8 @@
     }
     .selected-area-container {
       display: flex;
-      justify-content: center;
       align-items: center;
-      gap: 40px;
-      margin-bottom: 20px;
+      gap: 10px;
     }
     .main-progress-container {
       width: 400px;
@@ -83,7 +81,7 @@
     }
     .main-progress-bar {
       height: 100%;
-      background: linear-gradient(90deg, #6e0000, #b30000, #ff1a1a);
+      background: linear-gradient(90deg, #4CAF50, #8BC34A, #CDDC39);
       transition: width 0.5s ease-in-out;
       border-radius: 10px;
     }
@@ -128,13 +126,12 @@
     </a>
   </div>
 
-  <h1>Dead by Daylight - Killers</h1>
+  <h1>Killers</h1>
   
   <div id="controls"></div>
   <p>Right Click (Desktop) or Long Press (Mobile) to Mark / Unmark as Completed</p>
 
   <div class="character-section">
-    <h2>Killers</h2>
     <div id="killer-list" class="character-list"></div>
   </div>
 
@@ -145,6 +142,9 @@
       <div class="perk-slot"></div>
       <div class="perk-slot"></div>
       <div class="perk-slot"></div>
+      <div class="random-perk-button" id="random-perk-btn" onclick="addRandomPerk()" title="Add Random Perk">
+        <img src="assets/icons/Random_Button.png" alt="Random Perk" class="perk-icon">
+      </div>
     </div>
   </div>
 
@@ -157,7 +157,5 @@
 
 
   <script src="script.js"></script>
-</body>
-</html>
 </body>
 </html>

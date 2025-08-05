@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>DBD Survivors</title>
+  <title>Survivors</title>
   <link rel="stylesheet" href="style.css">
   <style>
     .top-nav {
@@ -125,13 +125,12 @@
     </a>
   </div>
 
-  <h1>Dead by Daylight - Survivors</h1>
+  <h1>Survivors</h1>
 
   <div id="controls"></div>
   <p>Right Click (Desktop) or Long Press (Mobile) to Mark / Unmark as Completed</p>
 
   <div class="character-section">
-    <h2>Survivors</h2>
     <div id="survivor-list" class="character-list"></div>
   </div>
 
@@ -141,6 +140,9 @@
     <div class="perk-slot"></div>
     <div class="perk-slot"></div>
     <div class="perk-slot"></div>
+    <div class="random-perk-button" id="random-perk-btn" onclick="addRandomPerk()" title="Add Random Perk">
+      <img src="assets/icons/Random_Button.png" alt="Random Perk" class="perk-icon">
+    </div>
   </div>
 
   <h2>Available Perks</h2>
