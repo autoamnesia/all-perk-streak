@@ -8,7 +8,7 @@ A sleek and intuitive website to track your all-perks streak in Dead by Daylight
 
 ## Features ✨
 - Track your perk progression for both Killers and Survivors
-- Keep Perk Builds Saved for Future runs
+- Keep Perk Builds Saved for future runs
 - Simple, clean interface
 - Easy to self-host
 - Customizable with new characters and perks
