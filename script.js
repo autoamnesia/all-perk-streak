@@ -1035,6 +1035,11 @@ function addRandomPerk() {
 }
 
 window.addEventListener("DOMContentLoaded", () => {
+  // Prevent right-click context menu globally
+  document.addEventListener("contextmenu", (e) => {
+    e.preventDefault();
+  });
+
   initCharacterList();
   renderSavedProgress();
 
