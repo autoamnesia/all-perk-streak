@@ -37,4 +37,4 @@ If I stop updating, you can easily add new Killers, Survivors, and Perks:
    - Update with new names and file names
 
 ## Credits 🙏
-Forked from [Pokejongen](https://github.com/Pokejongen) - all credit to them for the original work!
+Forked from [Pokejongen](https://github.com/Pokejongen) - all credit to them for the foundation work of this Tracker!
