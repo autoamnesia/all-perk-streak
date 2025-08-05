@@ -1,19 +1,39 @@
-# dbd-all-perk-streak
-A local website to use when doing an all perks streak on either killer or survivor
+# All Perk Streak Tracker 🌟
 
-Tutorial:
-NOTE* You need to have python installed to use this. https://www.python.org/downloads/   (When installing Python, enable add to PATH.)
+A sleek and intuitive website to track your all-perks streak in Dead by Daylight, whether you're playing as Killer or Survivor.
 
-1. Download the files as a zip.
-2. Unzip the files somewhere you want
-3. Launch the .bat file to startup the server
-4. Go to your browser and type http://localhost:8000
+🔗 **Live Website:** [allperkstreak.help](https://www.allperkstreak.help)
 
-If I ever stop updating, it's very simple to add in new killers, survivors and perks.
- 1. Download the perk/character icon. As a .webp file.
- 2. Put in in assets\perks or characters\killers or survivors.
- 3. Go into the characters.json and copy one already in their and update the info to the new names and file name.
+![DBD Perk Streak Tracker Preview](preview.jpg)
 
+## Features ✨
+- Track your perk progression for both Killers and Survivors
+- Simple, clean interface
+- Easy to self-host
+- Customizable with new characters and perks
 
-I'm very new to website making, so I got help from my dad and used chatgpt to help out with the more advanced fucntions.
-In the future when I get more knowledgable, I'm gonna try to make the code all by myself.
+## Self-Hosting Guide 🛠️
+
+### Prerequisites
+- [Python 3.x](https://www.python.org/downloads/) (Make sure to check "Add Python to PATH" during installation)
+
+### Installation Steps
+1. **Download** the files as a ZIP
+2. **Extract** the files to your preferred location
+3. **Launch** the server by running the `.bat` file
+4. **Access** the tracker in your browser at: `http://localhost:8000`
+
+## Adding New Content 📦
+If I stop updating, you can easily add new Killers, Survivors, and Perks:
+
+1. Download the perk/character icon as a `.webp` file
+2. Place it in the appropriate folder:
+   - Perks: `assets/perks/`
+   - Killers: `assets/characters/killers/`
+   - Survivors: `assets/characters/survivors/`
+3. Edit `characters.json`:
+   - Copy an existing entry
+   - Update with new names and file names
+
+## Credits 🙏
+Forked from [Pokejongen](https://github.com/Pokejongen) - all credit to them for the original work!
