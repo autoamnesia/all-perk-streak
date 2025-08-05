@@ -1,21 +1,3 @@
-// Add a cache-busting version check at the top of the script
-const CURRENT_VERSION = "1.1.0"; // Update this when you make changes
-
-// Check if we need to force a refresh for cache busting
-function checkVersion() {
-  const storedVersion = localStorage.getItem("dbd_app_version");
-  if (storedVersion !== CURRENT_VERSION) {
-    localStorage.setItem("dbd_app_version", CURRENT_VERSION);
-    // Force reload without cache if version changed
-    if (storedVersion) {
-      location.reload(true);
-    }
-  }
-}
-
-// Call version check early
-checkVersion();
-
 // Global variable to track which character is currently selected
 let selectedCharacter = null;
 
@@ -1086,10 +1068,10 @@ window.addEventListener("DOMContentLoaded", () => {
   btnAllowRemoveCompleted.style.color = "white";
   btnAllowRemoveCompleted.style.border = "none";
   btnAllowRemoveCompleted.style.borderRadius = "4px";
-  btnAllowRemoveCompleted.style.cursor = "pointer"a;
+  btnAllowRemoveCompleted.style.cursor = "pointer";
   btnAllowRemoveCompleted.title = allowRemoveFromCompleted ? 
-    "Click to protect perks from being reassigned to completed characters" : 
-    "Click to allow reassign perks from completed characters";
+    "Click to protect perks assigned to completed characters" : 
+    "Click to allow removing perks from completed characters";
   btnAllowRemoveCompleted.addEventListener("click", toggleAllowRemoveFromCompleted);
 
   const btnResetPage = document.createElement("button");
