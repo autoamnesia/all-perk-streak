@@ -98,6 +98,28 @@ function updateAvailablePerks(type) {
       charIcon.style.borderRadius = "50%";
       charIcon.style.border = "1px solid #fff";
       charIcon.style.zIndex = "5";
+      
+      // Check if the character using this perk is completed
+      const completedChars = JSON.parse(localStorage.getItem("dbd_completed_chars") || "[]");
+      const isCharCompleted = completedChars.includes(usedByChar);
+      
+      if (isCharCompleted) {
+        // Add green dot indicator for completed characters
+        const greenDot = document.createElement("div");
+        greenDot.style.position = "absolute";
+        greenDot.style.width = "8px";
+        greenDot.style.height = "8px";
+        greenDot.style.backgroundColor = "limegreen";
+        greenDot.style.borderRadius = "50%";
+        greenDot.style.bottom = "2px";
+        greenDot.style.right = "2px";
+        greenDot.style.border = "1px solid #fff";
+        greenDot.style.pointerEvents = "none";
+        greenDot.style.zIndex = "6";
+        greenDot.title = "Used by completed character";
+        
+        wrapper.appendChild(greenDot);
+      }
       charIcon.title = usedByChar;
       wrapper.appendChild(charIcon);
     } else {
