@@ -68,9 +68,31 @@ function renderCharacters(characters, containerId) {
         completedChars = completedChars.filter(char => char !== character.file);
         localStorage.setItem("dbd_completed_chars", JSON.stringify(completedChars));
       } else {
-        // Add to completed
+        // Add to completed and select the character
         completedChars.push(character.file);
         localStorage.setItem("dbd_completed_chars", JSON.stringify(completedChars));
+        
+        // Select the character when marking as completed
+        selectedCharacter = character;
+        
+        // Update title
+        const titleEl = document.getElementById("selected-perks-title");
+        if (titleEl) {
+          titleEl.textContent = `Selected Perks For ${character.name}`;
+        }
+        
+        // Get fresh perks data and update UI
+        const currentUsedPerks = JSON.parse(localStorage.getItem("dbd_used_perks") || "{}");
+        const perksForChar = currentUsedPerks[character.file] || [];
+
+        if (perksForChar.length > 0) {
+          populatePerkSlots(perksForChar);
+        } else {
+          clearPerkSlots();
+        }
+
+        updateAvailablePerks(character.type);
+        renderSavedProgress();
       }
       
       updateCharacterBorders();
@@ -92,9 +114,31 @@ function renderCharacters(characters, containerId) {
           completedChars = completedChars.filter(char => char !== character.file);
           localStorage.setItem("dbd_completed_chars", JSON.stringify(completedChars));
         } else {
-          // Add to completed
+          // Add to completed and select the character
           completedChars.push(character.file);
           localStorage.setItem("dbd_completed_chars", JSON.stringify(completedChars));
+          
+          // Select the character when marking as completed
+          selectedCharacter = character;
+          
+          // Update title
+          const titleEl = document.getElementById("selected-perks-title");
+          if (titleEl) {
+            titleEl.textContent = `Selected Perks For ${character.name}`;
+          }
+          
+          // Get fresh perks data and update UI
+          const currentUsedPerks = JSON.parse(localStorage.getItem("dbd_used_perks") || "{}");
+          const perksForChar = currentUsedPerks[character.file] || [];
+
+          if (perksForChar.length > 0) {
+            populatePerkSlots(perksForChar);
+          } else {
+            clearPerkSlots();
+          }
+
+          updateAvailablePerks(character.type);
+          renderSavedProgress();
         }
         
         updateCharacterBorders();
