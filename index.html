@@ -4,151 +4,16 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>All Perks Streak</title>
+  <link rel="stylesheet" href="style.css?v=2.0">
+</head>
+<body>
 
-  
   <div class="top-nav">
     <a href="https://github.com/autoamnesia/all-perk-streak" target="_blank" class="nav-icon">
       <img src="assets/icons/github.png" alt="GitHub">
       <span>GitHub</span>
     </a>
   </div>
-  <style>
-      .top-nav {
-      position: absolute;
-      top: 20px;
-      right: 20px;
-      display: flex;
-      gap: 15px;
-      align-items: center;
-    }
-    .nav-icon {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      text-decoration: none;
-      color: #f0f0f0;
-      background: #2a2a2a;
-      padding: 10px;
-      border-radius: 8px;
-      transition: transform 0.2s ease;
-    }
-    .nav-icon:hover {
-      transform: scale(1.05);
-      background: #3a3a3a;
-    }
-    .nav-icon img {
-      width: 50px;
-      height: 50px;
-      border-radius: 6px;
-      margin-bottom: 5px;
-    }
-    body {
-      font-family: Arial, sans-serif;
-      margin: 20px;
-      background-color: #1e1e1e; 
-      color: #f0f0f0; 
-    }
-    #container {
-      display: flex;
-      gap: 40px;
-    }
-    .column {
-      flex: 1;
-      background-color: #2a2a2a;
-      padding: 10px;
-      border-radius: 6px;
-      box-shadow: 0 0 8px rgba(0,0,0,0.5);
-    }
-    h1, h2 {
-      color: #f0f0f0;
-    }
-    h1 {
-      text-align: center;
-    }
-    .saved-character {
-      display: flex;
-      align-items: center;
-      margin-bottom: 10px;
-      border-bottom: 1px solid #444;
-      padding-bottom: 8px;
-    }
-    .saved-character img.char-icon {
-      width: 80px;
-      height: 80px;
-      margin-right: 10px;
-      border-radius: 8px;
-      object-fit: contain;
-    }
-    .saved-perks img {
-      width: 40px;
-      height: 40px;
-      margin-right: 5px;
-    }
-    .icon-navigation {
-      display: flex;
-      justify-content: center;
-      gap: 60px;
-      margin: 30px 0;
-    }
-    .icon-link {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      text-decoration: none;
-      color: #f0f0f0;
-      transition: transform 0.2s ease;
-    }
-    .icon-link:hover {
-      transform: scale(1.05);
-      color: #f0db4f;
-    }
-    .icon-link img {
-      width: 120px;
-      height: 120px;
-      margin-bottom: 10px;
-      border-radius: 12px;
-      box-shadow: 0 4px 8px rgba(0,0,0,0.3);
-    }
-    .icon-link span {
-      font-size: 18px;
-      font-weight: bold;
-    }
-    .completion-counter {
-      font-size: 16px;
-      color: #bbb;
-      margin-top: 5px;
-      display: none; /* Hide the old text counter */
-    }
-    .progress-container {
-      width: 120px;
-      height: 25px;
-      background-color: #2a2a2a;
-      border: 2px solid #444;
-      border-radius: 12px;
-      margin-top: 8px;
-      overflow: hidden;
-      position: relative;
-    }
-    .progress-bar {
-      height: 100%;
-      background: linear-gradient(90deg, #8B0000, #DC143C, #B22222);
-      transition: width 0.5s ease;
-      border-radius: 10px;
-    }
-    .progress-text {
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      font-size: 12px;
-      font-weight: bold;
-      color: #fff;
-      text-shadow: 1px 1px 2px rgba(0,0,0,0.8);
-      z-index: 10;
-    }
-  </style>
-</head>
-<body>
 
   <h1>All Perks Streak</h1>
   
@@ -171,82 +36,15 @@
     </a>
   </div>
 
-  <script src="script.js"></script>
-  <script>
-
-    async function updateCompletionCounters() {
-      try {
-        const res = await fetch("characters.json");
-        const data = await res.json();
-        
-        console.log("Characters data structure:", data); // Debug
-        
-        const completedChars = JSON.parse(localStorage.getItem("dbd_completed_chars") || "[]");
-        
-        console.log("Completed characters:", completedChars); // Debug
-        
-        // Clean up invalid completed characters
-        const validKillerFiles = data.killers ? data.killers.map(k => k.file) : [];
-        const validSurvivorFiles = data.survivors ? data.survivors.map(s => s.file) : [];
-        const allValidFiles = [...validKillerFiles, ...validSurvivorFiles];
-        
-        // Filter out any invalid character files
-        const validCompletedChars = completedChars.filter(charFile => allValidFiles.includes(charFile));
-        
-        // Update localStorage if we found invalid entries
-        if (validCompletedChars.length !== completedChars.length) {
-          localStorage.setItem("dbd_completed_chars", JSON.stringify(validCompletedChars));
-        }
-        
-        // Count completed killers and survivors using valid data
-        let completedKillers = 0;
-        let completedSurvivors = 0;
-        
-        validCompletedChars.forEach(charFile => {
-          if (validKillerFiles.includes(charFile)) {
-            completedKillers++;
-          } else if (validSurvivorFiles.includes(charFile)) {
-            completedSurvivors++;
-          }
-        });
-        
-        // Get totals
-        const totalKillers = data.killers ? data.killers.length : 0;
-        const totalSurvivors = data.survivors ? data.survivors.length : 0;
-        
-        // Ensure completed counts don't exceed totals
-        completedKillers = Math.min(completedKillers, totalKillers);
-        completedSurvivors = Math.min(completedSurvivors, totalSurvivors);
-        
-        console.log(`Counts - Killers: ${completedKillers}/${totalKillers}, Survivors: ${completedSurvivors}/${totalSurvivors}`); // Debug
-        
-        // Update the counters and progress bars
-        const killersCounter = document.getElementById("killers-counter");
-        const survivorsCounter = document.getElementById("survivors-counter");
-        const killersProgress = document.getElementById("killers-progress");
-        const survivorsProgress = document.getElementById("survivors-progress");
-        
-        if (killersCounter && killersProgress) {
-          killersCounter.textContent = `${completedKillers}/${totalKillers}`;
-          const killersPercentage = totalKillers > 0 ? (completedKillers / totalKillers) * 100 : 0;
-          killersProgress.style.width = `${killersPercentage}%`;
-        }
-        if (survivorsCounter && survivorsProgress) {
-          survivorsCounter.textContent = `${completedSurvivors}/${totalSurvivors}`;
-          const survivorsPercentage = totalSurvivors > 0 ? (completedSurvivors / totalSurvivors) * 100 : 0;
-          survivorsProgress.style.width = `${survivorsPercentage}%`;
-        }
-      } catch (error) {
-        console.error("Error updating completion counters:", error);
-      }
-    }
-    
-    window.addEventListener("DOMContentLoaded", () => {
-      updateCompletionCounters();
-    });
-  </script>
-</body>
-</html>
-
+  <!-- Load scripts in dependency order -->
+  <script src="scripts/state.js?v=2.0"></script>
+  <script src="scripts/utils.js?v=2.0"></script>
+  <script src="scripts/storage.js?v=2.0"></script>
+  <script src="scripts/progress.js?v=2.0"></script>
+  <script src="scripts/perks.js?v=2.0"></script>
+  <script src="scripts/toggles.js?v=2.0"></script>
+  <script src="scripts/characters.js?v=2.0"></script>
+  <script src="scripts/reset.js?v=2.0"></script>
+  <script src="scripts/init.js?v=2.0"></script>
 </body>
 </html>
