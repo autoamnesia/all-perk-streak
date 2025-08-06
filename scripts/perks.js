@@ -39,13 +39,25 @@ function updateAvailablePerks(type) {
     }
 
     if (usedByChar) {
-      // If showUsedPerks is false, hide used perks
-      if (!showUsedPerks) {
+      // Handle different show modes
+      if (showUsedPerksMode === 1) {
+        // Hide all used perks
         wrapper.style.display = "none";
         wrapper.appendChild(img);
         perkContainer.appendChild(wrapper);
         return;
+      } else if (showUsedPerksMode === 2) {
+        // Hide only perks used by completed characters
+        const completedChars = JSON.parse(localStorage.getItem("dbd_completed_chars") || "[]");
+        const isUsedByCompletedChar = completedChars.includes(usedByChar);
+        if (isUsedByCompletedChar) {
+          wrapper.style.display = "none";
+          wrapper.appendChild(img);
+          perkContainer.appendChild(wrapper);
+          return;
+        }
       }
+      // If showUsedPerksMode === 0 (show all), continue with normal display
 
       img.style.opacity = "1";
       

@@ -2,19 +2,32 @@
 // TOGGLE FUNCTIONS AND SETTINGS
 // =============================================================================
 
-// Toggle show used perks state
+// Toggle show used perks mode (cycles through 3 states)
 function toggleShowUsedPerks() {
-  showUsedPerks = !showUsedPerks;
-  localStorage.setItem("dbd_show_used_perks", JSON.stringify(showUsedPerks));
+  // Cycle through: 0 = show all, 1 = hide used, 2 = hide completed
+  showUsedPerksMode = (showUsedPerksMode + 1) % 3;
+  localStorage.setItem("dbd_show_used_perks_mode", showUsedPerksMode.toString());
   
   // Update the button appearance and text
   const toggleButton = document.getElementById("show-used-toggle");
   if (toggleButton) {
-    toggleButton.textContent = showUsedPerks ? "👁️ Hide Used" : "👁️ Show Used";
-    toggleButton.style.backgroundColor = showUsedPerks ? "#2196F3" : "#666";
-    toggleButton.title = showUsedPerks ? 
-      "Click to hide used perks" : 
-      "Click to show used perks";
+    switch (showUsedPerksMode) {
+      case 0: // Show all
+        toggleButton.textContent = "👁️ Show All";
+        toggleButton.style.backgroundColor = "#4CAF50";
+        toggleButton.title = "Showing all perks. Click to hide used perks.";
+        break;
+      case 1: // Hide used
+        toggleButton.textContent = "🙈 Hide Used";
+        toggleButton.style.backgroundColor = "#666";
+        toggleButton.title = "Hiding used perks. Click to hide only completed perks.";
+        break;
+      case 2: // Hide completed
+        toggleButton.textContent = "🏆 Hide Completed";
+        toggleButton.style.backgroundColor = "#FF9800";
+        toggleButton.title = "Hiding perks used by completed characters. Click to show all perks.";
+        break;
+    }
   }
   
   // Refresh available perks to update visibility
@@ -62,4 +75,23 @@ function toggleAllowRemoveFromCompleted() {
       "Click to protect perks assigned to completed characters" : 
       "Click to allow removing perks from completed characters";
   }
+}
+
+// Toggle show completed characters state
+function toggleShowCompleted() {
+  showCompleted = !showCompleted;
+  localStorage.setItem("dbd_show_completed", JSON.stringify(showCompleted));
+  
+  // Update the button appearance and text
+  const toggleButton = document.getElementById("show-completed-toggle");
+  if (toggleButton) {
+    toggleButton.textContent = showCompleted ? "🏆 Hide Completed" : "🏆 Show Completed";
+    toggleButton.style.backgroundColor = showCompleted ? "#FF9800" : "#666";
+    toggleButton.title = showCompleted ? 
+      "Click to hide completed characters" : 
+      "Click to show completed characters";
+  }
+  
+  // Refresh character list to update visibility
+  initCharacterList();
 }

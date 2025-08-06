@@ -10,7 +10,12 @@ function renderCharacters(characters, containerId) {
   container.innerHTML = "";
   const completedChars = JSON.parse(localStorage.getItem("dbd_completed_chars") || "[]");
 
-  characters.forEach(character => {
+  // Filter characters based on showCompleted toggle
+  const charactersToShow = showCompleted ? 
+    characters : 
+    characters.filter(character => !completedChars.includes(character.file));
+
+  charactersToShow.forEach(character => {
     const card = document.createElement("div");
     card.classList.add("character-card");
 

@@ -68,6 +68,22 @@ function initializePage() {
     "Click to allow removing perks from completed characters";
   btnAllowRemoveCompleted.addEventListener("click", toggleAllowRemoveFromCompleted);
 
+  // Add show completed toggle button
+  const btnShowCompleted = document.createElement("button");
+  btnShowCompleted.id = "show-completed-toggle";
+  btnShowCompleted.textContent = showCompleted ? "🏆 Hide Completed" : "🏆 Show Completed";
+  btnShowCompleted.style.padding = "10px";
+  btnShowCompleted.style.margin = "10px 5px 10px 0";
+  btnShowCompleted.style.backgroundColor = showCompleted ? "#FF9800" : "#666";
+  btnShowCompleted.style.color = "white";
+  btnShowCompleted.style.border = "none";
+  btnShowCompleted.style.borderRadius = "4px";
+  btnShowCompleted.style.cursor = "pointer";
+  btnShowCompleted.title = showCompleted ? 
+    "Click to hide completed characters" : 
+    "Click to show completed characters";
+  btnShowCompleted.addEventListener("click", toggleShowCompleted);
+
   const btnResetPage = document.createElement("button");
   btnResetPage.textContent = "Reset Streak Progress";
   btnResetPage.style.padding = "10px";
@@ -109,6 +125,7 @@ function initializePage() {
   // Add all buttons to controls
   controls.appendChild(btnPerkLock);
   controls.appendChild(btnAllowRemoveCompleted);
+  controls.appendChild(btnShowCompleted);
   
   // Add reset always reassign button if it's currently enabled
   if (alwaysReassignFromCompleted) {
@@ -158,18 +175,33 @@ function initializePage() {
     if (searchContainer) {
       const toggleButton = document.createElement("button");
       toggleButton.id = "show-used-toggle";
-      toggleButton.textContent = showUsedPerks ? "👁️ Hide Used" : "👁️ Show Used";
+      
+      // Set initial button state based on mode
+      switch (showUsedPerksMode) {
+        case 0: // Show all
+          toggleButton.textContent = "👁️ Show All";
+          toggleButton.style.backgroundColor = "#4CAF50";
+          toggleButton.title = "Showing all perks. Click to hide used perks.";
+          break;
+        case 1: // Hide used
+          toggleButton.textContent = "� Hide Used";
+          toggleButton.style.backgroundColor = "#666";
+          toggleButton.title = "Hiding used perks. Click to hide only completed perks.";
+          break;
+        case 2: // Hide completed
+          toggleButton.textContent = "🏆 Hide Completed";
+          toggleButton.style.backgroundColor = "#FF9800";
+          toggleButton.title = "Hiding perks used by completed characters. Click to show all perks.";
+          break;
+      }
+      
       toggleButton.style.padding = "8px 12px";
       toggleButton.style.marginLeft = "10px";
-      toggleButton.style.backgroundColor = showUsedPerks ? "#2196F3" : "#666";
       toggleButton.style.color = "white";
       toggleButton.style.border = "none";
       toggleButton.style.borderRadius = "4px";
       toggleButton.style.cursor = "pointer";
       toggleButton.style.fontSize = "14px";
-      toggleButton.title = showUsedPerks ? 
-        "Click to hide used perks" : 
-        "Click to show used perks";
       toggleButton.addEventListener("click", toggleShowUsedPerks);
       
       searchContainer.appendChild(toggleButton);
