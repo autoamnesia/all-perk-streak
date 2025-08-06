@@ -31,17 +31,10 @@ function renderCharacters(characters, containerId) {
     name.textContent = character.name;
 
     img.addEventListener("click", () => {
-      // Clear other borders
-      document.querySelectorAll(".character-list img").forEach(el => {
-        if (el.dataset.locked === "true") {
-          el.style.border = "3px solid limegreen";
-        } else {
-          el.style.border = "2px solid transparent";
-        }
-      });
-
       selectedCharacter = character;
-      img.style.border = "2px solid dodgerblue";
+      
+      // Update all character borders properly
+      updateCharacterBorders();
 
       // Update title
       const titleEl = document.getElementById("selected-perks-title");
