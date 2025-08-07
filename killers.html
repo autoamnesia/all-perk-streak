@@ -3,7 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <title>Killers</title>
-  <link rel="stylesheet" href="style.css?v=2.3">
+  <link rel="icon" type="image/png" href="assets/icons/Killer-Icon.webp">
+  <link rel="stylesheet" href="style.css?v=2.4">
 </head>
 <body>
 
@@ -15,63 +16,78 @@
       </div>
     </div>
     <a href="index.html" class="nav-icon">
-      <img src="assets/icons/Killer-Icon.webp" alt="Home">
+      <img src="assets/icons/home.png" alt="Home">
       <span>Home</span>
     </a>
     <a href="survivors.html" class="nav-icon">
       <img src="assets/icons/Survivor_Icon.webp" alt="Survivors">
       <span>Survivors</span>
-      <div class="nav-progress-container">
-        <div class="nav-progress-bar" id="nav-survivors-progress"></div>
-        <div class="nav-progress-text" id="nav-survivors-counter">0/0</div>
-      </div>
     </a>
     <a href="https://github.com/autoamnesia/all-perk-streak" target="_blank" class="nav-icon">
       <img src="assets/icons/github.png" alt="GitHub">
       <span>GitHub</span>
+    </a>
+    <a href="guide.html" class="nav-icon">
+      <img src="assets/icons/guide.png" alt="Guide">
+      <span>Guide</span>
     </a>
   </div>
 
   <h1>Killers</h1>
   
   <div id="controls"></div>
-  <p>Right Click Killers to Mark / Unmark as Completed</p>
-  <p>Right Click Perks to Remove from Character</p>
-
-  <div class="character-section">
+  <div class="character-section" id="normal-view">
     <div id="killer-list" class="character-list"></div>
   </div>
 
-  <div>
-    <h3 id="selected-perks-title">Selected Perks</h3>
-    <div class="perk-slots">
-      <div class="perk-slot"></div>
-      <div class="perk-slot"></div>
-      <div class="perk-slot"></div>
-      <div class="perk-slot"></div>
-      <div class="random-perk-button" id="random-perk-btn" title="Add Random Perk">
-        <img src="assets/icons/Random_Button.png" alt="Random Perk" class="perk-icon">
+  <div class="tierlist-section" id="tierlist-view" style="display: none;">
+    <div class="character-perk-grid">
+      <div class="character-column">
+        <h3>Characters</h3>
+        <div id="tierlist-character-list" class="tierlist-character-list"></div>
+      </div>
+      <div class="perk-assignment-area">
+        <h3>Available Perks</h3>
+        <div class="search-container">
+          <input type="text" id="tierlist-perk-search" placeholder="Search perks..." class="search-input">
+        </div>
+        <div id="tierlist-available-perks" class="tierlist-perk-list"></div>
       </div>
     </div>
   </div>
 
+  <div id="perk-selection-area">
+    <div>
+      <h3 id="selected-perks-title">Selected Perks</h3>
+      <div class="perk-slots">
+        <div class="perk-slot"></div>
+        <div class="perk-slot"></div>
+        <div class="perk-slot"></div>
+        <div class="perk-slot"></div>
+        <div class="random-perk-button" id="random-perk-btn" title="Add Random Perk">
+          🎲
+        </div>
+      </div>
+    </div>
 
-  <h2>Available Perks</h2>
-  <div class="search-container">
-    <input type="text" id="perk-search" placeholder="Search perks..." class="search-input">
+    <h2>Available Perks</h2>
+    <div class="search-container">
+      <input type="text" id="perk-search" placeholder="Search perks..." class="search-input">
+    </div>
+    <div id="available-perks" class="perk-list"></div>
   </div>
-  <div id="available-perks" class="perk-list"></div>
 
 
   <!-- Load scripts in dependency order -->
-  <script src="scripts/state.js?v=2.3"></script>
-  <script src="scripts/utils.js?v=2.3"></script>
-  <script src="scripts/storage.js?v=2.3"></script>
-  <script src="scripts/progress.js?v=2.3"></script>
-  <script src="scripts/perks.js?v=2.3"></script>
-  <script src="scripts/toggles.js?v=2.3"></script>
-  <script src="scripts/characters.js?v=2.3"></script>
-  <script src="scripts/reset.js?v=2.3"></script>
-  <script src="scripts/init.js?v=2.3"></script>
+  <script src="scripts/state.js?v=2.4"></script>
+  <script src="scripts/utils.js?v=2.4"></script>
+  <script src="scripts/storage.js?v=2.4"></script>
+  <script src="scripts/progress.js?v=2.4"></script>
+  <script src="scripts/perks.js?v=2.4"></script>
+  <script src="scripts/toggles.js?v=2.4"></script>
+  <script src="scripts/characters.js?v=2.4"></script>
+  <script src="scripts/tierlist.js?v=2.4"></script>
+  <script src="scripts/reset.js?v=2.4"></script>
+  <script src="scripts/init.js?v=2.4"></script>
 </body>
 </html>

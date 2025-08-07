@@ -23,13 +23,14 @@ async function initCharacterList() {
 }
 
 // Main initialization function for character/perk pages
-function initializePage() {
+async function initializePage() {
   // Prevent right-click context menu globally
   document.addEventListener("contextmenu", (e) => {
     e.preventDefault();
   });
 
-  initCharacterList();
+  // Wait for character data to load first
+  await initCharacterList();
   renderSavedProgress();
 
   const controls = document.getElementById("controls");
@@ -84,6 +85,20 @@ function initializePage() {
     "Click to show completed characters";
   btnShowCompleted.addEventListener("click", toggleShowCompleted);
 
+  // Add view toggle button
+  const btnViewToggle = document.createElement("button");
+  btnViewToggle.id = "view-toggle-btn";
+  btnViewToggle.textContent = "📋 Switch to Tierlist View";
+  btnViewToggle.style.padding = "10px";
+  btnViewToggle.style.margin = "10px 5px 10px 0";
+  btnViewToggle.style.backgroundColor = "#4CAF50";
+  btnViewToggle.style.color = "white";
+  btnViewToggle.style.border = "none";
+  btnViewToggle.style.borderRadius = "4px";
+  btnViewToggle.style.cursor = "pointer";
+  btnViewToggle.title = "Switch to tierlist view for drag-and-drop perk assignment";
+  // Event listener will be added by tierlist.js after all controls are created
+
   const btnResetPage = document.createElement("button");
   btnResetPage.textContent = "Reset Streak Progress";
   btnResetPage.style.padding = "10px";
@@ -126,6 +141,7 @@ function initializePage() {
   controls.appendChild(btnPerkLock);
   controls.appendChild(btnAllowRemoveCompleted);
   controls.appendChild(btnShowCompleted);
+  controls.appendChild(btnViewToggle);
   
   // Add reset always reassign button if it's currently enabled
   if (alwaysReassignFromCompleted) {
@@ -153,6 +169,11 @@ function initializePage() {
   controls.appendChild(btnResetAll);
   controls.appendChild(btnDownload);
   controls.appendChild(btnUpload);
+
+  // Initialize tierlist functionality after all controls are created
+  if (typeof initTierlist === 'function') {
+    initTierlist();
+  }
 
   // Add event listener for random perk button
   const randomPerkBtn = document.getElementById("random-perk-btn");

@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Guide - All Perk Streak</title>
+  <link rel="icon" type="image/png" href="assets/icons/home.png">
+  <link rel="stylesheet" href="style.css?v=2.3">
+  <style>
+    .guide-content {
+      max-width: 1000px;
+      margin: 0 auto;
+      padding: 20px;
+      line-height: 1.6;
+    }
+    
+    .guide-section {
+      background: #2a2a2a;
+      border-radius: 10px;
+      padding: 25px;
+      margin: 20px 0;
+    }
+    
+    .guide-section h2 {
+      color: #f0db4f;
+      border-bottom: 2px solid #f0db4f;
+      padding-bottom: 10px;
+      margin-bottom: 20px;
+    }
+    
+    .guide-section h3 {
+      color: #4CAF50;
+      margin-top: 25px;
+      margin-bottom: 15px;
+    }
+    
+    .guide-section p, .guide-section li {
+      color: #f0f0f0;
+      margin-bottom: 10px;
+    }
+    
+    .guide-section ul, .guide-section ol {
+      margin-left: 20px;
+      margin-bottom: 15px;
+    }
+    
+    .highlight {
+      background: #1e1e1e;
+      padding: 2px 6px;
+      border-radius: 4px;
+      color: #f0db4f;
+      font-weight: bold;
+    }
+    
+    .tip-box {
+      background: #1e4d1e;
+      border-left: 4px solid #4CAF50;
+      padding: 15px;
+      margin: 15px 0;
+      border-radius: 4px;
+    }
+    
+    .warning-box {
+      background: #4d1e1e;
+      border-left: 4px solid #f44336;
+      padding: 15px;
+      margin: 15px 0;
+      border-radius: 4px;
+    }
+    
+    .feature-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 20px;
+      margin: 20px 0;
+    }
+    
+    .feature-card {
+      background: #1e1e1e;
+      padding: 20px;
+      border-radius: 8px;
+      border: 1px solid #444;
+    }
+    
+    .feature-card h4 {
+      color: #f0db4f;
+      margin-bottom: 10px;
+    }
+    
+    .back-to-home {
+      text-align: center;
+      margin: 30px 0;
+    }
+    
+    .back-to-home a {
+      background: #4CAF50;
+      color: white;
+      padding: 12px 24px;
+      text-decoration: none;
+      border-radius: 8px;
+      font-weight: bold;
+      transition: background 0.3s ease;
+    }
+    
+    .back-to-home a:hover {
+      background: #45a049;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="top-nav">
+    <a href="index.html" class="nav-icon">
+      <img src="assets/icons/home.png" alt="Home">
+      <span>Home</span>
+    </a>
+    <a href="killers.html" class="nav-icon">
+      <img src="assets/icons/Killer-Icon.webp" alt="Killers">
+      <span>Killers</span>
+    </a>
+    <a href="survivors.html" class="nav-icon">
+      <img src="assets/icons/Survivor_Icon.webp" alt="Survivors">
+      <span>Survivors</span>
+    </a>
+    <a href="https://github.com/autoamnesia/all-perk-streak" target="_blank" class="nav-icon">
+      <img src="assets/icons/github.png" alt="GitHub">
+      <span>GitHub</span>
+    </a>
+  </div>
+
+  <h1 style="font-size: 3em; text-align: center;">📚 All Perk Streak Guide</h1>
+
+  <div class="guide-content">
+    
+    <div class="guide-section">
+      <h2>🎯 What is All Perk Streak?</h2>
+      <p>All Perk Streak is a tool designed to help Dead by Daylight players track their progress in using every perk available for both Killers and Survivors. The goal is to win with every killer/survivor in a row using all perks - aiming to kill at least 3 people as killer or escape as survivor. Each perk can only be used once until you've used them all, so some characters will only use 1, 2, or 3 perks since there aren't enough perks for every character to have 4!</p>
+      
+      <div class="tip-box">
+        <strong>💡 Pro Tip:</strong> This way of playing can help you find perks that work great together and discover powerful synergies you might have overlooked.
+      </div>
+    </div>
+
+    <div class="guide-section">
+      <h2>📺 Example: Successful All Perk Streak</h2>
+      <div style="position: relative; width: 100%; height: 0; padding-bottom: 56.25%; margin-bottom: 20px;">
+        <iframe 
+          style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border-radius: 8px;" 
+          src="https://www.youtube.com/embed/mu-PeuhWetA" 
+          title="All Perk Streak Example" 
+          frameborder="0" 
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+          allowfullscreen>
+        </iframe>
+      </div>
+      <p style="color: #f0f0f0; font-style: italic; text-align: center;">Watch this example of a successful All Perk Streak challenge to see the concept in action!</p>
+    </div>
+
+    <div class="guide-section">
+      <h2>🚀 Getting Started</h2>
+      
+      <h3>1. Choose Your Role</h3>
+      <p>From the home page, click either <span class="highlight">Killers</span> or <span class="highlight">Survivors</span> to start tracking perks for that role.</p>
+      
+      <h3>2. Select a Character</h3>
+      <p>Click on any character portrait to select them. Selected characters have a <span class="highlight">blue outline</span>.</p>
+      
+      <h3>3. Assign Perks</h3>
+      <p>Choose up to 4 perks from the available perk list by clicking on them. They'll appear in your perk slots at the top.</p>
+      
+      <h3>4. Mark as Complete</h3>
+      <p>Right-click on the character when you've finished your build to mark them as completed. Completed characters have a <span class="highlight">green border</span>.</p>
+    </div>
+
+    <div class="guide-section">
+      <h2>🎮 Two View Modes</h2>
+      
+      <div class="feature-grid">
+        <div class="feature-card">
+          <h4>📄 Normal View</h4>
+          <p>Traditional layout with character grid and perk list below.</p>
+          <ul>
+            <li>Character grid with names</li>
+            <li>Search and filter functionality</li>
+          </ul>
+        </div>
+        
+        <div class="feature-card">
+          <h4>📋 Tierlist View</h4>
+          <p>Compact layout showing characters with their assigned perks. Perfect for getting an overview of your progress.</p>
+          <ul>
+            <li>Character cards with mini perk displays</li>
+            <li>Drag and drop perk assignment</li>
+            <li>Visual progress tracking</li>
+          </ul>
+        </div>
+      </div>
+      
+      <p>Switch between views using the <span class="highlight">📋 Switch to Tierlist View</span> button in your controls.</p>
+    </div>
+
+    <div class="guide-section">
+      <h2>🛠️ Control Options</h2>
+      
+      <h3>🔒 Perk Lock System</h3>
+      <p>Control whether used perks can be reassigned:</p>
+      <ul>
+        <li><span class="highlight">🔓 Lock Perks</span>: Prevents reassigning used perks (default)</li>
+        <li><span class="highlight">🔒 Unlock Perks</span>: Allows reassigning any perk</li>
+      </ul>
+      
+      <h3>🏆 Character Visibility</h3>
+      <p>Control which characters are shown:</p>
+      <ul>
+        <li><span class="highlight">🏆 Show Completed</span>: Display completed characters</li>
+        <li><span class="highlight">🏆 Hide Completed</span>: Hide completed characters from view</li>
+      </ul>
+      
+      <h3>🔓 Completed Character Protection</h3>
+      <p>Control whether perks can be removed from completed characters:</p>
+      <ul>
+        <li><span class="highlight">🔒 Protect Completed</span>: Prevents removing perks from completed characters</li>
+        <li><span class="highlight">🔓 Allow Remove from Completed</span>: Allows removing perks from any character</li>
+      </ul>
+      
+      <h3>👁️ Perk Visibility</h3>
+      <p>Filter which perks are shown:</p>
+      <ul>
+        <li><span class="highlight">👁️ Show All</span>: Display all perks</li>
+        <li><span class="highlight">👀 Hide Used</span>: Hide perks that are currently assigned</li>
+        <li><span class="highlight">🏆 Hide Completed</span>: Hide perks used by completed characters</li>
+      </ul>
+    </div>
+
+    <div class="guide-section">
+      <h2>⚡ Quick Actions</h2>
+      
+      <h3>🎲 Random Perk</h3>
+      <p>Click the <span class="highlight" style="font-size: 1.5em;">🎲</span> button next to the perk slots to add a random available perk to your build.</p>
+      
+      <h3>🔍 Search Functionality</h3>
+      <p>Use the search bar to quickly find specific perks by name. The search is real-time and case-insensitive.</p>
+      
+      <h3>Right-Click Actions</h3>
+      <ul>
+        <li><strong>Characters:</strong> Right-click to mark as completed/incomplete</li>
+        <li><strong>Perks:</strong> Right-click to remove from character build (In the perk-list)</li>
+      </ul>
+    </div>
+
+    <div class="guide-section">
+      <h2>💾 Progress Management</h2>
+      
+      <h3>Reset Options</h3>
+      <ul>
+        <li><span class="highlight">Reset Streak Progress</span>: Clear completion status for all characters</li>
+        <li><span class="highlight">Reset Perks</span>: Remove all perk assignments</li>
+        <li><span class="highlight">Reset All</span>: Complete reset of all progress</li>
+      </ul>
+      
+      <h3>Backup & Restore</h3>
+      <ul>
+        <li><span class="highlight">Download Progress</span>: Save your progress to a JSON file</li>
+        <li><span class="highlight">Upload Progress</span>: Restore progress from a saved file</li>
+      </ul>
+      
+      <div class="warning-box">
+        <strong>⚠️ Important:</strong> Always download your progress before major resets or browser data clearing!
+      </div>
+    </div>
+
+    <div class="guide-section">
+      <h2>📊 Progress Tracking</h2>
+      
+      <h3>Visual Indicators</h3>
+      <ul>
+        <li><strong>Blue outline:</strong> Currently selected character</li>
+        <li><strong>Green outline:</strong> Completed character</li>
+        <li><strong>Yellow outline:</strong> Character you are hovering over</li>
+      </ul>
+      
+      <h3>Home Page Overview</h3>
+      <p>The home page shows your overall progress with visual progress bars and completion counters for both Killers and Survivors.</p>
+    </div>
+
+    <div class="guide-section">
+      <h2>💡 Tips & Strategies</h2>
+      
+      <div class="tip-box">
+        <h4>🎯 Strategy Tips:</h4>
+        <ul>
+          <li>Start with weaker killers/Perks to make later matches easier with stronger characters/Perks</li>
+          <li>Use the tierlist view to plan ahead and see which perks are still available</li>
+          <li>Save powerful meta perks for Killers you're less comfortable with</li>
+        </ul>
+      </div>
+      
+      <div class="tip-box">
+        <h4>🔧 Technical Tips:</h4>
+        <ul>
+          <li>Your progress is automatically saved to your browser</li>
+          <li>Use the download feature to backup progress before resetting cookies or switching browsers</li>
+          <li>Drag and drop works in tierlist view for quick perk assignment</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="back-to-home">
+      <a href="index.html">🏠 Back to Home</a>
+    </div>
+
+  </div>
+
+  <script src="scripts/init.js?v=2.3"></script>
+</body>
+</html>

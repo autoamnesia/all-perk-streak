@@ -94,4 +94,9 @@ function toggleShowCompleted() {
   
   // Refresh character list to update visibility
   initCharacterList();
+  
+  // Also refresh tierlist if in tierlist view
+  if (typeof refreshTierlist === 'function') {
+    refreshTierlist();
+  }
 }

@@ -71,8 +71,32 @@ function uploadProgress() {
         localStorage.setItem("dbd_completed_chars", JSON.stringify(progressData.completedChars));
         localStorage.setItem("dbd_used_perks", JSON.stringify(progressData.usedPerks));
         
-        // Refresh the page to show updated data
-        location.reload();
+        // Refresh the UI instead of reloading the page
+        if (typeof initCharacterList === 'function') {
+          initCharacterList();
+        }
+        if (typeof renderSavedProgress === 'function') {
+          renderSavedProgress();
+        }
+        if (typeof updateNavProgress === 'function') {
+          updateNavProgress();
+        }
+        
+        // Also update tierlist view if it's active
+        if (typeof populateTierlistCharacters === 'function') {
+          populateTierlistCharacters();
+        }
+        if (typeof populateTierlistPerks === 'function') {
+          populateTierlistPerks();
+        }
+        
+        // Update available perks for current page
+        const currentPageType = getCurrentPageType();
+        if (typeof updateAvailablePerks === 'function') {
+          updateAvailablePerks(currentPageType);
+        }
+        
+        alert('Progress restored successfully!');
         
       } catch (error) {
         alert('Error reading progress file. Please check the file format.');

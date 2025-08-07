@@ -101,6 +101,11 @@ function renderCharacters(characters, containerId) {
       }
       
       updateCharacterBorders();
+      
+      // Refresh tierlist if in tierlist view
+      if (typeof refreshTierlist === 'function') {
+        refreshTierlist();
+      }
     });
 
     // Mobile long press to toggle completion status

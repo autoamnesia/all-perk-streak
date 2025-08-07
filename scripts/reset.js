@@ -50,6 +50,17 @@ function resetPageProgress() {
   initCharacterList();
   renderSavedProgress();
   updateCharacterBorders();
+  
+  // Also update tierlist view if it's active
+  if (typeof populateTierlistCharacters === 'function') {
+    populateTierlistCharacters();
+  }
+  if (typeof populateTierlistPerks === 'function') {
+    populateTierlistPerks();
+  }
+  if (typeof updateNavProgress === 'function') {
+    updateNavProgress();
+  }
 }
 
 //Resets a picked character if accidently completed
@@ -87,6 +98,14 @@ function resetSelectedCharacter() {
 
   // Don't clear perk slots or reset selectedCharacter - just update borders
   updateCharacterBorders();
+  
+  // Also update tierlist view if it's active
+  if (typeof populateTierlistCharacters === 'function') {
+    populateTierlistCharacters();
+  }
+  if (typeof updateNavProgress === 'function') {
+    updateNavProgress();
+  }
 }
 
 //Resets all perks on the current side but keeps completion status
@@ -149,6 +168,17 @@ function resetAll() {
   initCharacterList();
   renderSavedProgress();
   updateAvailablePerks(page);
+  
+  // Also update tierlist view if it's active
+  if (typeof populateTierlistCharacters === 'function') {
+    populateTierlistCharacters();
+  }
+  if (typeof populateTierlistPerks === 'function') {
+    populateTierlistPerks();
+  }
+  if (typeof updateNavProgress === 'function') {
+    updateNavProgress();
+  }
 }
 
 //Resets only perks on the current side but keeps completion status
@@ -192,4 +222,15 @@ function resetAllPerks() {
   initCharacterList();
   renderSavedProgress();
   updateAvailablePerks(page);
+  
+  // Also update tierlist view if it's active
+  if (typeof populateTierlistCharacters === 'function') {
+    populateTierlistCharacters();
+  }
+  if (typeof populateTierlistPerks === 'function') {
+    populateTierlistPerks();
+  }
+  if (typeof updateNavProgress === 'function') {
+    updateNavProgress();
+  }
 }
