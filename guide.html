@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Guide - All Perk Streak</title>
   <link rel="icon" type="image/png" href="assets/icons/home.png">
-  <link rel="stylesheet" href="style.css?v=2.3">
+  <link rel="stylesheet" href="style.css?v=2.5">
   <style>
     .guide-content {
       max-width: 1000px;
@@ -105,9 +105,28 @@
     .back-to-home a:hover {
       background: #45a049;
     }
+    
+    .jim-image {
+      position: absolute;
+      top: 0;
+      left: 10%;
+      width: 200px;
+      height: auto;
+      z-index: 10;
+      border-radius: 8px;
+    }
+    
+    /* Hide Jim image on smaller screens to prevent text overlap */
+    @media (max-width: 1500px) {
+      .jim-image {
+        display: none;
+      }
+    }
   </style>
 </head>
 <body>
+
+  <img src="assets/characters/jim.png" alt="Jim" class="jim-image">
 
   <div class="top-nav">
     <a href="index.html" class="nav-icon">
@@ -128,7 +147,7 @@
     </a>
   </div>
 
-  <h1 style="font-size: 3em; text-align: center;">📚 All Perk Streak Guide</h1>
+  <h1 style="font-size: 3em; text-align: center; margin-top: 80px;">📚 All Perk Streak Guide</h1>
 
   <div class="guide-content">
     
@@ -137,7 +156,11 @@
       <p>All Perk Streak is a tool designed to help Dead by Daylight players track their progress in using every perk available for both Killers and Survivors. The goal is to win with every killer/survivor in a row using all perks - aiming to kill at least 3 people as killer or escape as survivor. Each perk can only be used once until you've used them all, so some characters will only use 1, 2, or 3 perks since there aren't enough perks for every character to have 4!</p>
       
       <div class="tip-box">
-        <strong>💡 Pro Tip:</strong> This way of playing can help you find perks that work great together and discover powerful synergies you might have overlooked.
+        <strong>💡 Tip:</strong> This way of playing can help you find perks that work great together and discover powerful synergies you might have overlooked.
+      </div>
+      
+      <div class="warning-box">
+        <strong>⚠️ High difficulty:</strong> This challenge can be adapted to your playstyle! You can set your own win conditions - whether that's 4K only, 3+ kills, or even just having fun with unique perk combinations. Find what works for you!
       </div>
     </div>
 
@@ -311,6 +334,6 @@
 
   </div>
 
-  <script src="scripts/init.js?v=2.3"></script>
+  <script src="scripts/init.js?v=2.5"></script>
 </body>
 </html>
