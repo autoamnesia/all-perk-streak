@@ -20,6 +20,11 @@ async function initCharacterList() {
   
   // Update navigation progress bars
   updateNavProgress(data);
+  
+  // Update streamer overlay now that character data is loaded
+  if (typeof updateStreamerOverlay === 'function') {
+    updateStreamerOverlay();
+  }
 }
 
 // Main initialization function for character/perk pages
@@ -231,7 +236,7 @@ async function initializePage() {
 }
 
 // Initialize the appropriate page based on the current page
-window.addEventListener("DOMContentLoaded", () => {
+window.addEventListener("DOMContentLoaded", async () => {
   // Check if this is the home page or a character page
   if (document.getElementById("controls")) {
     // This is a character/perk page
@@ -239,6 +244,23 @@ window.addEventListener("DOMContentLoaded", () => {
   } else {
     // This is the home page
     updateCompletionCounters();
+    
+    // Load character data for overlay on home page too
+    if (!characterData) {
+      try {
+        const res = await fetch("characters.json");
+        const data = await res.json();
+        characterData = data;
+        window.allPerks = data.perks;
+      } catch (error) {
+        console.error('Failed to load character data on home page:', error);
+      }
+    }
+  }
+  
+  // Initialize overlay system if available (give time for data to load)
+  if (typeof updateStreamerOverlay === 'function') {
+    setTimeout(updateStreamerOverlay, 500);
   }
   
   // Add version display to all pages

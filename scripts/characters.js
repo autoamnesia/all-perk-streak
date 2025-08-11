@@ -102,6 +102,11 @@ function renderCharacters(characters, containerId) {
       
       updateCharacterBorders();
       
+      // Update streamer overlay when completion status changes
+      if (typeof updateStreamerOverlay === 'function') {
+        updateStreamerOverlay();
+      }
+      
       // Refresh tierlist if in tierlist view
       if (typeof refreshTierlist === 'function') {
         refreshTierlist();
@@ -242,4 +247,9 @@ function markCharacterCompleted() {
 
   //alert("Character completed and progress saved!");
   updateCharacterBorders();
+  
+  // Update streamer overlay when character is completed
+  if (typeof updateStreamerOverlay === 'function') {
+    updateStreamerOverlay();
+  }
 }

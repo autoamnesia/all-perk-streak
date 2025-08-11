@@ -1,9 +1,9 @@
-// =============================================================================
+﻿// =============================================================================
 // GLOBAL STATE MANAGEMENT
 // =============================================================================
 
 // Application version
-const APP_VERSION = "2.5";
+const APP_VERSION = "2.9";
 
 // Global variable to track which character is currently selected
 let selectedCharacter = null;
@@ -33,3 +33,4 @@ let allowRemoveFromCompleted = JSON.parse(localStorage.getItem("dbd_allow_remove
 
 // Global variable to track if completed characters are shown
 let showCompleted = JSON.parse(localStorage.getItem("dbd_show_completed") || "true");
+

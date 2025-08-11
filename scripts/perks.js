@@ -208,6 +208,11 @@ function saveCurrentPerks() {
   // Update the available perks list to reflect the changes
   updateAvailablePerks(selectedCharacter.type);
   renderSavedProgress();
+  
+  // Update streamer overlay when perks change
+  if (typeof updateStreamerOverlay === 'function') {
+    updateStreamerOverlay();
+  }
 }
 
 //Select perks

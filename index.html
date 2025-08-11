@@ -1,11 +1,11 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>All Perk Streak</title>
   <link rel="icon" type="image/png" href="assets/icons/home.png">
-  <link rel="stylesheet" href="style.css?v=2.5">
+  <link rel="stylesheet" href="style.css?v=2.9">
 </head>
 <body>
 
@@ -41,15 +41,50 @@
     </a>
   </div>
 
+  <!-- Streamer Overlay Button -->
+  <div id="streamer-section" style="text-align: center; margin: 40px 0;">
+    <a href="streamer-setup.html" target="_blank" class="tool-button" style="text-decoration: none; display: inline-block; font-size: 18px; padding: 15px 30px;">
+    Streamer Overlay
+    </a>
+  </div>
+
   <!-- Load scripts in dependency order -->
-  <script src="scripts/state.js?v=2.5"></script>
-  <script src="scripts/utils.js?v=2.5"></script>
-  <script src="scripts/storage.js?v=2.5"></script>
-  <script src="scripts/progress.js?v=2.5"></script>
-  <script src="scripts/perks.js?v=2.5"></script>
-  <script src="scripts/toggles.js?v=2.5"></script>
-  <script src="scripts/characters.js?v=2.5"></script>
-  <script src="scripts/reset.js?v=2.5"></script>
-  <script src="scripts/init.js?v=2.5"></script>
+  <script src="scripts/state.js?v=2.9"></script>
+  <script src="scripts/utils.js?v=2.9"></script>
+  <script src="scripts/storage.js?v=2.9"></script>
+  <script src="scripts/progress.js?v=2.9"></script>
+  <script src="scripts/perks.js?v=2.9"></script>
+  <script src="scripts/toggles.js?v=2.9"></script>
+  <script src="scripts/characters.js?v=2.9"></script>
+  <script src="scripts/overlay.js?v=2.9"></script>
+  <script src="scripts/reset.js?v=2.9"></script>
+  <script src="scripts/init.js?v=2.9"></script>
+  <script src="progress-sync.js?v=2.9"></script>
+  
+  <script>
+    // Hide streamer features when Node.js server API is not available
+    async function checkStreamerFeatures() {
+      try {
+        const response = await fetch('/api/progress');
+        if (response.ok) {
+          // Node.js server with API is running - show streamer features
+          console.log('âœ… Node.js server detected - Streamer features available');
+        } else {
+          throw new Error('API not available');
+        }
+      } catch (error) {
+        // Python server or no API - hide streamer features
+        console.log('âš ï¸ Basic server mode - Hiding streamer features');
+        const streamerSection = document.getElementById('streamer-section');
+        if (streamerSection) {
+          streamerSection.style.display = 'none';
+        }
+      }
+    }
+    
+    // Check for streamer features when page loads
+    checkStreamerFeatures();
+  </script>
 </body>
 </html>
+

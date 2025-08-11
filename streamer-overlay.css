@@ -1,0 +1,33 @@
+/* This file contains styles for the streamer overlay used in OBS */
+/* Edit this file to customize the appearance of the overlay */
+body {
+  margin: 0;
+  padding: 20px;
+  font-family: 'Arial', sans-serif;
+  background: transparent;
+  color: white;
+  text-shadow: 2px 2px 4px rgba(0,0,0,0.8);
+}
+
+.overlay-container {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  max-width: 300px;
+}
+
+.streak-text {
+  font-size: 24px;
+  font-weight: bold;
+  text-align: center;
+  padding: 10px;
+  background: transparent;
+}
+
+.killer-text {
+  color: #ffffffff;
+}
+
+.survivor-text {
+  color: #ffffffff;
+}

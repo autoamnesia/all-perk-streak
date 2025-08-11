@@ -179,6 +179,7 @@ function createTierlistCharacterCard(character, completedChars, usedPerks) {
   const img = document.createElement("img");
   img.src = `assets/characters/${character.type}/${character.file}.webp`;
   img.alt = character.name;
+  img.draggable = false; // Prevent image drag interference
   
   const info = document.createElement("div");
   info.className = "tierlist-character-info";
@@ -353,6 +354,7 @@ function populateTierlistPerks() {
     img.src = `assets/perks/${currentPageType}/${perk.file}`;
     img.alt = perk.name;
     img.title = perk.name;
+    img.draggable = false; // Prevent image drag interference
     
     perkItem.appendChild(img);
     perkContainer.appendChild(perkItem);
@@ -377,21 +379,107 @@ function populateTierlistPerks() {
 
 // Initialize drag and drop for tierlist
 function initializeTierlistDragAndDrop() {
-  // Drag and drop is handled by event listeners added in populateTierlistPerks
-  // and createTierlistCharacterCard functions
+  console.log('🔧 Initializing tierlist drag and drop...');
+  
+  // Check browser drag and drop support
+  if (!('draggable' in document.createElement('div'))) {
+    console.error('❌ Drag and drop not supported in this browser');
+    return;
+  }
+  
+  // Force reinitialization of all drag and drop elements
+  setupDragAndDropElements();
+  console.log('✅ Drag and drop initialized');
+}
+
+// Setup all drag and drop elements
+function setupDragAndDropElements() {
+  // Setup character cards as drop zones
+  const characterCards = document.querySelectorAll('.tierlist-character-card');
+  characterCards.forEach(card => {
+    // Remove existing listeners to avoid duplicates
+    card.removeEventListener("dragover", handleCharacterDragOver);
+    card.removeEventListener("drop", handleCharacterDrop);
+    card.removeEventListener("dragenter", handleCharacterDragEnter);
+    card.removeEventListener("dragleave", handleCharacterDragLeave);
+    
+    // Add fresh listeners
+    card.addEventListener("dragover", handleCharacterDragOver);
+    card.addEventListener("drop", handleCharacterDrop);
+    card.addEventListener("dragenter", handleCharacterDragEnter);
+    card.addEventListener("dragleave", handleCharacterDragLeave);
+    
+    console.log('🎯 Setup drop zone for:', card.dataset.characterFile);
+  });
+  
+  // Setup perk items as draggable
+  const perkItems = document.querySelectorAll('.tierlist-perk-item');
+  console.log(`🔍 Found ${perkItems.length} perk items to make draggable`);
+  perkItems.forEach(perk => {
+    perk.draggable = true;
+    
+    // Force draggable attribute in DOM
+    perk.setAttribute('draggable', 'true');
+    
+    // Remove existing listeners
+    perk.removeEventListener("dragstart", handlePerkDragStart);
+    perk.removeEventListener("dragend", handlePerkDragEnd);
+    
+    // Add fresh listeners
+    perk.addEventListener("dragstart", handlePerkDragStart);
+    perk.addEventListener("dragend", handlePerkDragEnd);
+    
+    console.log('🚀 Setup draggable perk:', perk.dataset.perkFile, 'draggable =', perk.draggable);
+  });
+  
+  // Setup mini perks as draggable
+  const miniPerks = document.querySelectorAll('.tierlist-mini-perk');
+  miniPerks.forEach(miniPerk => {
+    miniPerk.draggable = true;
+    
+    // Remove existing listeners
+    miniPerk.removeEventListener("dragstart", handleMiniPerkDragStart);
+    miniPerk.removeEventListener("dragend", handleMiniPerkDragEnd);
+    
+    // Add fresh listeners
+    miniPerk.addEventListener("dragstart", handleMiniPerkDragStart);
+    miniPerk.addEventListener("dragend", handleMiniPerkDragEnd);
+  });
+  
+  // Setup perk list as drop zone
+  const perkContainer = document.querySelector('#tierlist-available-perks');
+  if (perkContainer) {
+    perkContainer.removeEventListener("dragover", handlePerkListDragOver);
+    perkContainer.removeEventListener("drop", handlePerkListDrop);
+    perkContainer.removeEventListener("dragenter", handlePerkListDragEnter);
+    perkContainer.removeEventListener("dragleave", handlePerkListDragLeave);
+    
+    perkContainer.addEventListener("dragover", handlePerkListDragOver);
+    perkContainer.addEventListener("drop", handlePerkListDrop);
+    perkContainer.addEventListener("dragenter", handlePerkListDragEnter);
+    perkContainer.addEventListener("dragleave", handlePerkListDragLeave);
+  }
 }
 
 // Drag and drop event handlers for perks
 let draggedPerk = null;
 
 function handlePerkDragStart(e) {
+  console.log('🚀 Drag start on perk:', this.dataset.perkFile);
   draggedPerk = this;
   this.classList.add("dragging");
   e.dataTransfer.effectAllowed = "move";
   e.dataTransfer.setData("text/plain", this.dataset.perkFile);
+  // Store additional data for cross-browser compatibility
+  e.dataTransfer.setData("application/json", JSON.stringify({
+    perkFile: this.dataset.perkFile,
+    characterFile: this.dataset.characterFile || null
+  }));
+  console.log('✅ Drag data set for:', this.dataset.perkFile);
 }
 
 function handlePerkDragEnd(e) {
+  console.log('🏁 Drag end on perk:', this.dataset.perkFile);
   this.classList.remove("dragging");
   draggedPerk = null;
 }
@@ -406,32 +494,72 @@ function handleCharacterDragOver(e) {
 }
 
 function handleCharacterDragEnter(e) {
+  e.preventDefault();
   this.classList.add("drag-over");
+  console.log('Drag enter on character:', this.dataset.characterFile);
 }
 
 function handleCharacterDragLeave(e) {
-  this.classList.remove("drag-over");
+  // Only remove drag-over if we're actually leaving the element (not moving to a child)
+  if (!this.contains(e.relatedTarget)) {
+    this.classList.remove("drag-over");
+    console.log('Drag leave from character:', this.dataset.characterFile);
+  }
 }
 
 function handleCharacterDrop(e) {
-  if (e.stopPropagation) {
-    e.stopPropagation();
-  }
+  console.log('🎯 Drop event triggered on character:', this.dataset.characterFile);
+  
+  e.preventDefault();
+  e.stopPropagation();
   
   this.classList.remove("drag-over");
   
+  // Try multiple methods to get the dragged perk data
+  let perkFile = null;
+  let sourceCharacterFile = null;
+  
+  // Method 1: Use global draggedPerk variable
   if (draggedPerk) {
+    console.log('✅ Using global draggedPerk:', draggedPerk.dataset.perkFile);
+    perkFile = draggedPerk.dataset.perkFile;
+    sourceCharacterFile = draggedPerk.dataset.characterFile;
+  } else {
+    console.log('⚠️ No global draggedPerk, trying dataTransfer...');
+    
+    // Method 2: Try dataTransfer
+    try {
+      perkFile = e.dataTransfer.getData("text/plain");
+      console.log('📦 Got perk from dataTransfer:', perkFile);
+      
+      // Try to get JSON data
+      const jsonData = e.dataTransfer.getData("application/json");
+      if (jsonData) {
+        const data = JSON.parse(jsonData);
+        perkFile = data.perkFile;
+        sourceCharacterFile = data.characterFile;
+        console.log('📋 Got JSON data:', data);
+      }
+    } catch (err) {
+      console.log('❌ DataTransfer failed:', err);
+    }
+  }
+  
+  if (perkFile) {
     const targetCharacterFile = this.dataset.characterFile;
-    const perkFile = draggedPerk.dataset.perkFile;
-    const sourceCharacterFile = draggedPerk.dataset.characterFile;
+    console.log('📋 Target:', targetCharacterFile, 'Source:', sourceCharacterFile, 'Perk:', perkFile);
     
     if (sourceCharacterFile && sourceCharacterFile !== targetCharacterFile) {
-      // Moving perk from one character to another
+      // Moving perk between characters
+      console.log('🔄 Moving perk between characters');
       movePerkBetweenCharacters(sourceCharacterFile, targetCharacterFile, perkFile);
     } else if (!sourceCharacterFile) {
-      // Assign perk from available list to character
+      // Assigning perk from pool to character
+      console.log('➕ Assigning perk to character');
       assignPerkToCharacter(targetCharacterFile, perkFile);
     }
+  } else {
+    console.log('❌ Could not determine perk file to drop');
   }
   
   return false;
@@ -608,7 +736,11 @@ function handleMiniPerkDragStart(e) {
   this.classList.add("dragging");
   e.dataTransfer.effectAllowed = "move";
   e.dataTransfer.setData("text/plain", this.dataset.perkFile);
-  e.dataTransfer.setData("text/character", this.dataset.characterFile);
+  // Store additional data for cross-browser compatibility
+  e.dataTransfer.setData("application/json", JSON.stringify({
+    perkFile: this.dataset.perkFile,
+    characterFile: this.dataset.characterFile
+  }));
 }
 
 function handleMiniPerkDragEnd(e) {
@@ -637,6 +769,9 @@ function handlePerkListDragLeave(e) {
 }
 
 function handlePerkListDrop(e) {
+  if (e.preventDefault) {
+    e.preventDefault();
+  }
   if (e.stopPropagation) {
     e.stopPropagation();
   }
