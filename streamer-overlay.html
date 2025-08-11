@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>DBD Perk Streak - Streamer Overlay</title>
+  <link rel="stylesheet" href="streamer-overlay.css">
+</head>
+<body>
+  <div class="overlay-container">
+    <div class="streak-text killer-text">
+      <span id="killer-count">0/0</span> Killers Done
+    </div>
+    
+    <div class="streak-text survivor-text">
+      <span id="survivor-count">0/0</span> Survivors Done
+    </div>
+  </div>
+
+  <script>
+    // Fetch progress from server API
+    async function updateCounts() {
+      try {
+        console.log('🔄 Fetching progress from server...');
+        const response = await fetch('/api/progress');
+        
+        if (!response.ok) {
+          throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+        }
+        
+        const progressData = await response.json();
+        console.log('📊 Progress data:', progressData);
+        
+        // Update display
+        document.getElementById('killer-count').textContent = `${progressData.killerCompleted}/${progressData.killerTotal}`;
+        document.getElementById('survivor-count').textContent = `${progressData.survivorCompleted}/${progressData.survivorTotal}`;
+        
+        console.log(`✅ Display updated: Killers ${progressData.killerCompleted}/${progressData.killerTotal}, Survivors ${progressData.survivorCompleted}/${progressData.survivorTotal}`);
+      } catch (error) {
+        console.error('❌ Error fetching progress:', error);
+        document.getElementById('killer-count').textContent = 'Error';
+        document.getElementById('survivor-count').textContent = 'Error';
+      }
+    }
+
+    // Update counts when page loads
+    updateCounts();
+    
+    // Auto-refresh every 2 seconds
+    setInterval(() => {
+      updateCounts();
+    }, 2000);
+  </script>
+</body>
+</html>

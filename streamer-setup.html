@@ -1,0 +1,90 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Streamer Setup Guide</title>
+    <link rel="stylesheet" href="style.css?v=2.9" />
+    <style>
+        .setup-container { max-width: 760px; margin: 100px auto 40px; padding: 20px 25px; }
+        .setup-section { background: rgba(42,42,42,.9); border: 2px solid #f0db4f; border-radius: 12px; padding: 24px 26px; margin-bottom: 28px; box-shadow: 0 4px 10px rgba(0,0,0,.4); }
+        .section-title { color: #f0db4f; font-size: 24px; margin: 0 0 18px; text-align: center; letter-spacing:.5px; }
+        .steps { list-style: none; margin: 0; padding: 0; }
+        .steps li { background: rgba(30,30,30,.85); margin: 14px 0; padding: 14px 16px 14px 18px; border-radius: 8px; border-left: 5px solid #4CAF50; line-height: 1.5; }
+        .steps code { background:#222; padding:2px 6px; border-radius:4px; font-size:.95em; }
+        a.download-link { color:#4CAF50; font-weight:600; text-decoration:none; }
+        a.download-link:hover, .top-nav a:hover span { text-decoration:underline; }
+        .top-nav { position:fixed; top:0; left:0; right:0; display:flex; gap:20px; padding:10px 18px; background:rgba(15,15,15,.9); backdrop-filter: blur(4px); z-index:100; }
+        .top-nav .nav-icon { display:flex; align-items:center; gap:8px; color:#eee; font-weight:600; text-decoration:none; font-size:15px; padding:6px 10px; border-radius:6px; transition:.15s background; }
+        .top-nav .nav-icon img { width:22px; height:22px; object-fit:contain; }
+        .top-nav .nav-icon:hover { background:rgba(255,255,255,.08); }
+        h1.page-title { text-align:center; color:#f0db4f; margin:0 0 44px; font-size:40px; letter-spacing:1px; }
+        .note { font-size: 13px; color: #bbb; margin-top:6px; }
+        .footer-note { text-align:center; font-size:13px; color:#aaa; margin-top:50px; }
+        @media (max-width: 640px) { h1.page-title { font-size:30px; } .section-title { font-size:21px; } .top-nav { flex-wrap:wrap; gap:10px; } }
+    </style>
+</head>
+<body>
+    <nav class="top-nav" aria-label="Primary">
+        <a href="index.html" class="nav-icon">
+            <img src="assets/icons/home.png" alt="Home" />
+            <span>Home</span>
+        </a>
+    </nav>
+
+    <main class="setup-container" id="main" tabindex="-1">
+        <h1 class="page-title">🚀 Streamer Setup Guide</h1>
+
+        <section class="setup-section" aria-labelledby="step1-title">
+            <h2 class="section-title" id="step1-title">📦 Step 1: Install Node.js</h2>
+            <ol class="steps">
+                <li>Go to <a href="https://nodejs.org/en/download" target="_blank" rel="noopener" class="download-link">nodejs.org/en/download</a></li>
+                <li>Click the <strong>Windows Installer (.msi)</strong> (LTS version recommended)</li>
+                <li>Run the installer and accept defaults (ensure <strong>"Add to PATH"</strong> stays checked)</li>
+                <li class="note">Already have Node? Run <code>node -v</code> in a terminal to verify (v18+ recommended).</li>
+            </ol>
+        </section>
+
+        <section class="setup-section" aria-labelledby="step2-title">
+            <h2 class="section-title" id="step2-title">🖥️ Step 2: Start the Local Server</h2>
+            <ol class="steps">
+                <li>Double‑click <strong>start_server.bat</strong> in the project folder.</li>
+                <li>You should see: <code>Node.js found! Starting server...</code></li>
+                <li class="note">Keep this window open while streaming.</li>
+            </ol>
+        </section>
+
+        <section class="setup-section" aria-labelledby="step3-title">
+            <h2 class="section-title" id="step3-title">📺 Step 3: Add Overlay to OBS</h2>
+            <ol class="steps">
+                <li>In OBS, under <strong>Sources</strong>, click the <strong>+</strong>.</li>
+                <li>Select <strong>Browser Source</strong> (name it e.g. <em>All Perk Streak</em>).</li>
+                <li>Set the URL to <a href="http://localhost:8000/streamer-overlay.html" target="_blank" rel="noopener" class="download-link">http://localhost:8000/streamer-overlay.html</a>.</li>
+                <li>Enable <strong>Refresh browser when scene becomes active</strong>.</li>
+                <li>Click <strong>OK</strong>.</li>
+            </ol>
+        </section>
+
+        <section class="setup-section" aria-labelledby="step4-title">
+            <h2 class="section-title" id="step4-title">🛠️ Step 4: Customize CSS</h2>
+            <ol class="steps">
+                <li>Open <strong>streamer-overlay.css</strong> in the project root.</li>
+                <li>Edit styles (colors, layout, fonts) to match your branding.</li>
+                <li>Save the file.</li>
+                <li>In OBS: Right‑click the Browser Source → <strong>Properties</strong> → click <strong>Refresh cache of current page</strong>.</li>
+                <li>Confirm visual changes appear.</li>
+            </ol>
+        </section>
+
+        <section class="setup-section" aria-labelledby="troubleshooting-title">
+            <h2 class="section-title" id="troubleshooting-title">🔍 Troubleshooting</h2>
+            <ol class="steps">
+                <li><strong>Blank overlay?</strong> Confirm the server window is running and URL is exactly <code>http://localhost:8000/streamer-overlay.html</code>.</li>
+            </ol>
+        </section>
+
+        <p class="footer-note">Need more help? check the Guide or Open an issue on GitHub.</p>
+    </main>
+</body>
+</html>
+
