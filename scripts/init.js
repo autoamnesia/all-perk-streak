@@ -210,7 +210,7 @@ async function initializePage() {
           toggleButton.title = "Showing all perks. Click to hide used perks.";
           break;
         case 1: // Hide used
-          toggleButton.textContent = "� Hide Used";
+          toggleButton.textContent = "Hide Used";
           toggleButton.style.backgroundColor = "#666";
           toggleButton.title = "Hiding used perks. Click to hide only completed perks.";
           break;
