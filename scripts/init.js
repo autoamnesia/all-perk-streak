@@ -156,7 +156,7 @@ async function initializePage() {
   toggleSection.appendChild(btnPerkLock);
   toggleSection.appendChild(btnAllowRemoveCompleted);
   
-  //actionSection.appendChild(btnViewToggle);
+  actionSection.appendChild(btnViewToggle);
   actionSection.appendChild(btnResetPage);
   actionSection.appendChild(btnResetPerks);
   actionSection.appendChild(btnResetAll);
