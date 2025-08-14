@@ -3,7 +3,7 @@
 // =============================================================================
 
 // Application version
-const APP_VERSION = "2.9";
+const APP_VERSION = "3.0";
 
 // Global variable to track which character is currently selected
 let selectedCharacter = null;

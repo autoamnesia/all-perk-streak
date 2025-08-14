@@ -63,6 +63,7 @@ h1, h2 {
 
 h1 {
   text-align: center;
+  margin-top: 100px; /* Adjust for top-left controls */
 }
 
 /* =============================================================================
@@ -295,7 +296,7 @@ h1 {
   background: #2a2a2a;
   border-radius: 10px 10px 0 0;
   padding: 20px;
-  margin: 20px 0 0 0;
+  margin: 120px 0 0 0; /* Add top margin to avoid controls overlap */
 }
 
 .character-list {
@@ -903,6 +904,163 @@ h1 {
   text-decoration: underline;
 }
 
+/* =============================================================================
+   CONTROLS SECTION STYLES
+   ============================================================================= */
+
+#controls {
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  background: #2a2a2a;
+  border-radius: 12px;
+  padding: 15px;
+  border: 1px solid #444;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+  z-index: 100;
+  max-width: 600px;
+  min-width: 200px;
+  width: auto;
+}
+
+.settings-toggle {
+  background: #4CAF50;
+  color: white;
+  border: none;
+  padding: 12px 20px;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 15px;
+  width: 100%;
+  justify-content: center;
+}
+
+.settings-toggle:hover {
+  background: #45a049;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.4);
+}
+
+.settings-toggle.expanded {
+  background: #FF9800;
+  margin-bottom: 15px;
+}
+
+.settings-toggle.expanded:hover {
+  background: #F57C00;
+}
+
+.controls-content {
+  display: none;
+  animation: slideDown 0.3s ease-in-out;
+}
+
+.controls-content.expanded {
+  display: block;
+}
+
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    max-height: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    max-height: 500px;
+    transform: translateY(0);
+  }
+}
+
+.control-button {
+  background: #4CAF50;
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 6px;
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  margin: 4px 6px 4px 0;
+  min-width: auto;
+  white-space: nowrap;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.control-button:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+}
+
+.control-button.toggle-active {
+  background: #FF9800;
+}
+
+.control-button.toggle-inactive {
+  background: #666;
+}
+
+.control-button.danger {
+  background: #f44336;
+}
+
+.control-button.danger:hover {
+  background: #d32f2f;
+}
+
+.control-button.primary {
+  background: #2196F3;
+}
+
+.control-button.primary:hover {
+  background: #1976D2;
+}
+
+.control-button.purple {
+  background: #9C27B0;
+}
+
+.control-button.purple:hover {
+  background: #7B1FA2;
+}
+
+.control-button.success {
+  background: #4CAF50;
+}
+
+.control-button.success:hover {
+  background: #388E3C;
+}
+
+.controls-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 12px;
+  align-items: center;
+}
+
+.controls-row:last-child {
+  margin-bottom: 0;
+}
+
+.controls-label {
+  font-weight: 600;
+  color: #ccc;
+  margin-right: 8px;
+  min-width: 100px;
+  font-size: 14px;
+}
+
 @media (max-width: 768px) {
   .tool-buttons {
     flex-direction: column;
@@ -916,5 +1074,37 @@ h1 {
   
   .quick-steps {
     grid-template-columns: 1fr;
+  }
+  
+  #controls {
+    position: static; /* Reset position on mobile */
+    padding: 15px;
+    margin: 20px 0;
+    max-width: none;
+    min-width: auto;
+    width: 100%;
+  }
+  
+  .settings-toggle {
+    padding: 10px 16px;
+    font-size: 13px;
+  }
+  
+  h1 {
+    margin-top: 80px; /* Reset h1 margin on mobile */
+  }
+  
+  .character-section {
+    margin-top: 20px; /* Reset character section margin on mobile */
+  }
+  
+  .controls-row {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  
+  .controls-label {
+    min-width: auto;
+    margin-bottom: 8px;
   }
 }

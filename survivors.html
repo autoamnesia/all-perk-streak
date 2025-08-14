@@ -4,91 +4,119 @@
   <meta charset="UTF-8">
   <title>Survivors</title>
   <link rel="icon" type="image/png" href="assets/icons/Survivor_Icon.webp">
-  <link rel="stylesheet" href="style.css?v=2.9">
+  <link rel="stylesheet" href="style-new.css?v=3.1">
 </head>
 <body>
-  <div class="top-nav">
-    <div class="selected-area-container">
-      <div class="main-progress-container">
-        <div class="main-progress-bar" id="main-progress-bar"></div>
-        <div class="main-progress-text" id="main-progress-text">0/0 Completed</div>
-      </div>
-    </div>
-    <a href="index.html" class="nav-icon">
-      <img src="assets/icons/home.png" alt="Home">
-      <span>Home</span>
-    </a>
-    <a href="killers.html" class="nav-icon">
-      <img src="assets/icons/Killer-Icon.webp" alt="Killers">
-      <span>Killers</span>
-    </a>
-    <a href="https://github.com/autoamnesia/all-perk-streak" target="_blank" class="nav-icon">
-      <img src="assets/icons/github.png" alt="GitHub">
-      <span>GitHub</span>
-    </a>
-    <a href="guide.html" class="nav-icon">
-      <img src="assets/icons/guide.png" alt="Guide">
-      <span>Guide</span>
-    </a>
-  </div>
 
-  <h1 style="margin-top: 80px;">Survivors</h1>
-
-  <div id="controls"></div>
-  <div class="character-section" id="normal-view">
-    <div id="survivor-list" class="character-list"></div>
-  </div>
-
-  <div class="tierlist-section" id="tierlist-view" style="display: none;">
-    <div class="character-perk-grid">
-      <div class="character-column">
-        <h3>Characters</h3>
-        <div id="tierlist-character-list" class="tierlist-character-list"></div>
-      </div>
-      <div class="perk-assignment-area">
-        <h3>Available Perks</h3>
-        <div class="search-container">
-          <input type="text" id="tierlist-perk-search" placeholder="Search perks..." class="search-input">
+  <!-- Compact Top Bar -->
+  <div class="app-header">
+    <div class="header-left">
+      <h1>👥 Survivors</h1>
+      <div class="progress-display">
+        <div class="main-progress-bar" id="main-progress-bar">
+          <span class="main-progress-text" id="main-progress-text">0/0 Completed</span>
         </div>
-        <div id="tierlist-available-perks" class="tierlist-perk-list"></div>
       </div>
+    </div>
+    
+    <div class="header-controls">
+  <div id="controls"></div>
+    </div>
+    
+    <div class="header-nav">
+      <a href="killers.html" class="nav-btn">🔪 Killers</a>
+      <a href="guide.html" class="nav-btn">📖 Guide</a>
+      <a href="https://github.com/autoamnesia/all-perk-streak" target="_blank" class="nav-btn">⚙️ GitHub</a>
+      <a href="index.html" class="nav-btn">🏠 Home</a>
     </div>
   </div>
 
-  <div id="perk-selection-area">
-    <div>
-      <h3 id="selected-perks-title">Selected Perks</h3>
+  <!-- Main Content Grid -->
+  <div class="main-grid">
+    <!-- Characters Section -->
+    <div class="characters-panel">
+      <div class="panel-header">
+        <h2>Select Character</h2>
+        <div class="character-controls">
+          <button id="show-completed-toggle" class="character-control-btn" title="Toggle showing completed characters">🏆</button>
+          <button id="random-char-btn" class="character-control-btn" title="Select random character">🎲</button>
+        </div>
+      </div>
+      <div id="survivor-list" class="character-grid"></div>
+    </div>
+
+    <!-- Selected Perks Section -->
+    <div class="selected-perks-panel">
+      <div class="panel-header">
+        <h2 id="selected-perks-title">Select a Character</h2>
+      </div>
       <div class="perk-slots">
         <div class="perk-slot"></div>
         <div class="perk-slot"></div>
         <div class="perk-slot"></div>
         <div class="perk-slot"></div>
-        <div class="random-perk-button" id="random-perk-btn" title="Add Random Perk">
-          🎲
-        </div>
+      </div>
+      <div class="random-perk-container">
+        <div class="random-perk-button" id="random-perk-btn" title="Add Random Perk">🎲</div>
       </div>
     </div>
 
-    <h2>Available Perks</h2>
-    <div class="search-container">
-      <input type="text" id="perk-search" placeholder="Search perks..." class="search-input">
+    <!-- Available Perks Section -->
+    <div class="available-perks-panel">
+      <div class="panel-header">
+        <h2>Available Perks</h2>
+        <div class="search-container">
+          <input type="text" id="perk-search" placeholder="Search perks..." class="search-input">
+        </div>
+      </div>
+      <div id="available-perks" class="perks-grid"></div>
     </div>
-    <div id="available-perks" class="perk-list"></div>
   </div>
 
-  <!-- Load scripts in dependency order -->
-  <script src="scripts/state.js?v=2.9"></script>
-  <script src="scripts/utils.js?v=2.9"></script>
-  <script src="scripts/storage.js?v=2.9"></script>
-  <script src="scripts/progress.js?v=2.9"></script>
-  <script src="scripts/perks.js?v=2.9"></script>
-  <script src="scripts/toggles.js?v=2.9"></script>
-  <script src="scripts/characters.js?v=2.9"></script>
-  <script src="scripts/overlay.js?v=2.9"></script>
-  <script src="scripts/tierlist.js?v=2.9"></script>
-  <script src="scripts/reset.js?v=2.9"></script>
-  <script src="scripts/init.js?v=2.9"></script>
-  <script src="progress-sync.js?v=2.9"></script>
+  <!-- Tool Credit -->
+  <div class="tool-credit">
+    🛠️ Tool made by <a href="https://github.com/Pokejongen" target="_blank">T5K</a> and <a href="https://github.com/autoamnesia" target="_blank">autoamnesia</a>
+  </div>
+
+  <!-- Collapsible Settings Panel -->
+  <div id="settings-panel" class="settings-panel">
+    <div class="settings-content">
+      <h3>Settings</h3>
+      <button id="bulk-mark-btn" class="settings-btn">Bulk Actions</button>
+      <button id="search-btn" class="settings-btn">Advanced Search</button>
+      <button id="reset-btn" class="settings-btn">Reset Everything</button>
+      <button id="export-btn" class="settings-btn">Export Data</button>
+      <button id="import-btn" class="settings-btn">Import Data</button>
+      <button id="tierlist-btn" class="settings-btn">Tier List View</button>
+    </div>
+  </div>
+
+  <script type="module" src="scripts/characters.js"></script>
+  <script type="module" src="scripts/perks.js"></script>
+  <script type="module" src="scripts/progress.js"></script>
+  <script type="module" src="scripts/reset.js"></script>
+  <script type="module" src="scripts/storage.js"></script>
+  <script type="module" src="scripts/tierlist.js"></script>
+  <script type="module" src="scripts/toggles.js"></script>
+  <script type="module" src="scripts/utils.js"></script>
+  <script type="module" src="scripts/init.js"></script>
+</body>
+</html>
+
+
+<!-- Load scripts in dependency order -->
+<script src="scripts/state.js?v=3.0"></script>
+<script src="scripts/utils.js?v=3.0"></script>
+<script src="scripts/storage.js?v=3.0"></script>
+<script src="scripts/progress.js?v=3.0"></script>
+<script src="scripts/perks.js?v=3.0"></script>
+<script src="scripts/toggles.js?v=3.0"></script>
+<script src="scripts/characters.js?v=3.0"></script>
+<script src="scripts/overlay.js?v=3.0"></script>
+<script src="scripts/tierlist.js?v=3.0"></script>
+<script src="scripts/reset.js?v=3.0"></script>
+<script src="scripts/init.js?v=3.0"></script>
+<script src="progress-sync.js?v=3.0"></script>
 </body>
 </html>
 

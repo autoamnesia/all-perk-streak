@@ -42,17 +42,68 @@ async function initializePage() {
   if (!controls) return;
   controls.innerHTML = "";
 
+  // Create settings toggle button
+  const settingsToggle = document.createElement("button");
+  settingsToggle.className = "settings-toggle";
+  settingsToggle.innerHTML = "⚙️ Settings";
+  settingsToggle.title = "Click to show/hide settings";
+  
+  // Create collapsible content container
+  const controlsContent = document.createElement("div");
+  controlsContent.className = "controls-content";
+
+  // Create organized control sections
+  const toggleSection = document.createElement("div");
+  toggleSection.className = "controls-row";
+  const toggleLabel = document.createElement("span");
+  toggleLabel.className = "controls-label";
+  toggleLabel.textContent = "Settings:";
+  toggleSection.appendChild(toggleLabel);
+
+  const actionSection = document.createElement("div");
+  actionSection.className = "controls-row";
+  const actionLabel = document.createElement("span");
+  actionLabel.className = "controls-label";
+  actionLabel.textContent = "Actions:";
+  actionSection.appendChild(actionLabel);
+
+  const dataSection = document.createElement("div");
+  dataSection.className = "controls-row";
+  const dataLabel = document.createElement("span");
+  dataLabel.className = "controls-label";
+  dataLabel.textContent = "Data:";
+  dataSection.appendChild(dataLabel);
+
+  // Add toggle functionality
+  let isExpanded = JSON.parse(localStorage.getItem("dbd_settings_expanded") || "false");
+  
+  // Set initial state
+  if (isExpanded) {
+    controlsContent.classList.add("expanded");
+    settingsToggle.classList.add("expanded");
+    settingsToggle.innerHTML = "⚙️ Hide Settings";
+  }
+  
+  settingsToggle.addEventListener("click", () => {
+    isExpanded = !isExpanded;
+    localStorage.setItem("dbd_settings_expanded", JSON.stringify(isExpanded));
+    
+    if (isExpanded) {
+      controlsContent.classList.add("expanded");
+      settingsToggle.classList.add("expanded");
+      settingsToggle.innerHTML = "⚙️ Hide Settings";
+    } else {
+      controlsContent.classList.remove("expanded");
+      settingsToggle.classList.remove("expanded");
+      settingsToggle.innerHTML = "⚙️ Settings";
+    }
+  });
+
   // Add perk lock toggle button
   const btnPerkLock = document.createElement("button");
   btnPerkLock.id = "perk-lock-toggle";
+  btnPerkLock.className = perksLocked ? "control-button danger" : "control-button success";
   btnPerkLock.textContent = perksLocked ? "🔒 Unlock Perks" : "🔓 Lock Perks";
-  btnPerkLock.style.padding = "10px";
-  btnPerkLock.style.margin = "10px 5px 10px 0";
-  btnPerkLock.style.backgroundColor = perksLocked ? "#f44336" : "#4CAF50";
-  btnPerkLock.style.color = "white";
-  btnPerkLock.style.border = "none";
-  btnPerkLock.style.borderRadius = "4px";
-  btnPerkLock.style.cursor = "pointer";
   btnPerkLock.title = perksLocked ? 
     "Click to unlock perks (allows reassigning used perks)" : 
     "Click to lock perks (prevents reassigning used perks)";
@@ -61,104 +112,63 @@ async function initializePage() {
   // Add allow remove from completed toggle button
   const btnAllowRemoveCompleted = document.createElement("button");
   btnAllowRemoveCompleted.id = "allow-remove-completed-toggle";
+  btnAllowRemoveCompleted.className = allowRemoveFromCompleted ? "control-button toggle-active" : "control-button success";
   btnAllowRemoveCompleted.textContent = allowRemoveFromCompleted ? "🔓 Allow Remove from Completed" : "🔒 Protect Completed";
-  btnAllowRemoveCompleted.style.padding = "10px";
-  btnAllowRemoveCompleted.style.margin = "10px 5px 10px 0";
-  btnAllowRemoveCompleted.style.backgroundColor = allowRemoveFromCompleted ? "#FF9800" : "#4CAF50";
-  btnAllowRemoveCompleted.style.color = "white";
-  btnAllowRemoveCompleted.style.border = "none";
-  btnAllowRemoveCompleted.style.borderRadius = "4px";
-  btnAllowRemoveCompleted.style.cursor = "pointer";
   btnAllowRemoveCompleted.title = allowRemoveFromCompleted ? 
     "Click to protect perks assigned to completed characters" : 
     "Click to allow removing perks from completed characters";
   btnAllowRemoveCompleted.addEventListener("click", toggleAllowRemoveFromCompleted);
 
-  // Add show completed toggle button
-  const btnShowCompleted = document.createElement("button");
-  btnShowCompleted.id = "show-completed-toggle";
-  btnShowCompleted.textContent = showCompleted ? "🏆 Hide Completed" : "🏆 Show Completed";
-  btnShowCompleted.style.padding = "10px";
-  btnShowCompleted.style.margin = "10px 5px 10px 0";
-  btnShowCompleted.style.backgroundColor = showCompleted ? "#FF9800" : "#666";
-  btnShowCompleted.style.color = "white";
-  btnShowCompleted.style.border = "none";
-  btnShowCompleted.style.borderRadius = "4px";
-  btnShowCompleted.style.cursor = "pointer";
-  btnShowCompleted.title = showCompleted ? 
-    "Click to hide completed characters" : 
-    "Click to show completed characters";
-  btnShowCompleted.addEventListener("click", toggleShowCompleted);
-
   // Add view toggle button
   const btnViewToggle = document.createElement("button");
   btnViewToggle.id = "view-toggle-btn";
+  btnViewToggle.className = "control-button primary";
   btnViewToggle.textContent = "📋 Switch to Tierlist View";
-  btnViewToggle.style.padding = "10px";
-  btnViewToggle.style.margin = "10px 5px 10px 0";
-  btnViewToggle.style.backgroundColor = "#4CAF50";
-  btnViewToggle.style.color = "white";
-  btnViewToggle.style.border = "none";
-  btnViewToggle.style.borderRadius = "4px";
-  btnViewToggle.style.cursor = "pointer";
   btnViewToggle.title = "Switch to tierlist view for drag-and-drop perk assignment";
   // Event listener will be added by tierlist.js after all controls are created
 
   const btnResetPage = document.createElement("button");
+  btnResetPage.className = "control-button danger";
   btnResetPage.textContent = "Reset Streak Progress";
-  btnResetPage.style.padding = "10px";
-  btnResetPage.style.margin = "10px 5px 10px 0";
   btnResetPage.addEventListener("click", resetPageProgress);
 
   const btnResetPerks = document.createElement("button");
+  btnResetPerks.className = "control-button danger";
   btnResetPerks.textContent = "Reset Perks";
-  btnResetPerks.style.padding = "10px";
-  btnResetPerks.style.margin = "10px 5px 10px 0";
   btnResetPerks.addEventListener("click", resetAllPerks);
 
   const btnResetAll = document.createElement("button");
+  btnResetAll.className = "control-button danger";
   btnResetAll.textContent = "Reset All";
-  btnResetAll.style.padding = "10px";
-  btnResetAll.style.margin = "10px 5px 10px 0";
   btnResetAll.addEventListener("click", resetAll);
 
   const btnDownload = document.createElement("button");
-  btnDownload.textContent = "Download Progress";
-  btnDownload.style.padding = "10px";
-  btnDownload.style.margin = "10px 5px 10px 0";
-  btnDownload.style.backgroundColor = "#4CAF50";
-  btnDownload.style.color = "white";
-  btnDownload.style.border = "none";
-  btnDownload.style.borderRadius = "4px";
+  btnDownload.className = "control-button success";
+  btnDownload.textContent = "📥 Download Progress";
   btnDownload.addEventListener("click", downloadProgress);
 
   const btnUpload = document.createElement("button");
-  btnUpload.textContent = "Upload Progress";
-  btnUpload.style.padding = "10px";
-  btnUpload.style.margin = "10px 5px 10px 0";
-  btnUpload.style.backgroundColor = "#2196F3";
-  btnUpload.style.color = "white";
-  btnUpload.style.border = "none";
-  btnUpload.style.borderRadius = "4px";
+  btnUpload.className = "control-button primary";
+  btnUpload.textContent = "📤 Upload Progress";
   btnUpload.addEventListener("click", uploadProgress);
 
-  // Add all buttons to controls
-  controls.appendChild(btnPerkLock);
-  controls.appendChild(btnAllowRemoveCompleted);
-  controls.appendChild(btnShowCompleted);
-  controls.appendChild(btnViewToggle);
+  // Add buttons to appropriate sections
+  toggleSection.appendChild(btnPerkLock);
+  toggleSection.appendChild(btnAllowRemoveCompleted);
+  
+  //actionSection.appendChild(btnViewToggle);
+  actionSection.appendChild(btnResetPage);
+  actionSection.appendChild(btnResetPerks);
+  actionSection.appendChild(btnResetAll);
+  
+  dataSection.appendChild(btnDownload);
+  dataSection.appendChild(btnUpload);
   
   // Add reset always reassign button if it's currently enabled
   if (alwaysReassignFromCompleted) {
     const btnResetAlways = document.createElement("button");
+    btnResetAlways.className = "control-button toggle-active";
     btnResetAlways.textContent = "Reset Auto-Reassign";
-    btnResetAlways.style.padding = "10px";
-    btnResetAlways.style.margin = "10px 5px 10px 0";
-    btnResetAlways.style.backgroundColor = "#FF9800";
-    btnResetAlways.style.color = "white";
-    btnResetAlways.style.border = "none";
-    btnResetAlways.style.borderRadius = "4px";
-    btnResetAlways.style.cursor = "pointer";
     btnResetAlways.title = "Reset the 'always reassign from completed characters' setting";
     btnResetAlways.addEventListener("click", () => {
       alwaysReassignFromCompleted = false;
@@ -166,14 +176,46 @@ async function initializePage() {
       alert("Auto-reassign setting reset. You'll be asked for confirmation again.");
       location.reload();
     });
-    controls.appendChild(btnResetAlways);
+    toggleSection.appendChild(btnResetAlways);
   }
   
-  controls.appendChild(btnResetPage);
-  controls.appendChild(btnResetPerks);
-  controls.appendChild(btnResetAll);
-  controls.appendChild(btnDownload);
-  controls.appendChild(btnUpload);
+  // Add all sections to collapsible content
+  controlsContent.appendChild(toggleSection);
+  controlsContent.appendChild(actionSection);
+  controlsContent.appendChild(dataSection);
+  
+  // Add toggle button and content to controls
+  controls.appendChild(settingsToggle);
+  controls.appendChild(controlsContent);
+
+  // Initialize character control buttons
+  initializeCharacterControls();
+
+// Function to initialize character control buttons
+function initializeCharacterControls() {
+  const showCompletedToggle = document.getElementById("show-completed-toggle");
+  const randomCharBtn = document.getElementById("random-char-btn");
+  
+  if (showCompletedToggle) {
+    showCompletedToggle.addEventListener("click", () => {
+      showCompleted = !showCompleted;
+      localStorage.setItem("dbd_show_completed", JSON.stringify(showCompleted));
+      
+      // Update button appearance
+      showCompletedToggle.textContent = showCompleted ? "🏆 Hide Completed" : "🏆 Show Completed";
+      
+      // Re-render character list
+      initCharacterList();
+    });
+    
+    // Set initial state
+    showCompletedToggle.textContent = showCompleted ? "🏆 Hide Completed" : "🏆 Show Completed";
+  }
+  
+  if (randomCharBtn) {
+    randomCharBtn.addEventListener("click", selectRandomCharacter);
+  }
+}
 
   // Initialize tierlist functionality after all controls are created
   if (typeof initTierlist === 'function') {
@@ -267,7 +309,7 @@ window.addEventListener("DOMContentLoaded", async () => {
   addVersionDisplay();
   
   // Add credits display to all pages
-  addCreditsDisplay();
+  // addCreditsDisplay(); // Removed - credits now in bottom left corner of HTML
 });
 
 // Add version display in bottom right corner
@@ -287,36 +329,4 @@ function addVersionDisplay() {
   document.body.appendChild(versionDiv);
 }
 
-// Add credits display in top left corner
-function addCreditsDisplay() {
-  const creditsDiv = document.createElement("div");
-  creditsDiv.innerHTML = `
-    🛠️ Tool made by 
-    <a href="https://github.com/Pokejongen" target="_blank" style="color: #4CAF50; text-decoration: none;">T5K</a> 
-    and 
-    <a href="https://github.com/autoamnesia" target="_blank" style="color: #4CAF50; text-decoration: none;">autoamnesia</a>
-  `;
-  creditsDiv.style.position = "fixed";
-  creditsDiv.style.top = "10px";
-  creditsDiv.style.left = "10px";
-  creditsDiv.style.fontSize = "10px";
-  creditsDiv.style.color = "#666";
-  creditsDiv.style.fontFamily = "Arial, sans-serif";
-  creditsDiv.style.zIndex = "1000";
-  creditsDiv.style.pointerEvents = "auto";
-  creditsDiv.style.userSelect = "none";
-  creditsDiv.style.lineHeight = "1.2";
-  
-  // Style the links on hover
-  const links = creditsDiv.querySelectorAll('a');
-  links.forEach(link => {
-    link.addEventListener('mouseenter', () => {
-      link.style.textDecoration = 'underline';
-    });
-    link.addEventListener('mouseleave', () => {
-      link.style.textDecoration = 'none';
-    });
-  });
-  
-  document.body.appendChild(creditsDiv);
-}
+// Credits display function removed - credits now in HTML footer

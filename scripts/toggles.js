@@ -47,7 +47,7 @@ function togglePerkLock() {
   const lockButton = document.getElementById("perk-lock-toggle");
   if (lockButton) {
     lockButton.textContent = perksLocked ? "🔒 Unlock Perks" : "🔓 Lock Perks";
-    lockButton.style.backgroundColor = perksLocked ? "#f44336" : "#4CAF50";
+    lockButton.className = perksLocked ? "control-button danger" : "control-button success";
     lockButton.title = perksLocked ? 
       "Click to unlock perks (allows reassigning used perks)" : 
       "Click to lock perks (prevents reassigning used perks)";
@@ -70,7 +70,7 @@ function toggleAllowRemoveFromCompleted() {
   const toggleButton = document.getElementById("allow-remove-completed-toggle");
   if (toggleButton) {
     toggleButton.textContent = allowRemoveFromCompleted ? "🔓 Allow Remove from Completed" : "🔒 Protect Completed";
-    toggleButton.style.backgroundColor = allowRemoveFromCompleted ? "#FF9800" : "#4CAF50";
+    toggleButton.className = allowRemoveFromCompleted ? "control-button toggle-active" : "control-button success";
     toggleButton.title = allowRemoveFromCompleted ? 
       "Click to protect perks assigned to completed characters" : 
       "Click to allow removing perks from completed characters";
@@ -86,7 +86,7 @@ function toggleShowCompleted() {
   const toggleButton = document.getElementById("show-completed-toggle");
   if (toggleButton) {
     toggleButton.textContent = showCompleted ? "🏆 Hide Completed" : "🏆 Show Completed";
-    toggleButton.style.backgroundColor = showCompleted ? "#FF9800" : "#666";
+    toggleButton.className = showCompleted ? "control-button toggle-active" : "control-button toggle-inactive";
     toggleButton.title = showCompleted ? 
       "Click to hide completed characters" : 
       "Click to show completed characters";

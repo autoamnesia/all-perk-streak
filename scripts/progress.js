@@ -167,11 +167,11 @@ async function updateNavProgress(data) {
   if (mainProgressBar && mainProgressText) {
     if (currentPage === "killers") {
       const killersPercentage = totalKillers > 0 ? (completedKillers / totalKillers) * 100 : 0;
-      mainProgressBar.style.width = `${killersPercentage}%`;
+      mainProgressBar.style.setProperty('--progress', `${killersPercentage}%`);
       mainProgressText.textContent = `${completedKillers}/${totalKillers} Completed`;
     } else {
       const survivorsPercentage = totalSurvivors > 0 ? (completedSurvivors / totalSurvivors) * 100 : 0;
-      mainProgressBar.style.width = `${survivorsPercentage}%`;
+      mainProgressBar.style.setProperty('--progress', `${survivorsPercentage}%`);
       mainProgressText.textContent = `${completedSurvivors}/${totalSurvivors} Completed`;
     }
   }

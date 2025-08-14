@@ -10,16 +10,16 @@ function initTierlist() {
   // Get current view from localStorage or default to normal
   currentView = localStorage.getItem("dbd_view_mode") || "normal";
   
-  const viewToggleBtn = document.getElementById("view-toggle-btn");
-  
-  if (viewToggleBtn) {
-    // Only add event listener if it doesn't already have one
-    if (!viewToggleBtn.hasAttribute('data-listener-added')) {
-      viewToggleBtn.addEventListener("click", toggleView);
-      viewToggleBtn.setAttribute('data-listener-added', 'true');
-    }
-    updateViewToggleButton();
-  }
+  // const viewToggleBtn = document.getElementById("view-toggle-btn");
+  // 
+  // if (viewToggleBtn) {
+  //   // Only add event listener if it doesn't already have one
+  //   if (!viewToggleBtn.hasAttribute('data-listener-added')) {
+  //     viewToggleBtn.addEventListener("click", toggleView);
+  //     viewToggleBtn.setAttribute('data-listener-added', 'true');
+  //   }
+  //   updateViewToggleButton();
+  // }
   
   // Set initial view
   if (currentView === "tierlist") {
@@ -259,25 +259,27 @@ function createTierlistCharacterCard(character, completedChars, usedPerks) {
 
     let completedChars = JSON.parse(localStorage.getItem("dbd_completed_chars") || "[]");
     const isCompleted = completedChars.includes(character.file);
-    
+
     if (isCompleted) {
       // Remove from completed
       completedChars = completedChars.filter(char => char !== character.file);
       localStorage.setItem("dbd_completed_chars", JSON.stringify(completedChars));
+      // Remove completed class immediately for visual feedback
+      card.classList.remove("completed");
     } else {
       // Add to completed and select the character
       completedChars.push(character.file);
       localStorage.setItem("dbd_completed_chars", JSON.stringify(completedChars));
-      
+
       // Select the character when marking as completed
       selectedCharacter = character;
-      
+
       // Update title
       const titleEl = document.getElementById("selected-perks-title");
       if (titleEl) {
         titleEl.textContent = `Selected Perks For ${character.name}`;
       }
-      
+
       // Get fresh perks data and update UI
       const currentUsedPerks = JSON.parse(localStorage.getItem("dbd_used_perks") || "{}");
       const perksForChar = currentUsedPerks[character.file] || [];
@@ -292,14 +294,21 @@ function createTierlistCharacterCard(character, completedChars, usedPerks) {
         updateAvailablePerks(character.type);
       }
     }
-    
-    // Refresh displays
-    populateTierlistCharacters();
-    if (typeof renderSavedProgress === 'function') {
-      renderSavedProgress();
-    }
-    if (typeof updateNavProgress === 'function') {
-      updateNavProgress();
+
+    // Refresh displays (force full tierlist view refresh)
+    if (typeof showTierlistView === 'function') {
+      showTierlistView();
+    } else {
+      populateTierlistCharacters();
+      if (typeof renderSavedProgress === 'function') {
+        renderSavedProgress();
+      }
+      if (typeof updateNavProgress === 'function') {
+        updateNavProgress();
+      }
+      if (typeof populateTierlistPerks === 'function') {
+        populateTierlistPerks();
+      }
     }
   });
   

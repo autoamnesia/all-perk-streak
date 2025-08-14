@@ -7,6 +7,9 @@ function updateAvailablePerks(type) {
   const perkContainer = document.getElementById("available-perks");
   if (!perkContainer) return;
 
+  // Update container class to use new grid layout
+  perkContainer.className = "perks-grid";
+
   const searchInput = document.getElementById("perk-search");
   const searchTerm = searchInput ? searchInput.value : "";
   
@@ -325,36 +328,54 @@ function addRandomPerk() {
     return;
   }
 
-  // Check if there are any empty slots
-  const slots = document.querySelectorAll(".perk-slot");
-  let hasEmptySlot = false;
+  // Only use the first 4 slots
+  const slots = Array.from(document.querySelectorAll(".perk-slot")).slice(0, 4);
+  let emptySlot = null;
   for (let slot of slots) {
     if (slot.children.length === 0) {
-      hasEmptySlot = true;
+      emptySlot = slot;
       break;
     }
   }
-  
-  if (!hasEmptySlot) {
+  if (!emptySlot) {
     return; // All slots are full
   }
 
-  // Get all available perks for this character type
   const allPerks = window.allPerks[selectedCharacter.type] || [];
   const usedPerks = JSON.parse(localStorage.getItem("dbd_used_perks") || "{}");
-  
-  // Filter out perks that are already used by any character
+  const currentCharPerks = usedPerks[selectedCharacter.file] || [];
+
+  // Filter out perks already used by any character or already assigned to this character
   const unusedPerks = allPerks.filter(perk => {
-    return !Object.values(usedPerks).some(perksList => perksList.includes(perk.file));
+    const isUsedByAny = Object.values(usedPerks).some(perksList => perksList.includes(perk.file));
+    const isUsedByCurrent = currentCharPerks.includes(perk.file);
+    return !isUsedByAny && !isUsedByCurrent;
   });
-  
+
   if (unusedPerks.length === 0) {
     return; // No unused perks available
   }
-  
+
   // Select a random unused perk
   const randomPerk = unusedPerks[Math.floor(Math.random() * unusedPerks.length)];
-  
+
   // Add the random perk to the first available slot
   selectPerk(randomPerk.file);
 }
+
+// Patch selectPerk to only use first 4 slots
+const originalSelectPerk = selectPerk;
+selectPerk = function(perkFile) {
+  const slots = Array.from(document.querySelectorAll(".perk-slot")).slice(0, 4);
+  // We'll call the original function, but temporarily override querySelectorAll
+  const origQuerySelectorAll = document.querySelectorAll;
+  document.querySelectorAll = function(sel) {
+    if (sel === ".perk-slot") return slots;
+    return origQuerySelectorAll.call(document, sel);
+  };
+  try {
+    originalSelectPerk(perkFile);
+  } finally {
+    document.querySelectorAll = origQuerySelectorAll;
+  }
+};

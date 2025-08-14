@@ -1,0 +1,717 @@
+/* =============================================================================
+   GLOBAL STYLES & RESET
+   ============================================================================= */
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  -webkit-touch-callout: none;
+}
+
+body {
+  font-family: "Inter", sans-serif;
+  background: #0d1117;
+  color: #f0f6fc;
+  overflow-x: hidden;
+  height: 100vh;
+}
+
+/* Allow text selection for input fields */
+input, textarea {
+  -webkit-user-select: text;
+  -moz-user-select: text;
+  -ms-user-select: text;
+  user-select: text;
+}
+
+/* Allow drag and drop for draggable elements */
+[draggable="true"] {
+  -webkit-user-drag: element !important;
+  cursor: grab !important;
+}
+
+[draggable="true"]:active {
+  cursor: grabbing !important;
+}
+
+/* =============================================================================
+   APP HEADER
+   ============================================================================= */
+
+.app-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 20px;
+  background: #161b22;
+  border-bottom: 1px solid #30363d;
+  height: 60px;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 1000;
+}
+
+.header-left {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.header-left h1 {
+  color: #f0db4f;
+  font-size: 24px;
+  font-weight: 700;
+  margin: 0;
+}
+
+.progress-display {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.main-progress-bar {
+  width: 200px;
+  height: 24px;
+  background: #21262d;
+  border-radius: 4px;
+  overflow: hidden;
+  position: relative;
+}
+
+.main-progress-bar::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  background: linear-gradient(90deg, #238636, #2ea043);
+  border-radius: 4px;
+  width: var(--progress, 0%);
+  transition: width 0.3s ease;
+  z-index: 1;
+}
+
+.main-progress-text {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 13px;
+  color: #fff;
+  font-weight: 700;
+  min-width: 80px;
+  z-index: 2;
+  text-shadow: 1px 1px 4px #000, 0 0 2px #238636;
+  pointer-events: none;
+  width: 100%;
+  text-align: center;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.header-controls {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+}
+
+#controls {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+}
+
+.header-nav {
+  display: flex;
+  gap: 12px;
+}
+
+.nav-btn {
+  background: #21262d;
+  color: #f0f6fc;
+  text-decoration: none;
+  padding: 8px 16px;
+  border-radius: 6px;
+  font-size: 13px;
+  font-weight: 500;
+  transition: all 0.2s ease;
+  border: 1px solid #30363d;
+}
+
+.nav-btn:hover {
+  background: #30363d;
+  color: #58a6ff;
+  transform: translateY(-1px);
+}
+
+/* =============================================================================
+   TOOL CREDIT
+   ============================================================================= */
+
+.tool-credit {
+  position: fixed;
+  bottom: 16px;
+  left: 16px;
+  background: #161b22;
+  color: #8b949e;
+  padding: 8px 12px;
+  border-radius: 6px;
+  font-size: 12px;
+  border: 1px solid #30363d;
+  z-index: 999;
+}
+
+.tool-credit a {
+  color: #58a6ff;
+  text-decoration: none;
+}
+
+.tool-credit a:hover {
+  text-decoration: underline;
+}
+
+/* =============================================================================
+   CONTROL BUTTONS
+   ============================================================================= */
+
+.settings-toggle {
+  background: #238636;
+  color: white;
+  border: none;
+  padding: 6px 12px;
+  border-radius: 6px;
+  font-size: 12px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.settings-toggle:hover {
+  background: #2ea043;
+}
+
+.settings-toggle.expanded {
+  background: #da3633;
+}
+
+.settings-toggle.expanded:hover {
+  background: #f85149;
+}
+
+.controls-content {
+  position: absolute;
+  top: 70px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: #161b22;
+  border: 1px solid #30363d;
+  border-radius: 8px;
+  padding: 16px;
+  display: none;
+  z-index: 999;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.4);
+  min-width: 600px;
+}
+
+.controls-content.expanded {
+  display: block;
+}
+
+.controls-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 12px;
+  align-items: center;
+}
+
+.controls-row:last-child {
+  margin-bottom: 0;
+}
+
+.controls-label {
+  font-weight: 600;
+  color: #8b949e;
+  margin-right: 12px;
+  min-width: 80px;
+  font-size: 12px;
+}
+
+.control-button {
+  background: #238636;
+  color: white;
+  border: none;
+  padding: 6px 12px;
+  border-radius: 6px;
+  font-size: 12px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  white-space: nowrap;
+}
+
+.control-button:hover {
+  transform: translateY(-1px);
+}
+
+.control-button.danger {
+  background: #da3633;
+}
+
+.control-button.danger:hover {
+  background: #f85149;
+}
+
+.control-button.primary {
+  background: #1f6feb;
+}
+
+.control-button.primary:hover {
+  background: #388bfd;
+}
+
+.control-button.purple {
+  background: #8957e5;
+}
+
+.control-button.purple:hover {
+  background: #a475f9;
+}
+
+.control-button.success {
+  background: #238636;
+}
+
+.control-button.success:hover {
+  background: #2ea043;
+}
+
+.control-button.toggle-active {
+  background: #fb8500;
+}
+
+.control-button.toggle-active:hover {
+  background: #ffb700;
+}
+
+.control-button.toggle-inactive {
+  background: #6e7681;
+}
+
+.control-button.toggle-inactive:hover {
+  background: #8b949e;
+}
+
+/* =============================================================================
+   MAIN GRID LAYOUT
+   ============================================================================= */
+
+.main-grid {
+  display: grid;
+  grid-template-columns: 1fr 300px 1fr;
+  grid-template-rows: 1fr;
+  gap: 20px;
+  padding: 20px;
+  margin-top: 60px;
+  height: calc(100vh - 80px);
+  overflow: hidden;
+}
+
+.characters-panel,
+.selected-perks-panel,
+.available-perks-panel {
+  background: #161b22;
+  border: 1px solid #30363d;
+  border-radius: 8px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+.panel-header {
+  background: #21262d;
+  padding: 16px;
+  border-bottom: 1px solid #30363d;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.panel-header h2 {
+  color: #f0db4f;
+  font-size: 16px;
+  font-weight: 600;
+  margin: 0;
+}
+
+.character-controls {
+  display: flex;
+  gap: 8px;
+}
+
+.character-control-btn {
+  background: #30363d;
+  color: #f0f6fc;
+  border: none;
+  min-width: 90px;
+  max-width: 180px;
+  height: auto;
+  border-radius: 8px;
+  font-size: 14px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 4px 12px;
+  white-space: normal;
+  overflow-wrap: anywhere;
+  text-align: center;
+}
+
+.character-control-btn:hover {
+  background: #58a6ff;
+  transform: translateY(-1px);
+}
+
+.character-control-btn.active {
+  background: #238636;
+}
+
+.character-control-btn.active:hover {
+  background: #2ea043;
+}
+
+.search-container {
+  display: flex;
+  gap: 8px;
+}
+
+.search-input {
+  background: #0d1117;
+  border: 1px solid #30363d;
+  color: #f0f6fc;
+  padding: 6px 12px;
+  border-radius: 6px;
+  font-size: 13px;
+  width: 200px;
+}
+
+.search-input:focus {
+  outline: none;
+  border-color: #58a6ff;
+  box-shadow: 0 0 0 3px rgba(88, 166, 255, 0.3);
+}
+
+/* =============================================================================
+   CHARACTERS PANEL
+   ============================================================================= */
+
+.character-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+  gap: 12px;
+  padding: 8px 12px;
+  overflow-y: auto;
+  flex: 1;
+  grid-auto-rows: auto; /* Let row height be determined by content, prevents huge gaps */
+}
+
+.character-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+.character-card img {
+  width: 140px;
+  height: 140px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  border: 2px solid transparent;
+  object-fit: cover;
+}
+
+.character-card img:hover:not(.completed):not(.selected) {
+  transform: scale(1.05);
+  border-color: #f0db4f !important;
+}
+
+.character-card img:hover.selected:not(.completed) {
+  transform: scale(1.05);
+  border-color: #58a6ff !important;
+}
+
+.character-card img:hover.completed:not(.selected) {
+  transform: scale(1.05);
+  border-color: limegreen !important;
+}
+
+.character-card img:hover.completed.selected {
+  transform: scale(1.05);
+  border-color: limegreen !important;
+}
+
+.character-card img.selected {
+  border-color: #58a6ff;
+  box-shadow: 0 0 0 2px rgba(88, 166, 255, 0.3);
+}
+
+.character-card img.completed {
+  border-color: limegreen;
+  box-shadow: 0 0 0 2px rgba(46, 160, 67, 0.3);
+}
+
+.character-card img.completed.selected {
+  border: 4px solid limegreen;
+  box-shadow: inset 0 0 0 2px dodgerblue;
+}
+
+.character-name {
+  font-size: 11px;
+  color: #8b949e;
+  margin-top: 6px;
+  font-weight: 500;
+  line-height: 1.2;
+  max-width: 70px;
+  word-wrap: break-word;
+}
+
+/* =============================================================================
+   SELECTED PERKS PANEL
+   ============================================================================= */
+
+.selected-perks-panel .panel-header {
+  text-align: center;
+}
+
+.perk-slots {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  grid-template-rows: repeat(2, 1fr);
+  gap: 10px;
+  padding: 0;
+  align-items: start;
+  justify-items: start;
+  width: max-content;
+  margin: 0 auto;
+}
+
+.perk-slot {
+  margin-top: 32px;
+  width: 120px;
+  height: 120px;
+  background: #21262d;
+  border: 2px dashed #30363d;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+  color: #6e7681;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.perk-slot:hover {
+  border-color: #6e7681;
+}
+
+.perk-slot img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 6px;
+  box-align: center;
+}
+
+.random-perk-container {
+  padding: 0 20px 20px 20px;
+  display: flex;
+  justify-content: center;
+  margin-top: 32px;
+}
+
+.random-perk-button {
+  width: 120px;
+  height: 40px;
+  background: #8957e5;
+  border: none;
+  border-radius: 8px;
+  color: white;
+  font-size: 20px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.random-perk-button:hover {
+  background: #a475f9;
+  transform: scale(1.05);
+}
+
+/* =============================================================================
+   AVAILABLE PERKS PANEL
+   ============================================================================= */
+
+.perks-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+  gap: 16px;
+  padding: 16px;
+  overflow-y: auto;
+  flex: 1;
+  grid-auto-rows: 120px; /* Increased row height for larger perks */
+}
+
+.perk-icon {
+  width: 96px;
+  height: 96px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  border: 2px solid transparent;
+  object-fit: cover;
+}
+
+.perk-icon:hover {
+  transform: scale(1.05);
+  border-color: #f0db4f;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.4);
+}
+
+.perk-icon.used {
+  opacity: 0.5;
+  border-color: #da3633;
+}
+
+.perk-icon.locked {
+  opacity: 0.3;
+  cursor: not-allowed;
+}
+
+.perk-icon.locked:hover {
+  transform: none;
+  border-color: transparent;
+  box-shadow: none;
+}
+
+/* =============================================================================
+   RESPONSIVE DESIGN
+   ============================================================================= */
+
+@media (max-width: 1200px) {
+  .main-grid {
+    grid-template-columns: 1fr 280px 1fr;
+    gap: 16px;
+    padding: 16px;
+  }
+  
+  .character-grid {
+    grid-template-columns: repeat(auto-fill, minmax(70px, 1fr));
+    gap: 10px;
+  }
+  
+  .character-card img {
+    width: 60px;
+    height: 60px;
+  }
+  
+  .perk-slot, .random-perk-button {
+    width: 100px;
+    height: 100px;
+  }
+}
+
+@media (max-width: 768px) {
+  .app-header {
+    flex-direction: column;
+    height: auto;
+    padding: 12px;
+    gap: 12px;
+  }
+  
+  .header-left {
+    flex-direction: column;
+    gap: 8px;
+  }
+  
+  .header-left h1 {
+    font-size: 20px;
+  }
+  
+  .main-progress-bar {
+    width: 150px;
+  }
+  
+  .header-nav {
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+  
+  .main-grid {
+    grid-template-columns: 1fr;
+    grid-template-rows: auto auto 1fr;
+    margin-top: 140px;
+    height: calc(100vh - 160px);
+    gap: 12px;
+  }
+  
+  .selected-perks-panel {
+    order: -1;
+  }
+  
+  .perk-slots {
+    grid-template-columns: repeat(4, 1fr);
+    grid-template-rows: 1fr auto;
+    padding: 16px;
+  }
+  
+  .perk-slot {
+    width: 80px;
+    height: 80px;
+  }
+  
+  .random-perk-button {
+    width: 100px;
+    height: 40px;
+    font-size: 20px;
+    grid-column: span 4;
+  }
+  
+  .controls-content {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    min-width: 90vw;
+    max-height: 80vh;
+    overflow-y: auto;
+  }
+}
+
+/* Hide old elements */
+.character-section,
+.tierlist-section,
+#perk-selection-area {
+  display: none !important;
+}
