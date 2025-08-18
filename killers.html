@@ -102,7 +102,10 @@
   </script>
   <div class="tierlist-content-grid">
         <div class="tierlist-characters-panel">
-          <h3>Characters</h3>
+          <div style="display: flex; align-items: center; gap: 8px;">
+            <h3 style="margin: 0;">Characters</h3>
+            <button id="tierlist-show-completed-toggle" class="control-button">Show Completed</button>
+          </div>
           <div id="tierlist-character-list" class="tierlist-character-list"></div>
         </div>
   <div class="tierlist-perks-panel" id="tierlist-perks-panel">
@@ -113,10 +116,10 @@
       var toggleBtn = document.getElementById('toggle-perks-panel');
       var grid = document.querySelector('#tierlist-view .tierlist-content-grid');
       if (perksPanel && toggleBtn && grid) {
-        // Start hidden
-        perksPanel.style.display = 'none';
-        grid.style.gridTemplateColumns = '1fr';
-        toggleBtn.textContent = 'Show Perks';
+        // Start visible
+        perksPanel.style.display = '';
+        grid.style.gridTemplateColumns = '';
+        toggleBtn.textContent = 'Hide Perks';
         toggleBtn.addEventListener('click', function() {
           if (perksPanel.style.display === 'none') {
             perksPanel.style.display = '';

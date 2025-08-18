@@ -84,13 +84,55 @@
     <div class="tierlist-section">
       <div class="panel-header">
   <h2>Tierlist - Drag & Drop Perks</h2>
+  <button id="toggle-perks-panel" class="control-button" style="margin-left:16px;">Show Perks</button>
       </div>
+      <script>
+        // Move the tierlist-show-used-toggle button to the controls area for consistent placement
+        document.addEventListener('DOMContentLoaded', function() {
+          var controls = document.getElementById('controls');
+          if (controls && !document.getElementById('tierlist-show-used-toggle')) {
+            var btn = document.createElement('button');
+            btn.id = 'tierlist-show-used-toggle';
+            btn.className = 'control-button';
+            btn.textContent = '\ud83d\udc41\ufe0f Show All';
+            controls.appendChild(btn);
+          }
+        });
+      </script>
       <div class="tierlist-content-grid">
         <div class="tierlist-characters-panel">
-          <h3>Characters</h3>
+          <div style="display: flex; align-items: center; gap: 8px;">
+            <h3 style="margin: 0;">Characters</h3>
+            <button id="tierlist-show-completed-toggle" class="control-button">Show Completed</button>
+          </div>
           <div id="tierlist-character-list" class="tierlist-character-list"></div>
         </div>
-        <div class="tierlist-perks-panel">
+        <div class="tierlist-perks-panel" id="tierlist-perks-panel">
+          <script>
+            // Toggle perks panel in tierlist view
+            document.addEventListener('DOMContentLoaded', function() {
+              var perksPanel = document.getElementById('tierlist-perks-panel');
+              var toggleBtn = document.getElementById('toggle-perks-panel');
+              var grid = document.querySelector('#tierlist-view .tierlist-content-grid');
+              if (perksPanel && toggleBtn && grid) {
+                // Start visible
+                perksPanel.style.display = '';
+                grid.style.gridTemplateColumns = '';
+                toggleBtn.textContent = 'Hide Perks';
+                toggleBtn.addEventListener('click', function() {
+                  if (perksPanel.style.display === 'none') {
+                    perksPanel.style.display = '';
+                    grid.style.gridTemplateColumns = '';
+                    toggleBtn.textContent = 'Hide Perks';
+                  } else {
+                    perksPanel.style.display = 'none';
+                    grid.style.gridTemplateColumns = '1fr';
+                    toggleBtn.textContent = 'Show Perks';
+                  }
+                });
+              }
+            });
+          </script>
           <h3>Available Perks</h3>
           <div class="search-container">
             <input type="text" id="tierlist-perk-search" placeholder="Search perks..." class="search-input">
@@ -101,19 +143,41 @@
     </div>
   </div>
 
-<!-- Load scripts in dependency order -->
-<script src="scripts/state.js?v=3.0"></script>
-<script src="scripts/utils.js?v=3.0"></script>
-<script src="scripts/storage.js?v=3.0"></script>
-<script src="scripts/progress.js?v=3.0"></script>
-<script src="scripts/perks.js?v=3.0"></script>
-<script src="scripts/toggles.js?v=3.0"></script>
-<script src="scripts/characters.js?v=3.0"></script>
-<script src="scripts/overlay.js?v=3.0"></script>
-<script src="scripts/tierlist.js?v=3.0"></script>
-<script src="scripts/reset.js?v=3.0"></script>
-<script src="scripts/init.js?v=3.0"></script>
-<script src="progress-sync.js?v=3.0"></script>
+  <div class="character-section" id="normal-view" style="display: none;">
+    <div id="survivor-list-old" class="character-list"></div>
+  </div>
+
+  <div id="perk-selection-area" style="display: none;">
+    <div>
+      <h3 id="selected-perks-title-old">Selected Perks</h3>
+      <div class="perk-slots-old">
+        <div class="perk-slot"></div>
+        <div class="perk-slot"></div>
+        <div class="perk-slot"></div>
+        <div class="perk-slot"></div>
+        <div class="random-perk-button" id="random-perk-btn-old" title="Add Random Perk">\ud83c\udfb2</div>
+      </div>
+    </div>
+    <h2>Available Perks</h2>
+    <div class="search-container">
+      <input type="text" id="perk-search-old" placeholder="Search perks..." class="search-input">
+    </div>
+    <div id="available-perks-old" class="perk-list"></div>
+  </div>
+
+  <!-- Load scripts in dependency order -->
+  <script src="scripts/state.js?v=3.0"></script>
+  <script src="scripts/utils.js?v=3.0"></script>
+  <script src="scripts/storage.js?v=3.0"></script>
+  <script src="scripts/progress.js?v=3.0"></script>
+  <script src="scripts/perks.js?v=3.0"></script>
+  <script src="scripts/toggles.js?v=3.0"></script>
+  <script src="scripts/characters.js?v=3.0"></script>
+  <script src="scripts/overlay.js?v=3.0"></script>
+  <script src="scripts/tierlist.js?v=3.0"></script>
+  <script src="scripts/reset.js?v=3.0"></script>
+  <script src="scripts/init.js?v=3.0"></script>
+  <script src="progress-sync.js?v=3.0"></script>
 </body>
 </html>
 

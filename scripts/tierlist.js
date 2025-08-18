@@ -7,6 +7,30 @@ let currentView = "normal";
 
 // Initialize tierlist functionality
 function initTierlist() {
+  // Tierlist-specific showCompleted toggle
+  window.tierlistShowCompleted = localStorage.getItem('dbd_tierlist_show_completed') === 'true';
+  const tierlistShowCompletedBtn = document.getElementById('tierlist-show-completed-toggle');
+  if (tierlistShowCompletedBtn) {
+    updateTierlistShowCompletedButton();
+    tierlistShowCompletedBtn.addEventListener('click', function() {
+      window.tierlistShowCompleted = !window.tierlistShowCompleted;
+      localStorage.setItem('dbd_tierlist_show_completed', window.tierlistShowCompleted);
+      updateTierlistShowCompletedButton();
+      if (currentView === 'tierlist') populateTierlistCharacters();
+    });
+  }
+// Update the tierlist show completed button appearance and text
+function updateTierlistShowCompletedButton() {
+  const btn = document.getElementById('tierlist-show-completed-toggle');
+  if (!btn) return;
+  if (window.tierlistShowCompleted) {
+    btn.textContent = 'Hide Completed';
+    btn.title = 'Hide completed characters in tierlist view';
+  } else {
+    btn.textContent = 'Show Completed';
+    btn.title = 'Show completed characters in tierlist view';
+  }
+}
   // Get current view from localStorage or default to normal
   currentView = localStorage.getItem("dbd_view_mode") || "normal";
   
@@ -156,11 +180,11 @@ function populateTierlistCharacters() {
     });
   }
   
-  // Filter characters based on showCompleted toggle
-  const charactersToShow = showCompleted ? 
-    sortedCharacters : 
+  // In tierlist mode, filter by tierlistShowCompleted
+  const showCompleted = window.tierlistShowCompleted;
+  const charactersToShow = showCompleted ?
+    sortedCharacters :
     sortedCharacters.filter(character => !completedChars.includes(character.file));
-  
   charactersToShow.forEach(character => {
     const characterCard = createTierlistCharacterCard(character, completedChars, usedPerks);
     characterList.appendChild(characterCard);
