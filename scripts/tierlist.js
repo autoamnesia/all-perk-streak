@@ -10,16 +10,15 @@ function initTierlist() {
   // Get current view from localStorage or default to normal
   currentView = localStorage.getItem("dbd_view_mode") || "normal";
   
-  // const viewToggleBtn = document.getElementById("view-toggle-btn");
-  // 
-  // if (viewToggleBtn) {
-  //   // Only add event listener if it doesn't already have one
-  //   if (!viewToggleBtn.hasAttribute('data-listener-added')) {
-  //     viewToggleBtn.addEventListener("click", toggleView);
-  //     viewToggleBtn.setAttribute('data-listener-added', 'true');
-  //   }
-  //   updateViewToggleButton();
-  // }
+  const viewToggleBtn = document.getElementById("view-toggle-btn");
+  if (viewToggleBtn) {
+    // Only add event listener if it doesn't already have one
+    if (!viewToggleBtn.hasAttribute('data-listener-added')) {
+      viewToggleBtn.addEventListener("click", toggleView);
+      viewToggleBtn.setAttribute('data-listener-added', 'true');
+    }
+    updateViewToggleButton();
+  }
   
   // Set initial view
   if (currentView === "tierlist") {
@@ -59,14 +58,18 @@ function updateViewToggleButton() {
 
 // Show normal view and hide tierlist view
 function showNormalView() {
-  const normalView = document.getElementById("normal-view");
+  // Hide tierlist, show main normal view
   const tierlistView = document.getElementById("tierlist-view");
-  const perkSelectionArea = document.getElementById("perk-selection-area");
-  
-  if (normalView) normalView.style.display = "block";
+  const mainGrid = document.querySelector(".main-grid");
   if (tierlistView) tierlistView.style.display = "none";
-  if (perkSelectionArea) perkSelectionArea.style.display = "block";
-  
+  if (mainGrid) mainGrid.style.display = "grid";
+
+  // Hide legacy/compatibility sections
+  const normalView = document.getElementById("normal-view");
+  const perkSelectionArea = document.getElementById("perk-selection-area");
+  if (normalView) normalView.style.display = "none";
+  if (perkSelectionArea) perkSelectionArea.style.display = "none";
+
   // Refresh the normal view to update completion status and character list
   if (typeof initCharacterList === 'function') {
     initCharacterList();
@@ -78,27 +81,30 @@ function showNormalView() {
 
 // Show tierlist view and hide normal view
 function showTierlistView() {
-  const normalView = document.getElementById("normal-view");
+  // Hide main normal view, show tierlist
   const tierlistView = document.getElementById("tierlist-view");
-  const perkSelectionArea = document.getElementById("perk-selection-area");
-  
-  if (normalView) normalView.style.display = "none";
+  const mainGrid = document.querySelector(".main-grid");
   if (tierlistView) tierlistView.style.display = "block";
-  
-  // Hide the normal perk selection area since we have a new one in tierlist
+  if (mainGrid) mainGrid.style.display = "none";
+
+  // Hide legacy/compatibility sections
+  const normalView = document.getElementById("normal-view");
+  const perkSelectionArea = document.getElementById("perk-selection-area");
+  if (normalView) normalView.style.display = "none";
   if (perkSelectionArea) perkSelectionArea.style.display = "none";
-  
+
   // Wait for character data to be loaded before initializing
   if (characterData && window.allPerks) {
     // Initialize tierlist with current characters and perks
     populateTierlistCharacters();
     populateTierlistPerks();
     initializeTierlistDragAndDrop();
+    initializeTierlistToggle();
   } else {
     // If data isn't loaded yet, wait for it with multiple attempts
     let attempts = 0;
     const maxAttempts = 20; // Wait up to 2 seconds (20 * 100ms)
-    
+
     const waitForData = () => {
       if (characterData && window.allPerks) {
         populateTierlistCharacters();
@@ -111,7 +117,7 @@ function showTierlistView() {
         console.warn('Character data failed to load for tierlist view');
       }
     };
-    
+
     setTimeout(waitForData, 100);
   }
 }
@@ -295,20 +301,16 @@ function createTierlistCharacterCard(character, completedChars, usedPerks) {
       }
     }
 
-    // Refresh displays (force full tierlist view refresh)
+    // Always update progress bars after status change
+    if (typeof renderSavedProgress === 'function') {
+      renderSavedProgress();
+    }
+    if (typeof updateNavProgress === 'function') {
+      updateNavProgress();
+    }
+    // Optionally refresh tierlist view if needed
     if (typeof showTierlistView === 'function') {
       showTierlistView();
-    } else {
-      populateTierlistCharacters();
-      if (typeof renderSavedProgress === 'function') {
-        renderSavedProgress();
-      }
-      if (typeof updateNavProgress === 'function') {
-        updateNavProgress();
-      }
-      if (typeof populateTierlistPerks === 'function') {
-        populateTierlistPerks();
-      }
     }
   });
   

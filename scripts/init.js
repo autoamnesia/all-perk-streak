@@ -218,9 +218,11 @@ function initializeCharacterControls() {
 }
 
   // Initialize tierlist functionality after all controls are created
-  if (typeof initTierlist === 'function') {
-    initTierlist();
-  }
+  setTimeout(() => {
+    if (typeof initTierlist === 'function') {
+      initTierlist();
+    }
+  }, 0);
 
   // Add event listener for random perk button
   const randomPerkBtn = document.getElementById("random-perk-btn");

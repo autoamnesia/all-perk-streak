@@ -78,16 +78,26 @@
     🛠️ Tool made by <a href="https://github.com/Pokejongen" target="_blank">T5K</a> and <a href="https://github.com/autoamnesia" target="_blank">autoamnesia</a>
   </div>
 
-  <!-- Collapsible Settings Panel -->
-  <div id="settings-panel" class="settings-panel">
-    <div class="settings-content">
-      <h3>Settings</h3>
-      <button id="bulk-mark-btn" class="settings-btn">Bulk Actions</button>
-      <button id="search-btn" class="settings-btn">Advanced Search</button>
-      <button id="reset-btn" class="settings-btn">Reset Everything</button>
-      <button id="export-btn" class="settings-btn">Export Data</button>
-      <button id="import-btn" class="settings-btn">Import Data</button>
-      <button id="tierlist-btn" class="settings-btn">Tier List View</button>
+
+  <!-- TIERLIST VIEW SECTION -->
+  <div id="tierlist-view" style="display: none;">
+    <div class="tierlist-section">
+      <div class="panel-header">
+  <h2>Tierlist - Drag & Drop Perks</h2>
+      </div>
+      <div class="tierlist-content-grid">
+        <div class="tierlist-characters-panel">
+          <h3>Characters</h3>
+          <div id="tierlist-character-list" class="tierlist-character-list"></div>
+        </div>
+        <div class="tierlist-perks-panel">
+          <h3>Available Perks</h3>
+          <div class="search-container">
+            <input type="text" id="tierlist-perk-search" placeholder="Search perks..." class="search-input">
+          </div>
+          <div id="tierlist-available-perks" class="tierlist-perk-list"></div>
+        </div>
+      </div>
     </div>
   </div>
 

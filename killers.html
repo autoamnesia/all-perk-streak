@@ -79,11 +79,71 @@
   </div>
 
   <!-- Hidden sections for compatibility -->
+
+  <!-- TIERLIST VIEW SECTION -->
+  <div id="tierlist-view" style="display: none;">
+    <div class="tierlist-section">
+      <div class="panel-header">
+  <h2>Tierlist - Drag & Drop Perks</h2>
+  <button id="toggle-perks-panel" class="control-button" style="margin-left:16px;">Show Perks</button>
+      </div>
+  <script>
+    // Move the tierlist-show-used-toggle button to the controls area for consistent placement
+    document.addEventListener('DOMContentLoaded', function() {
+      var controls = document.getElementById('controls');
+      if (controls && !document.getElementById('tierlist-show-used-toggle')) {
+        var btn = document.createElement('button');
+        btn.id = 'tierlist-show-used-toggle';
+        btn.className = 'control-button';
+        btn.textContent = '👁️ Show All';
+        controls.appendChild(btn);
+      }
+    });
+  </script>
+  <div class="tierlist-content-grid">
+        <div class="tierlist-characters-panel">
+          <h3>Characters</h3>
+          <div id="tierlist-character-list" class="tierlist-character-list"></div>
+        </div>
+  <div class="tierlist-perks-panel" id="tierlist-perks-panel">
+  <script>
+    // Toggle perks panel in tierlist view
+    document.addEventListener('DOMContentLoaded', function() {
+      var perksPanel = document.getElementById('tierlist-perks-panel');
+      var toggleBtn = document.getElementById('toggle-perks-panel');
+      var grid = document.querySelector('#tierlist-view .tierlist-content-grid');
+      if (perksPanel && toggleBtn && grid) {
+        // Start hidden
+        perksPanel.style.display = 'none';
+        grid.style.gridTemplateColumns = '1fr';
+        toggleBtn.textContent = 'Show Perks';
+        toggleBtn.addEventListener('click', function() {
+          if (perksPanel.style.display === 'none') {
+            perksPanel.style.display = '';
+            grid.style.gridTemplateColumns = '';
+            toggleBtn.textContent = 'Hide Perks';
+          } else {
+            perksPanel.style.display = 'none';
+            grid.style.gridTemplateColumns = '1fr';
+            toggleBtn.textContent = 'Show Perks';
+          }
+        });
+      }
+    });
+  </script>
+          <h3>Available Perks</h3>
+          <div class="search-container">
+            <input type="text" id="tierlist-perk-search" placeholder="Search perks..." class="search-input">
+          </div>
+          <div id="tierlist-available-perks" class="tierlist-perk-list"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <div class="character-section" id="normal-view" style="display: none;">
     <div id="killer-list-old" class="character-list"></div>
   </div>
-
-
 
   <div id="perk-selection-area" style="display: none;">
     <div>
@@ -96,7 +156,6 @@
         <div class="random-perk-button" id="random-perk-btn-old" title="Add Random Perk">🎲</div>
       </div>
     </div>
-
     <h2>Available Perks</h2>
     <div class="search-container">
       <input type="text" id="perk-search-old" placeholder="Search perks..." class="search-input">

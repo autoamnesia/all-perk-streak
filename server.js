@@ -209,11 +209,11 @@ function updateOverlayFile(overlayData) {
 
 // Start the server
 server.listen(PORT, () => {
-  console.log('🚀 DBD All Perk Streak Server started!');
-  console.log(`🌐 Main app: http://localhost:${PORT}`);
-  console.log(`📺 Streamer overlay: http://localhost:${PORT}/streamer-overlay.html`);
+  console.log('DBD All Perk Streak Server started!');
+  console.log(`Main app: http://localhost:${PORT}`);
+  console.log(`Streamer overlay: http://localhost:${PORT}/streamer-overlay.html`);
   console.log('');
-  console.log('📋 OBS Setup:');
+  console.log('OBS Setup:');
   console.log('1. Add Browser Source in OBS');
   console.log(`2. Set URL to: http://localhost:${PORT}/streamer-overlay.html`);
   console.log('3. Set Width: 400, Height: 300 (or adjust as needed)');

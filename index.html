@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>All Perk Streak</title>
   <link rel="icon" type="image/png" href="assets/icons/home.png">
-  <link rel="stylesheet" href="style.css?v=3.0">
+  <link rel="stylesheet" href="style-new.css">
 </head>
 <body>
 
@@ -68,13 +68,13 @@
         const response = await fetch('/api/progress');
         if (response.ok) {
           // Node.js server with API is running - show streamer features
-          console.log('âœ… Node.js server detected - Streamer features available');
+          console.log('Node.js server detected - Streamer features available');
         } else {
           throw new Error('API not available');
         }
       } catch (error) {
         // Python server or no API - hide streamer features
-        console.log('âš ï¸ Basic server mode - Hiding streamer features');
+  console.log('Basic server mode - Hiding streamer features');
         const streamerSection = document.getElementById('streamer-section');
         if (streamerSection) {
           streamerSection.style.display = 'none';

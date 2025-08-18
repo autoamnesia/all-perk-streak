@@ -1,3 +1,415 @@
+/* Tierlist view: hide perks panel and expand characters panel to full width */
+
+/* ========== INDEX PAGE TITLE STYLES (from style.css) ========== */
+h1, h2 {
+  color: #f0db4f;
+}
+h1 {
+  text-align: center;
+  margin-top: 100px; /* Adjust for top-left controls */
+}
+@media (max-width: 600px) {
+  h1 {
+    margin-top: 80px; /* Reset h1 margin on mobile */
+  }
+}
+/* ========== INDEX PAGE STYLES (from style.css) ========== */
+.top-nav {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  display: flex;
+  gap: 15px;
+  align-items: center;
+}
+.nav-icon {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-decoration: none;
+  color: #f0f0f0;
+  background: #2a2a2a;
+  padding: 10px;
+  border-radius: 8px;
+  transition: transform 0.2s ease;
+}
+.nav-icon:hover {
+  transform: scale(1.05);
+  background: #3a3a3a;
+}
+.nav-icon img {
+  width: 50px;
+  height: 50px;
+  border-radius: 6px;
+  margin-bottom: 5px;
+}
+.nav-icon span {
+  font-size: 12px;
+  font-weight: bold;
+  margin-bottom: 3px;
+}
+.icon-navigation {
+  display: flex;
+  justify-content: center;
+  gap: 60px;
+  margin: 30px 0;
+}
+.icon-link {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-decoration: none;
+  color: #f0f0f0;
+  transition: transform 0.2s ease;
+}
+.icon-link:hover {
+  transform: scale(1.05);
+  color: #f0db4f;
+}
+.icon-link img {
+  width: 120px;
+  height: 120px;
+  margin-bottom: 10px;
+  border-radius: 12px;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+}
+.icon-link span {
+  font-size: 18px;
+  font-weight: bold;
+}
+.progress-container {
+  width: 120px;
+  height: 25px;
+  background-color: #2a2a2a;
+  border: 2px solid #444;
+  border-radius: 12px;
+  margin-top: 8px;
+  overflow: hidden;
+  position: relative;
+}
+.progress-bar {
+  height: 100%;
+  background: linear-gradient(90deg, #8B0000, #DC143C, #B22222);
+  transition: width 0.5s ease;
+  border-radius: 10px;
+}
+.progress-text {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 12px;
+  font-weight: bold;
+  color: #fff;
+  text-shadow: 1px 1px 2px rgba(0,0,0,0.8);
+  z-index: 10;
+}
+.tool-button {
+  background: #4CAF50;
+  color: white;
+  border: none;
+  padding: 15px 25px;
+  border-radius: 8px;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  min-width: 180px;
+}
+.tool-button:hover {
+  background: #45a049;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+}
+.tierlist-perk-item img {
+  width: 72px !important;
+  height: 72px !important;
+  object-fit: cover;
+  border-radius: 10px;
+  border: 2px solid #30363d;
+  background: #181c22;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+  display: block;
+  margin: 0;
+  transition: transform 0.2s;
+  box-sizing: border-box;
+  z-index: 1;
+}
+/* Force perk images in tierlist view to be small and not overridden by other rules */
+.tierlist-perk-item img {
+  width: 72px !important;
+  height: 72px !important;
+  object-fit: cover;
+  border-radius: 10px;
+  border: 2px solid #30363d;
+  background: #181c22;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+  display: block;
+  margin: 0 auto;
+  transition: transform 0.2s;
+}
+.tierlist-perk-item img:hover {
+  transform: scale(1.08);
+  border-color: #f0db4f;
+}
+.tierlist-content-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+  padding: 24px;
+  align-items: flex-start;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.tierlist-characters-panel, .tierlist-perks-panel {
+  background: #161b22;
+  border: 1px solid #30363d;
+  border-radius: 8px;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+#tierlist-available-perks.tierlist-perk-list,
+.tierlist-perk-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, 88px);
+  gap: 16px;
+  width: 100%;
+  margin-top: 12px;
+  max-height: 75vh;
+  min-height: 300px;
+  overflow-y: 300px;
+  overflow-x: 300px;
+  box-sizing: border-box;
+  justify-content: flex-start;
+}
+/* Unified tierlist perk list grid for tierlist view */
+.tierlist-perk-list {
+  grid-template-columns: repeat(auto-fit, minmax(72px, 1fr));
+  gap: 16px;
+}
+
+
+/* Cleaned up tierlist-perk-item: single rule, margin to prevent border overlap */
+.tierlist-perk-item {
+  min-width: 72px;
+  min-height: 72px;
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 8px;
+  margin: 4px;
+  background: #181c22;
+  border-radius: 10px;
+}
+
+.tierlist-perk-item img {
+  width: 72px !important;
+  height: 72px !important;
+  object-fit: cover;
+  border-radius: 10px;
+  border: 2px solid #30363d;
+  background: #181c22;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+  display: block;
+  margin: 0;
+  transition: transform 0.2s;
+  box-sizing: border-box;
+}
+
+.tierlist-perk-item {
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.tierlist-mini-perk {
+  width: 24px;
+  height: 24px;
+  border-radius: 4px;
+  object-fit: cover;
+  border: 1px solid #666;
+  cursor: grab;
+  transition: transform 0.2s ease;
+  -webkit-user-drag: element;
+  -webkit-user-select: none;
+  user-select: none;
+}
+#tierlist-view {
+  position: relative;
+  z-index: 10;
+  width: 100vw;
+  min-height: 80vh;
+  background: #161b22;
+  margin-top: 60px;
+  overflow-y: auto !important;
+  max-height: calc(100vh - 60px);
+}
+
+.tierlist-content-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+  padding: 24px;
+  align-items: flex-start;
+}
+
+.tierlist-perks-panel {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  min-height: 500px;
+  max-height: 85vh;
+  overflow-y: auto;
+}
+
+
+/* Single, unified grid for tierlist perks */
+#tierlist-available-perks.tierlist-perk-list,
+.tierlist-perk-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(80px, 1fr));
+  gap: 16px;
+  width: 100%;
+  margin-top: 12px;
+  max-height: none;
+  min-height: 300px;
+  overflow-y: visible;
+  box-sizing: border-box;
+}
+
+.tierlist-mini-perk {
+  width: 32px;
+  height: 32px;
+  border-radius: 4px;
+  object-fit: cover;
+  border: 1px solid #666;
+  cursor: grab;
+  transition: transform 0.2s ease;
+  -webkit-user-drag: element;
+  -webkit-user-select: none;
+  user-select: none;
+}
+/* =============================================================================
+   TIERLIST VIEW (GRID LAYOUT)
+   ============================================================================= */
+
+.tierlist-content-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+  padding: 24px;
+}
+
+.tierlist-characters-panel, .tierlist-perks-panel {
+  background: #161b22;
+  border: 1px solid #30363d;
+  border-radius: 8px;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.tierlist-character-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 12px;
+  width: 100%;
+  margin-top: 12px;
+}
+
+.tierlist-character-card {
+  display: flex;
+  align-items: center;
+  background: #21262d;
+  border-radius: 8px;
+  padding: 10px;
+  cursor: pointer;
+  transition: all 0.3s ease, transform 0.2s ease;
+  border: 2px solid transparent;
+  position: relative;
+  min-width: 0;
+}
+
+.tierlist-character-card:hover {
+  background: #30363d;
+  transform: scale(1.03);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.4);
+}
+
+.tierlist-character-card.selected {
+  border: 2px solid #4CAF50;
+  background: #2a5a2a;
+}
+
+.tierlist-character-card.completed {
+  border: 2px solid limegreen;
+  background: #1a4a1a;
+}
+
+.tierlist-character-card img {
+  width: 50px;
+  height: 50px;
+  object-fit: cover;
+  border-radius: 6px;
+  margin-right: 12px;
+}
+
+.tierlist-character-info {
+  flex: 1;
+  min-width: 0;
+}
+
+.tierlist-character-name {
+  font-size: 14px;
+  font-weight: bold;
+  color: #fff;
+  margin-bottom: 4px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.tierlist-character-perk-count {
+  font-size: 12px;
+  color: #ccc;
+}
+
+.tierlist-character-perks {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: 1fr 1fr;
+  gap: 2px;
+  margin-top: 6px;
+  width: 100%;
+  max-width: 50px;
+}
+
+.tierlist-mini-perk {
+  width: 20px;
+  height: 20px;
+  border-radius: 3px;
+  object-fit: cover;
+  border: 1px solid #666;
+  cursor: grab;
+  transition: transform 0.2s ease;
+  -webkit-user-drag: element;
+  -webkit-user-select: none;
+  user-select: none;
+}
+
+.tierlist-mini-perk:hover {
+  transform: scale(1.1);
+}
 /* =============================================================================
    GLOBAL STYLES & RESET
    ============================================================================= */
@@ -331,6 +743,19 @@ input, textarea {
   margin-top: 60px;
   height: calc(100vh - 80px);
   overflow: hidden;
+}
+
+#tierlist-view {
+  position: relative;
+  z-index: 10;
+  width: 100vw;
+  min-height: 80vh;
+  background: #161b22;
+  margin-top: 60px;
+}
+
+#tierlist-view[style*="display: block"] ~ .main-grid {
+  display: none !important;
 }
 
 .characters-panel,
@@ -714,7 +1139,6 @@ input, textarea {
 
 /* Hide old elements */
 .character-section,
-.tierlist-section,
 #perk-selection-area {
   display: none !important;
 }

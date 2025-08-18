@@ -15,7 +15,7 @@ if %ERRORLEVEL% EQU 0 (
     echo.
     echo OBS Setup:
     echo 1. Add Browser Source in OBS
-    echo 2. Set URL to: http://localhost:8000/streamer-overlay.html  
+    echo 2. Set URL to: http://localhost:8000/streamer-overlay.html
     echo 4. Overlay updates automatically when you make progress!
     echo.
     echo STREAMER MODE: Auto-updating overlay enabled!
@@ -99,13 +99,13 @@ if %ERRORLEVEL% EQU 0 (
 
 echo No server found! Please install one of the following:
 echo.
-echo FOR STREAMERS ^(recommended^):
-echo   • Node.js: https://nodejs.org
-echo   • Enables real-time overlay updates for OBS
+echo FOR STREAMERS (recommended):
+echo   - Node.js: https://nodejs.org
+echo   - Enables real-time overlay updates for OBS
 echo.
 echo FOR BASIC USE:
-echo   • Python: https://python.org
-echo   • Basic functionality only
+echo   - Python: https://python.org
+echo   - Basic functionality only
 echo.
 echo Press any key to exit...
 pause >nul
