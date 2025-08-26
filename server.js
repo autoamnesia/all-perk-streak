@@ -159,7 +159,6 @@ function updateOverlayFile(overlayData) {
   <div class="overlay-card" id="killer-card">
     <div class="overlay-title">All Perk Streak</div>
     <div class="progress-section">
-      <div class="progress-label">Killers</div>
       <div class="progress-bar-bg">
         <div class="progress-bar-fill killer-fill" id="killer-bar" style="width: 0%"></div>
       </div>
@@ -169,7 +168,6 @@ function updateOverlayFile(overlayData) {
   <div class="overlay-card" id="survivor-card" style="margin-top:16px;">
     <div class="overlay-title">All Perk Streak</div>
     <div class="progress-section">
-      <div class="progress-label">Survivors</div>
       <div class="progress-bar-bg">
         <div class="progress-bar-fill survivor-fill" id="survivor-bar" style="width: 0%"></div>
       </div>
