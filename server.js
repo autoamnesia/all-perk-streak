@@ -146,6 +146,7 @@ const server = http.createServer((req, res) => {
 
 // Function to update the overlay HTML file
 function updateOverlayFile(overlayData) {
+
   const overlayHTML = `<!DOCTYPE html>
 <html lang="en">
 <head>
@@ -155,49 +156,51 @@ function updateOverlayFile(overlayData) {
   <link rel="stylesheet" href="streamer-overlay.css">
 </head>
 <body>
-  <div class="overlay-container">
-    <div class="streak-text killer-text">
-      <span id="killer-count">0/0</span> Killers Done
+  <div class="overlay-card" id="killer-card">
+    <div class="overlay-title">All Perk Streak</div>
+    <div class="progress-section">
+      <div class="progress-label">Killers</div>
+      <div class="progress-bar-bg">
+        <div class="progress-bar-fill killer-fill" id="killer-bar" style="width: 0%"></div>
+      </div>
+      <div class="progress-count" id="killer-count">0/0</div>
     </div>
-    
-    <div class="streak-text survivor-text">
-      <span id="survivor-count">0/0</span> Survivors Done
+  </div>
+  <div class="overlay-card" id="survivor-card" style="margin-top:16px;">
+    <div class="overlay-title">All Perk Streak</div>
+    <div class="progress-section">
+      <div class="progress-label">Survivors</div>
+      <div class="progress-bar-bg">
+        <div class="progress-bar-fill survivor-fill" id="survivor-bar" style="width: 0%"></div>
+      </div>
+      <div class="progress-count" id="survivor-count">0/0</div>
     </div>
   </div>
 
   <script>
-    // Fetch progress from server API
-    async function updateCounts() {
+    // Show both killer and survivor progress at once
+    async function updateBoth() {
       try {
-        console.log('🔄 Fetching progress from server...');
         const response = await fetch('/api/progress');
-        
-        if (!response.ok) {
-          throw new Error(\`HTTP \${response.status}: \${response.statusText}\`);
-        }
-        
+        if (!response.ok) throw new Error('HTTP ' + response.status + ': ' + response.statusText);
         const progressData = await response.json();
-        console.log('📊 Progress data:', progressData);
-        
-        // Update display
-        document.getElementById('killer-count').textContent = \`\${progressData.killerCompleted}/\${progressData.killerTotal}\`;
-        document.getElementById('survivor-count').textContent = \`\${progressData.survivorCompleted}/\${progressData.survivorTotal}\`;
-        
-        console.log(\`✅ Display updated: Killers \${progressData.killerCompleted}/\${progressData.killerTotal}, Survivors \${progressData.survivorCompleted}/\${progressData.survivorTotal}\`);
+        // Killer
+        document.getElementById('killer-count').textContent = progressData.killerCompleted + '/' + progressData.killerTotal;
+        const killerPercent = progressData.killerTotal > 0 ? (progressData.killerCompleted / progressData.killerTotal) * 100 : 0;
+        document.getElementById('killer-bar').style.width = killerPercent + '%';
+        // Survivor
+        document.getElementById('survivor-count').textContent = progressData.survivorCompleted + '/' + progressData.survivorTotal;
+        const survivorPercent = progressData.survivorTotal > 0 ? (progressData.survivorCompleted / progressData.survivorTotal) * 100 : 0;
+        document.getElementById('survivor-bar').style.width = survivorPercent + '%';
       } catch (error) {
-        console.error('❌ Error fetching progress:', error);
         document.getElementById('killer-count').textContent = 'Error';
+        document.getElementById('killer-bar').style.width = '0%';
         document.getElementById('survivor-count').textContent = 'Error';
+        document.getElementById('survivor-bar').style.width = '0%';
       }
     }
-
-    // Update counts when page loads
-    updateCounts();
-    
-    // Auto-refresh every 2 seconds
-    setInterval(() => {
-      updateCounts();
-    }, 2000);
+    updateBoth();
+    setInterval(updateBoth, 2000);
   </script>
 </body>
 </html>`;

@@ -44,13 +44,14 @@
 
     try {
       const completedChars = JSON.parse(localStorage.getItem('dbd_completed_chars') || '[]');
-      
+
+      // Always get totals from charactersData, never from localStorage or progress.json
       const killerTotal = charactersData.killers ? charactersData.killers.length : 0;
+      const survivorTotal = charactersData.survivors ? charactersData.survivors.length : 0;
+
       const killerCompleted = completedChars.filter(charFile => {
         return charactersData.killers.some(killer => killer.file === charFile);
       }).length;
-      
-      const survivorTotal = charactersData.survivors ? charactersData.survivors.length : 0;
       const survivorCompleted = completedChars.filter(charFile => {
         return charactersData.survivors.some(survivor => survivor.file === charFile);
       }).length;
