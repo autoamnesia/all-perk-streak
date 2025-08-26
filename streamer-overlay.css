@@ -2,32 +2,70 @@
 /* Edit this file to customize the appearance of the overlay */
 body {
   margin: 0;
-  padding: 20px;
-  font-family: 'Arial', sans-serif;
+  padding: 0;
+  font-family: 'Segoe UI', Arial, sans-serif;
   background: transparent;
-  color: white;
-  text-shadow: 2px 2px 4px rgba(0,0,0,0.8);
+  color: #fff;
 }
 
-.overlay-container {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-  max-width: 300px;
-}
-
-.streak-text {
-  font-size: 24px;
-  font-weight: bold;
+.overlay-card {
+  background: rgba(30, 30, 40, 0.7);
+  border-radius: 18px;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.25);
+  padding: 14px 18px;
+  min-width: 320px;
+  max-width: 420px;
+  color: #fff;
+  border: 2px solid #5e72e4;
+  position: relative;
+  margin: 16px auto 8px auto;
   text-align: center;
-  padding: 10px;
-  background: transparent;
+  backdrop-filter: blur(2px);
 }
-
-.killer-text {
-  color: #ffffffff;
+.overlay-title {
+  font-size: 2rem;
+  font-weight: 700;
+  margin-bottom: 18px;
+  letter-spacing: 1px;
+  color: #fff;
+  text-shadow: 0 2px 8px #2228;
 }
-
-.survivor-text {
-  color: #ffffffff;
+.progress-section {
+  margin-bottom: 22px;
+}
+.progress-label {
+  font-size: 1.1rem;
+  font-weight: 600;
+  margin-bottom: 6px;
+  color: #c3cfff;
+  letter-spacing: 0.5px;
+}
+.progress-bar-bg {
+  background: #222b;
+  border-radius: 10px;
+  height: 22px;
+  width: 100%;
+  overflow: hidden;
+  margin-bottom: 6px;
+  border: 1px solid #5e72e4;
+}
+.progress-bar-fill {
+  height: 100%;
+  width: 0%;
+  transition: width 0.6s cubic-bezier(.4,2,.6,1);
+  border-radius: 10px 0 0 10px;
+  box-shadow: 0 0 8px #5e72e4aa;
+}
+.killer-fill {
+  background: linear-gradient(90deg, #5e72e4 0%, #9f7aea 100%);
+}
+.survivor-fill {
+  background: linear-gradient(90deg, #38b2ac 0%, #63e6be 100%);
+}
+.progress-count {
+  font-size: 2rem;
+  color: #f7fafc;
+  margin-bottom: 2px;
+  font-weight: 700;
+  letter-spacing: 1px;
 }
