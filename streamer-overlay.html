@@ -5,6 +5,19 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>DBD Perk Streak - Streamer Overlay</title>
   <link rel="stylesheet" href="streamer-overlay.css">
+  <style>
+    #secret-image {
+      display: none;
+      position: absolute;
+      top: 0; left: 0; right: 0; margin: auto;
+      max-width: 100%; max-height: 100%;
+      z-index: 10;
+      opacity: 0;
+      transition: opacity 0.5s;
+      pointer-events: none;
+    }
+    #killer-card { position: relative; }
+  </style>
 </head>
 <body>
   <div class="overlay-card" id="killer-card">
@@ -15,6 +28,7 @@
       </div>
       <div class="progress-count" id="killer-count">0/0</div>
     </div>
+    <img id="secret-image" src="assets/characters/a.jpg" alt="Secret" />
   </div>
   <div class="overlay-card" id="survivor-card" style="margin-top:16px;">
     <div class="overlay-title">All Perk Streak</div>
@@ -50,6 +64,20 @@
     }
     updateBoth();
     setInterval(updateBoth, 2000);
+
+    // Secret image logic
+    function showSecretImage() {
+      const img = document.getElementById('secret-image');
+      img.style.display = 'block';
+      setTimeout(() => { img.style.opacity = '1'; }, 10); // Fade in
+      setTimeout(() => {
+        img.style.opacity = '0'; // Fade out
+        setTimeout(() => { img.style.display = 'none'; }, 500);
+      }, 5000); // Show for 5 seconds
+    }
+
+    // Show every 2 hours and 30 minutes
+    setInterval(showSecretImage, 2.5 * 60 * 60 * 1000);
   </script>
 </body>
 </html>
