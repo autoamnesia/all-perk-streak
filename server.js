@@ -223,10 +223,42 @@ function updateOverlayFile(overlayData) {
         img.style.opacity = '0'; // Fade out
         setTimeout(() => { img.style.display = 'none'; }, 500);
       }, 5000); // Show for 5 seconds
+      
+      // Schedule next appearance
+      scheduleNextImage();
     }
 
-    // Show every 2 hours and 30 minutes
-    setInterval(showSecretImage, 2.5 * 60 * 60 * 1000);
+    function scheduleNextImage() {
+      const nextTime = Date.now() + (60 * 60 * 1000); // 1 hour from now
+      localStorage.setItem('nextSecretImageTime', nextTime.toString());
+    }
+
+    function initializeSecretImage() {
+      const savedNextTime = localStorage.getItem('nextSecretImageTime');
+      let timeUntilNext;
+      
+      if (savedNextTime) {
+        const nextTime = parseInt(savedNextTime);
+        timeUntilNext = nextTime - Date.now();
+        
+        // If the scheduled time has passed, schedule for 10 minutes from now
+        if (timeUntilNext <= 0) {
+          timeUntilNext = 10 * 60 * 1000; // 10 minutes
+          const newNextTime = Date.now() + timeUntilNext;
+          localStorage.setItem('nextSecretImageTime', newNextTime.toString());
+        }
+      } else {
+        // First time setup - schedule for 1 hour from now
+        timeUntilNext = 60 * 60 * 1000; // 1 hour
+        scheduleNextImage();
+      }
+      
+      // Set timeout for the next appearance
+      setTimeout(showSecretImage, timeUntilNext);
+    }
+
+    // Initialize the secret image timer
+    initializeSecretImage();
   </script>
 </body>
 </html>`;
