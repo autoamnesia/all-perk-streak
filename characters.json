@@ -239,6 +239,11 @@
       "name": "Zarina Kassir",
       "file": "zarina-kassir",
       "type": "survivors"
+    },
+    {
+      "name": "Vee Boonyasak",
+      "file": "vee-boonyasak",
+      "type": "survivors"
     }
   ],
   "killers": [
@@ -440,6 +445,11 @@
     {
       "name": "The Xenomorph",
       "file": "the-xenomorph",
+      "type": "killers"
+    },
+    {
+      "name": "The Krasue",
+      "file": "the-krasue",
       "type": "killers"
     }
   ],
@@ -1076,8 +1086,20 @@
       {
         "name": "Wiretap",
         "file": "wiretap.webp"
+      },
+      {
+        "name": "Ghost Notes",
+        "file": "ghost-notes.webp"
+      },
+      {
+        "name": "One-Two-Three-Four!",
+        "file": "one-two-three-four.webp"
+      },
+      {
+        "name": "Road Life",
+        "file": "road-life.webp"
       }
-    ],
+  ],
     "killers": [
       {
         "name": "A Nurses Calling",
@@ -1610,6 +1632,18 @@
       {
         "name": "Zanshin Tactics",
         "file": "zanshin-tactics.webp"
+      },
+      {
+        "name": "Hex Overture Of Doom",
+        "file": "hex-overture-of-doom.webp"
+      },
+      {
+        "name": "Ravenous",
+        "file": "ravenous.webp"
+      },
+      {
+        "name": "Wandering Eye",
+        "file": "wandering-eye.webp"
       }
     ]
   }
