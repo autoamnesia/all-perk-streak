@@ -11,7 +11,8 @@ Track every perk streak in Dead by Daylight (Killer + Survivor) with an easy sel
 
 The latest Killers and Survivors are available in the `Public-Test-Build` branch.
 
-![GitHub Branch Button Example](assets/branch-button-example.png)
+<img src="assets/branch-button-example.png" alt="GitHub Branch Button Example" width="150">
+
 
 ## Features ✨
 * Killer & Survivor progress tracking (perks + completion state)
