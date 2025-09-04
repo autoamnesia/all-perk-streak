@@ -5,13 +5,19 @@ Track every perk streak in Dead by Daylight (Killer + Survivor) with an easy sel
 ## Live Website 🔗
 [allperkstreak.help](https://www.allperkstreak.help)
 
-![DBD Perk Streak Tracker Preview](preview.jpg)
+![DBD Perk Streak Tracker Preview](assets/preview.jpg)
+
+## Public Test Build 🧪
+
+The latest Killers and Survivors are available in the `Public-Test-Build` branch.
+
+![GitHub Branch Button Example](assets/branch-button-example.png)
 
 ## Features ✨
-* Killer & Survivor progress tracking (counts + completion state)
+* Killer & Survivor progress tracking (perks + completion state)
 * Save / restore progress file locally
 * Persisted builds (keep perk builds for future runs)
-* Randomizer for perks / runs
+* Randomizer for perks / killers
 * Real‑time OBS overlay when using Node.js server
 * Fallback “basic mode” using only Python / static hosting (no overlay APIs)
 
