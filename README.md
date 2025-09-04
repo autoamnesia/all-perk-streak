@@ -5,7 +5,7 @@ Track every perk streak in Dead by Daylight (Killer + Survivor) with an easy sel
 ## Live Website 🔗
 [allperkstreak.help](https://www.allperkstreak.help)
 
-![DBD Perk Streak Tracker Preview](assets/preview.jpg)
+![DBD Perk Streak Tracker Preview](assets/preview.png)
 
 ## Public Test Build 🧪
 
