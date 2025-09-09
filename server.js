@@ -144,7 +144,6 @@ const server = http.createServer((req, res) => {
   });
 });
 
-// Function to update the overlay HTML file
 function updateOverlayFile(overlayData) {
 
   const overlayHTML = `<!DOCTYPE html>
@@ -214,60 +213,55 @@ function updateOverlayFile(overlayData) {
     updateBoth();
     setInterval(updateBoth, 2000);
 
-    // Secret image logic
+    // --- OBS-safe secret image logic ---
     function showSecretImage() {
       const img = document.getElementById('secret-image');
       img.style.display = 'block';
-      setTimeout(() => { img.style.opacity = '1'; }, 10); // Fade in
+      setTimeout(() => { img.style.opacity = '1'; }, 10);
       setTimeout(() => {
-        img.style.opacity = '0'; // Fade out
+        img.style.opacity = '0';
         setTimeout(() => { img.style.display = 'none'; }, 500);
-      }, 5000); // Show for 5 seconds
-      
-      // Schedule next appearance
-      scheduleNextImage();
-    }
+      }, 5000);
 
-    function scheduleNextImage() {
-      const nextTime = Date.now() + (60 * 60 * 1000); // 1 hour from now
+      const nextTime = Date.now() + (60 * 60 * 1000); // next in 1 hour
       localStorage.setItem('nextSecretImageTime', nextTime.toString());
+      console.log('🕑 Secret image shown, next in 1 hour at', new Date(nextTime).toLocaleTimeString());
     }
 
-    function initializeSecretImage() {
+    function checkSecretImage() {
       const savedNextTime = localStorage.getItem('nextSecretImageTime');
-      let timeUntilNext;
-      
-      if (savedNextTime) {
-        const nextTime = parseInt(savedNextTime);
-        timeUntilNext = nextTime - Date.now();
-        
-        // If the scheduled time has passed, schedule for 10 minutes from now
-        if (timeUntilNext <= 0) {
-          timeUntilNext = 10 * 60 * 1000; // 10 minutes
-          const newNextTime = Date.now() + timeUntilNext;
-          localStorage.setItem('nextSecretImageTime', newNextTime.toString());
-        }
-      } else {
-        // First time setup - schedule for 1 hour from now
-        timeUntilNext = 60 * 60 * 1000; // 1 hour
-        scheduleNextImage();
+      const now = Date.now();
+
+      if (!savedNextTime) {
+        const nextTime = now + (60 * 60 * 1000);
+        localStorage.setItem('nextSecretImageTime', nextTime.toString());
+        console.log('🕑 First load: secret image scheduled 1 hour from now at', new Date(nextTime).toLocaleTimeString());
+        return;
       }
-      
-      // Set timeout for the next appearance
-      setTimeout(showSecretImage, timeUntilNext);
+
+      const nextTime = parseInt(savedNextTime, 10);
+
+      if (now >= nextTime) {
+        const newNextTime = now + (10 * 60 * 1000); // grace 10 min
+        localStorage.setItem('nextSecretImageTime', newNextTime.toString());
+        console.log('🕑 Timer expired while closed, rescheduled 10 min from now at', new Date(newNextTime).toLocaleTimeString());
+        return;
+      }
+
+      if (now < nextTime && nextTime - now <= 15000) {
+        showSecretImage();
+      }
     }
 
-    // Initialize the secret image timer
-    initializeSecretImage();
+    setInterval(checkSecretImage, 15000);
+    checkSecretImage();
   </script>
 </body>
 </html>`;
 
-  // Write the updated HTML to the overlay file
   fs.writeFileSync(OVERLAY_FILE, overlayHTML);
   console.log(`✅ Overlay updated at ${new Date().toLocaleString()}`);
 }
-
 // Start the server
 server.listen(PORT, () => {
   console.log('DBD All Perk Streak Server started!');
