@@ -2,5 +2,7 @@
   "killerCompleted": 0,
   "killerTotal": 40,
   "survivorCompleted": 0,
-  "survivorTotal": 48
+  "survivorTotal": 48,
+  "completedKillers": [],
+  "completedSurvivors": []
 }

@@ -49,18 +49,30 @@
       const killerTotal = charactersData.killers ? charactersData.killers.length : 0;
       const survivorTotal = charactersData.survivors ? charactersData.survivors.length : 0;
 
-      const killerCompleted = completedChars.filter(charFile => {
-        return charactersData.killers.some(killer => killer.file === charFile);
-      }).length;
-      const survivorCompleted = completedChars.filter(charFile => {
-        return charactersData.survivors.some(survivor => survivor.file === charFile);
-      }).length;
+      const completedKillers = completedChars
+        .map(charFile => {
+          const killer = charactersData.killers.find(k => k.file === charFile);
+          return killer ? { id: killer.file, name: killer.name } : null;
+        })
+        .filter(Boolean);
+
+      const completedSurvivors = completedChars
+        .map(charFile => {
+          const survivor = charactersData.survivors.find(s => s.file === charFile);
+          return survivor ? { id: survivor.file, name: survivor.name } : null;
+        })
+        .filter(Boolean);
+
+      const killerCompleted = completedKillers.length;
+      const survivorCompleted = completedSurvivors.length;
 
       return {
         killerCompleted,
         killerTotal,
         survivorCompleted,
-        survivorTotal
+        survivorTotal,
+        completedKillers,
+        completedSurvivors
       };
     } catch (error) {
       console.error('Error calculating progress:', error);

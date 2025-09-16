@@ -16,11 +16,11 @@ body {
   min-width: 320px;
   max-width: 420px;
   color: #fff;
-  border: 2px solid #5e72e4;
   position: relative;
   margin: 16px auto 8px auto;
   text-align: center;
   backdrop-filter: blur(2px);
+  border: #5e72e4 solid 2px;
 }
 .overlay-title {
   font-size: 2rem;
