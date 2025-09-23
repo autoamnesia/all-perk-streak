@@ -43,7 +43,7 @@ const server = http.createServer((req, res) => {
       // Read progress data from a file or return default
       let progressData = {
         killerCompleted: 0,
-        killerTotal: 40,
+        killerTotal: 41,
         survivorCompleted: 0,
         survivorTotal: 48,
         completedKillers: []
@@ -80,9 +80,9 @@ const server = http.createServer((req, res) => {
         // Read existing progress to preserve any additional data
         let existingProgress = {
           killerCompleted: 0,
-          killerTotal: 40,
+          killerTotal: 41,
           survivorCompleted: 0,
-          survivorTotal: 48,
+          survivorTotal: 49,
           completedKillers: [],
           completedSurvivors: []
         };
@@ -617,9 +617,9 @@ server.listen(PORT, () => {
 if (!fs.existsSync(OVERLAY_FILE)) {
   const initialData = {
     killerCompleted: 0,
-    killerTotal: 40,
+    killerTotal: 41,
     survivorCompleted: 0,
-    survivorTotal: 40,
+    survivorTotal: 49,
     currentKiller: null,
     currentSurvivor: null,
     settings: {
