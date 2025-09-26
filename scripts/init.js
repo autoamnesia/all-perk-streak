@@ -119,6 +119,60 @@ async function initializePage() {
     "Click to allow removing perks from completed characters";
   btnAllowRemoveCompleted.addEventListener("click", toggleAllowRemoveFromCompleted);
 
+  // Add colorful perks toggle button
+  const btnColorfulPerks = document.createElement("button");
+  btnColorfulPerks.id = "colorful-perks-toggle";
+  btnColorfulPerks.className = colorfulPerks ? "control-button toggle-active" : "control-button success";
+  btnColorfulPerks.textContent = colorfulPerks ? "🎨 Colorful Perks" : "🖤 Simple Perks";
+  btnColorfulPerks.title = colorfulPerks ? 
+    "Click to disable colorful perk backgrounds" : 
+    "Click to enable colorful perk backgrounds";
+  btnColorfulPerks.addEventListener("click", function() {
+    console.log("Colorful perks button clicked!");
+    console.log("Current colorfulPerks state:", colorfulPerks);
+    
+    // Toggle the state
+    colorfulPerks = !colorfulPerks;
+    localStorage.setItem("dbd_colorful_perks", JSON.stringify(colorfulPerks));
+    
+    console.log("New colorfulPerks state:", colorfulPerks);
+    
+    // Update button appearance and text
+    btnColorfulPerks.textContent = colorfulPerks ? "🎨 Colorful Perks" : "🖤 Simple Perks";
+    btnColorfulPerks.className = colorfulPerks ? "control-button toggle-active" : "control-button success";
+    btnColorfulPerks.title = colorfulPerks ? 
+      "Click to disable colorful perk backgrounds" : 
+      "Click to enable colorful perk backgrounds";
+    
+    console.log("Button updated, adding/removing CSS class...");
+    
+    // Update CSS class on body to trigger style changes
+    if (colorfulPerks) {
+      document.body.classList.add('colorful-perks');
+      console.log("Added colorful-perks class to body");
+    } else {
+      document.body.classList.remove('colorful-perks');
+      console.log("Removed colorful-perks class from body");
+    }
+    
+    console.log("Body classes:", document.body.className);
+    
+    // Refresh available perks to update appearance
+    if (selectedCharacter) {
+      updateAvailablePerks(selectedCharacter.type);
+      console.log("Updated perks for selected character");
+    } else {
+      updateAvailablePerks(getCurrentPageType());
+      console.log("Updated perks for current page type");
+    }
+    
+    // Also refresh tierlist if in tierlist view
+    if (typeof refreshTierlist === 'function') {
+      refreshTierlist();
+      console.log("Refreshed tierlist");
+    }
+  });
+
   // Add view toggle button
   const btnViewToggle = document.createElement("button");
   btnViewToggle.id = "view-toggle-btn";
@@ -155,6 +209,7 @@ async function initializePage() {
   // Add buttons to appropriate sections
   toggleSection.appendChild(btnPerkLock);
   toggleSection.appendChild(btnAllowRemoveCompleted);
+  toggleSection.appendChild(btnColorfulPerks);
   
   actionSection.appendChild(btnViewToggle);
   actionSection.appendChild(btnResetPage);
@@ -190,6 +245,11 @@ async function initializePage() {
 
   // Initialize character control buttons
   initializeCharacterControls();
+
+  // Initialize colorful perks state
+  if (colorfulPerks) {
+    document.body.classList.add('colorful-perks');
+  }
 
 // Function to initialize character control buttons
 function initializeCharacterControls() {
@@ -305,6 +365,11 @@ window.addEventListener("DOMContentLoaded", async () => {
   // Initialize overlay system if available (give time for data to load)
   if (typeof updateStreamerOverlay === 'function') {
     setTimeout(updateStreamerOverlay, 500);
+  }
+  
+  // Initialize colorful perks state on all pages
+  if (colorfulPerks) {
+    document.body.classList.add('colorful-perks');
   }
   
   // Add version display to all pages

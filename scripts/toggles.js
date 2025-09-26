@@ -100,3 +100,38 @@ function toggleShowCompleted() {
     refreshTierlist();
   }
 }
+
+// Toggle colorful perks background state
+function toggleColorfulPerks() {
+  colorfulPerks = !colorfulPerks;
+  localStorage.setItem("dbd_colorful_perks", JSON.stringify(colorfulPerks));
+  
+  // Update the button appearance and text
+  const toggleButton = document.getElementById("colorful-perks-toggle");
+  if (toggleButton) {
+    toggleButton.textContent = colorfulPerks ? "🎨 Colorful Perks" : "🖤 Simple Perks";
+    toggleButton.className = colorfulPerks ? "control-button toggle-active" : "control-button success";
+    toggleButton.title = colorfulPerks ? 
+      "Click to disable colorful perk backgrounds" : 
+      "Click to enable colorful perk backgrounds";
+  }
+  
+  // Update CSS class on body to trigger style changes
+  if (colorfulPerks) {
+    document.body.classList.add('colorful-perks');
+  } else {
+    document.body.classList.remove('colorful-perks');
+  }
+  
+  // Refresh available perks to update appearance
+  if (selectedCharacter) {
+    updateAvailablePerks(selectedCharacter.type);
+  } else {
+    updateAvailablePerks(getCurrentPageType());
+  }
+  
+  // Also refresh tierlist if in tierlist view
+  if (typeof refreshTierlist === 'function') {
+    refreshTierlist();
+  }
+}

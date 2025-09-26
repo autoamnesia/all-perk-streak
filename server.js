@@ -45,7 +45,7 @@ const server = http.createServer((req, res) => {
         killerCompleted: 0,
         killerTotal: 41,
         survivorCompleted: 0,
-        survivorTotal: 48,
+        survivorTotal: 49,
         completedKillers: []
       };
       
@@ -434,7 +434,7 @@ function updateOverlayFile(overlayData) {
       const count = document.getElementById('completed-killers-count');
       
       // Update count display to show completed killers count
-      count.textContent = \`\${completedKillers.length}/40\`;
+      count.textContent = \`\${completedKillers.length}/41\`;
       
       // Show all elements together
       overlay.classList.add('show');
@@ -642,9 +642,9 @@ if (!fs.existsSync(OVERLAY_FILE)) {
 if (!fs.existsSync(OVERLAY_FILE)) {
   const initialData = {
     killerCompleted: 0,
-    killerTotal: 40,
+    killerTotal: 41,
     survivorCompleted: 0,
-    survivorTotal: 40,
+    survivorTotal: 49,
     currentKiller: null,
     currentSurvivor: null,
     settings: {

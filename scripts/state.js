@@ -34,3 +34,6 @@ let allowRemoveFromCompleted = JSON.parse(localStorage.getItem("dbd_allow_remove
 // Global variable to track if completed characters are shown
 let showCompleted = JSON.parse(localStorage.getItem("dbd_show_completed") || "true");
 
+// Global variable to track if colorful perks background is enabled
+let colorfulPerks = JSON.parse(localStorage.getItem("dbd_colorful_perks") || "false");
+

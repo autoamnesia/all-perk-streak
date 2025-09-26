@@ -1043,6 +1043,30 @@ input, textarea {
   box-shadow: none;
 }
 
+/* Colorful perks background overlay - simplified approach */
+.colorful-perks .perk-icon {
+  background-image: url('assets/icons/Background.webp') !important;
+  background-size: cover !important;
+  background-position: center !important;
+  background-repeat: no-repeat !important;
+}
+
+/* Colorful perks for tierlist items */
+.colorful-perks .tierlist-perk-item img {
+  background-image: url('assets/icons/Background.webp') !important;
+  background-size: cover !important;
+  background-position: center !important;
+  background-repeat: no-repeat !important;
+}
+
+/* Colorful perks for mini perks */
+.colorful-perks .tierlist-mini-perk {
+  background-image: url('assets/icons/Background.webp') !important;
+  background-size: cover !important;
+  background-position: center !important;
+  background-repeat: no-repeat !important;
+}
+
 /* =============================================================================
    RESPONSIVE DESIGN
    ============================================================================= */
