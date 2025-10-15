@@ -44,6 +44,7 @@
 
     try {
       const completedChars = JSON.parse(localStorage.getItem('dbd_completed_chars') || '[]');
+      const usedPerks = JSON.parse(localStorage.getItem('dbd_used_perks') || '{}');
 
       // Always get totals from charactersData, never from localStorage or progress.json
       const killerTotal = charactersData.killers ? charactersData.killers.length : 0;
@@ -52,14 +53,28 @@
       const completedKillers = completedChars
         .map(charFile => {
           const killer = charactersData.killers.find(k => k.file === charFile);
-          return killer ? { id: killer.file, name: killer.name } : null;
+          if (killer) {
+            return { 
+              id: killer.file, 
+              name: killer.name,
+              perks: usedPerks[killer.file] || []
+            };
+          }
+          return null;
         })
         .filter(Boolean);
 
       const completedSurvivors = completedChars
         .map(charFile => {
           const survivor = charactersData.survivors.find(s => s.file === charFile);
-          return survivor ? { id: survivor.file, name: survivor.name } : null;
+          if (survivor) {
+            return { 
+              id: survivor.file, 
+              name: survivor.name,
+              perks: usedPerks[survivor.file] || []
+            };
+          }
+          return null;
         })
         .filter(Boolean);
 

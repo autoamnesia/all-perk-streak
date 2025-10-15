@@ -312,6 +312,128 @@ function updateOverlayFile(overlayData) {
       text-overflow: ellipsis;
       font-size: 16px;
     }
+    
+    /* Showcase Mode Styles */
+    #killer-showcase {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: transparent;
+      display: none;
+      opacity: 0;
+      z-index: 20;
+      box-sizing: border-box;
+      justify-content: center;
+      align-items: center;
+      border-radius: 18px;
+      transition: opacity 0.3s ease;
+      padding: 20px;
+      overflow: hidden;
+    }
+    
+    #killer-showcase.show {
+      display: flex;
+      opacity: 1;
+    }
+    
+    /* Hide content when showcase is active */
+    #killer-card:has(#killer-showcase.show) .overlay-title,
+    #killer-card:has(#killer-showcase.show) .progress-section {
+      visibility: hidden;
+    }
+    
+    #killer-showcase-total {
+      position: absolute;
+      top: 5px;
+      left: 5px;
+      font-size: 24px;
+      font-weight: bold;
+      color: #ffffff;
+      text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
+      z-index: 21;
+    }
+    
+    #killer-showcase-content {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 2px;
+      width: 100%;
+      height: 100%;
+      max-width: 100%;
+      max-height: 100%;
+      padding-left: 5px;
+    }
+    
+    #killer-showcase-number {
+      font-size: 64px;
+      font-weight: bold;
+      color: #ffffff;
+      text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
+      flex-shrink: 0;
+      min-width: 100px;
+      text-align: right;
+      padding-right: 5px;
+    }
+    
+    #killer-showcase-portrait {
+      width: 180px;
+      height: 180px;
+      border-radius: 8px;
+      object-fit: cover;
+      flex-shrink: 0;
+    }
+    
+    #killer-showcase-perks {
+      position: relative;
+      width: 180px;
+      height: 180px;
+      flex-shrink: 0;
+      margin-right: 20px;
+    }
+    
+    .showcase-perk-wrapper {
+      position: absolute;
+      width: 90px;
+      height: 90px;
+      background-image: url('assets/icons/Background.webp');
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+      border: none;
+    }
+    
+    .showcase-perk {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      position: relative;
+      z-index: 1;
+      border: none;
+    }
+    
+    /* Diamond/rotated square layout - perks touch in middle */
+    .showcase-perk-wrapper:nth-child(1) {
+      top: 0;
+      left: 45px;
+    }
+    
+    .showcase-perk-wrapper:nth-child(2) {
+      top: 45px;
+      right: 0;
+    }
+    
+    .showcase-perk-wrapper:nth-child(3) {
+      bottom: 0;
+      left: 45px;
+    }
+    
+    .showcase-perk-wrapper:nth-child(4) {
+      top: 45px;
+      left: 0;
+    }
   </style>
 </head>
 <body>
@@ -330,6 +452,16 @@ function updateOverlayFile(overlayData) {
     <div id="completed-killers-display">
       <div id="completed-killers-list"></div>
     </div>
+    
+    <!-- New Showcase Mode Display -->
+    <div id="killer-showcase">
+      <div id="killer-showcase-total">0/41</div>
+      <div id="killer-showcase-content">
+        <div id="killer-showcase-number">1</div>
+        <img id="killer-showcase-portrait" src="" alt="Killer">
+        <div id="killer-showcase-perks"></div>
+      </div>
+    </div>
   </div>
   <div class="overlay-card" id="survivor-card" style="margin-top:16px;">
     <div class="overlay-title">All Perk Streak</div>
@@ -342,14 +474,25 @@ function updateOverlayFile(overlayData) {
   </div>
 
   <script>
+    // ========== DISPLAY MODE TOGGLE ==========
+    // Change this to switch between display modes:
+    // 'list' - Shows multiple killers in a list (current behavior)
+    // 'showcase' - Shows one killer at a time with their perks in diamond grid
+    const DISPLAY_MODE = 'showcase'; // Options: 'list' or 'showcase'
+    
     let completedKillers = [];
     let currentCycleIndex = 0;
     const killersPerPage = 8; // Changed from 4 to 8
-    const cycleInterval = 600000; // 10 minutes between complete cycles
-    const displayDuration = 10000; // Show each set for 10 seconds
+    const cycleInterval = 600000; // 10 minute between complete cycles
+    const displayDuration = 5000; // Show each set for 5 seconds
     let hasShownInitial = false;
     let isShowing = false;
     let lastKillerCount = 0;
+    let lastKillersData = ''; // Store serialized killer data to detect perk changes
+    let cycleIntervalId = null; // Store the interval ID so we can reset it
+    let showcaseTimeoutId = null; // Store timeout ID to prevent rapid changes causing short displays
+    let displayTimeoutId = null; // Store the display duration timeout ID
+    let nextShowTimeoutId = null; // Store the next show timeout ID
 
     // Show both killer and survivor progress at once
     async function updateBoth() {
@@ -360,22 +503,59 @@ function updateOverlayFile(overlayData) {
         
         // Store completed killers
         const newKillerCount = (progressData.completedKillers || []).length;
+        const newKillersData = JSON.stringify(progressData.completedKillers || []);
         
-        // If killer count changed while showing, reset the display
-        if (isShowing && newKillerCount !== lastKillerCount) {
-          const overlay = document.getElementById('completed-killers-display');
-          const title = document.getElementById('completed-killers-title');
-          const count = document.getElementById('completed-killers-count');
+        // If killer data changed (count or perks), reset the display and timer
+        if (newKillersData !== lastKillersData) {
+          const dataChanged = lastKillersData !== ''; // Only reset if we had previous data
           
-          overlay.classList.remove('show');
-          title.classList.remove('show');
-          count.classList.remove('show');
-          isShowing = false;
-          currentCycleIndex = 0;
+          if (dataChanged) {
+            // Clear ALL pending timeouts to prevent rapid changes
+            if (showcaseTimeoutId) {
+              clearTimeout(showcaseTimeoutId);
+              showcaseTimeoutId = null;
+            }
+            if (displayTimeoutId) {
+              clearTimeout(displayTimeoutId);
+              displayTimeoutId = null;
+            }
+            if (nextShowTimeoutId) {
+              clearTimeout(nextShowTimeoutId);
+              nextShowTimeoutId = null;
+            }
+            
+            // Hide any current display
+            const overlay = document.getElementById('completed-killers-display');
+            const showcase = document.getElementById('killer-showcase');
+            const title = document.getElementById('completed-killers-title');
+            const count = document.getElementById('completed-killers-count');
+            
+            overlay.classList.remove('show');
+            showcase.classList.remove('show');
+            title.classList.remove('show');
+            count.classList.remove('show');
+            
+            // Reset state
+            isShowing = false;
+            currentCycleIndex = 0;
+            
+            // Clear and restart the cycle timer
+            if (cycleIntervalId) {
+              clearInterval(cycleIntervalId);
+              cycleIntervalId = null;
+            }
+            startKillerCycling();
+            
+            // Trigger immediate showcase if we have killers
+            if ((progressData.completedKillers || []).length > 0) {
+              showcaseTimeoutId = setTimeout(() => startKillerShowcycle(), 2000);
+            }
+          }
         }
         
         completedKillers = progressData.completedKillers || [];
         lastKillerCount = newKillerCount;
+        lastKillersData = newKillersData;
         
         // Show initial display for testing
         if (!hasShownInitial && completedKillers.length > 0) {
@@ -411,27 +591,80 @@ function updateOverlayFile(overlayData) {
     function showCurrentKillerSet() {
       // Check if we still have killers to show (in case list was emptied)
       if (completedKillers.length === 0) {
-        const overlay = document.getElementById('completed-killers-display');
-        const title = document.getElementById('completed-killers-title');
-        const count = document.getElementById('completed-killers-count');
-        
-        overlay.classList.remove('show');
-        title.classList.remove('show');
-        count.classList.remove('show');
+        hideAllDisplays();
         isShowing = false;
         return;
       }
       
-      // Ensure currentCycleIndex is within bounds
-      const totalPages = Math.ceil(completedKillers.length / killersPerPage);
-      if (currentCycleIndex >= totalPages) {
-        currentCycleIndex = 0;
+      if (DISPLAY_MODE === 'showcase') {
+        // Showcase mode: show one killer at a time
+        if (currentCycleIndex >= completedKillers.length) {
+          currentCycleIndex = 0;
+        }
+        
+        showKillerShowcase();
+        
+        displayTimeoutId = setTimeout(() => {
+          if (!isShowing) return;
+          
+          const nextCycleIndex = (currentCycleIndex + 1) % completedKillers.length;
+          
+          if (nextCycleIndex === 0) {
+            // Completed full cycle
+            hideAllDisplays();
+            isShowing = false;
+          } else {
+            currentCycleIndex = nextCycleIndex;
+            nextShowTimeoutId = setTimeout(() => showCurrentKillerSet(), 100);
+          }
+        }, displayDuration);
+      } else {
+        // List mode: show multiple killers
+        const totalPages = Math.ceil(completedKillers.length / killersPerPage);
+        if (currentCycleIndex >= totalPages) {
+          currentCycleIndex = 0;
+        }
+        
+        showKillerList();
+        
+        displayTimeoutId = setTimeout(() => {
+          if (!isShowing) return;
+          
+          const updatedTotalPages = Math.ceil(completedKillers.length / killersPerPage);
+          const nextCycleIndex = (currentCycleIndex + 1) % updatedTotalPages;
+          
+          if (nextCycleIndex === 0) {
+            hideAllDisplays();
+            isShowing = false;
+          } else {
+            currentCycleIndex = nextCycleIndex;
+            nextShowTimeoutId = setTimeout(() => showCurrentKillerSet(), 100);
+          }
+        }, displayDuration);
       }
-      
-      updateCompletedKillersDisplay();
+    }
+    
+    function hideAllDisplays() {
       const overlay = document.getElementById('completed-killers-display');
+      const showcase = document.getElementById('killer-showcase');
       const title = document.getElementById('completed-killers-title');
       const count = document.getElementById('completed-killers-count');
+      
+      overlay.classList.remove('show');
+      showcase.classList.remove('show');
+      title.classList.remove('show');
+      count.classList.remove('show');
+    }
+    
+    function showKillerList() {
+      updateCompletedKillersDisplay();
+      const overlay = document.getElementById('completed-killers-display');
+      const showcase = document.getElementById('killer-showcase');
+      const title = document.getElementById('completed-killers-title');
+      const count = document.getElementById('completed-killers-count');
+      
+      // Hide showcase, show list
+      showcase.classList.remove('show');
       
       // Update count display to show completed killers count
       count.textContent = \`\${completedKillers.length}/41\`;
@@ -440,27 +673,65 @@ function updateOverlayFile(overlayData) {
       overlay.classList.add('show');
       title.classList.add('show');
       count.classList.add('show');
+    }
+    
+    function showKillerShowcase() {
+      const killer = completedKillers[currentCycleIndex];
+      if (!killer) return;
       
-      setTimeout(() => {
-        // Double-check we're still supposed to be showing
-        if (!isShowing) return;
+      const overlay = document.getElementById('completed-killers-display');
+      const showcase = document.getElementById('killer-showcase');
+      const title = document.getElementById('completed-killers-title');
+      const count = document.getElementById('completed-killers-count');
+      const totalDisplay = document.getElementById('killer-showcase-total');
+      const numberDisplay = document.getElementById('killer-showcase-number');
+      const portrait = document.getElementById('killer-showcase-portrait');
+      const perksContainer = document.getElementById('killer-showcase-perks');
+      
+      // Hide list and top bar elements, show showcase
+      overlay.classList.remove('show');
+      title.classList.remove('show');
+      count.classList.remove('show');
+      
+      // Set total completed killers
+      totalDisplay.textContent = \`\${completedKillers.length}/41\`;
+      
+      // Set killer number (1-based index) with period
+      numberDisplay.textContent = \`\${currentCycleIndex + 1}.\`;
+      
+      // Set killer portrait
+      portrait.src = \`assets/characters/killers/\${killer.id}.webp\`;
+      portrait.alt = killer.name;
+      
+      // Clear and populate perks
+      perksContainer.innerHTML = '';
+      if (killer.perks && killer.perks.length > 0) {
+        // Get killer type from ID to construct proper perk path
+        const perkType = 'killers'; // completed killers are always killers
         
-        // Check if there are more sets to show
-        const updatedTotalPages = Math.ceil(completedKillers.length / killersPerPage);
-        const nextCycleIndex = (currentCycleIndex + 1) % updatedTotalPages;
-        
-        if (nextCycleIndex === 0) {
-          // Completed full cycle, hide everything
-          overlay.classList.remove('show');
-          title.classList.remove('show');
-          count.classList.remove('show');
-          isShowing = false;
-        } else {
-          // Update to next set without hiding (smooth transition)
-          currentCycleIndex = nextCycleIndex;
-          setTimeout(() => showCurrentKillerSet(), 100);
-        }
-      }, displayDuration);
+        killer.perks.forEach((perkFile) => {
+          // Create wrapper with background
+          const perkWrapper = document.createElement('div');
+          perkWrapper.className = 'showcase-perk-wrapper';
+          
+          // Create perk image
+          const perkImg = document.createElement('img');
+          perkImg.className = 'showcase-perk';
+          // perkFile already includes .webp extension
+          perkImg.src = \`assets/perks/\${perkType}/\${perkFile}\`;
+          perkImg.alt = perkFile;
+          perkImg.onerror = function() {
+            console.log('Failed to load perk:', perkFile);
+            this.style.display = 'none';
+          };
+          
+          perkWrapper.appendChild(perkImg);
+          perksContainer.appendChild(perkWrapper);
+        });
+      }
+      
+      // Show showcase (title and count remain hidden)
+      showcase.classList.add('show');
     }
 
     // Update the completed killers display with current set
@@ -520,7 +791,12 @@ function updateOverlayFile(overlayData) {
 
     // Start the cycling display
     function startKillerCycling() {
-      setInterval(startKillerShowcycle, cycleInterval);
+      // Clear any existing interval
+      if (cycleIntervalId) {
+        clearInterval(cycleIntervalId);
+      }
+      // Start new interval
+      cycleIntervalId = setInterval(startKillerShowcycle, cycleInterval);
     }
 
     updateBoth();
