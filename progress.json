@@ -1,14 +1,8 @@
 {
-  "killerCompleted": 1,
+  "killerCompleted": 0,
   "killerTotal": 41,
   "survivorCompleted": 0,
   "survivorTotal": 49,
-  "completedKillers": [
-    {
-      "id": "the-demogorgon",
-      "name": "The Demogorgon",
-      "perks": []
-    }
-  ],
+  "completedKillers": [],
   "completedSurvivors": []
 }

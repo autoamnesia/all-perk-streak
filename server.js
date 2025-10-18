@@ -328,7 +328,7 @@ function updateOverlayFile(overlayData) {
       justify-content: center;
       align-items: center;
       border-radius: 18px;
-      transition: opacity 0.3s ease;
+      transition: opacity 0.5s ease-in-out;
       padding: 20px;
       overflow: hidden;
     }
@@ -336,6 +336,99 @@ function updateOverlayFile(overlayData) {
     #killer-showcase.show {
       display: flex;
       opacity: 1;
+    }
+    
+    /* Animated elements within showcase */
+    #killer-showcase-total {
+      animation: fadeInDown 0.6s ease-out;
+    }
+    
+    #killer-showcase-number {
+      animation: fadeInLeft 0.6s ease-out 0.1s both;
+    }
+    
+    #killer-showcase-portrait {
+      animation: fadeInScale 0.6s ease-out 0.2s both;
+    }
+    
+    #killer-showcase-perks {
+      animation: fadeInRight 0.6s ease-out 0.3s both;
+    }
+    
+    @keyframes fadeInDown {
+      from {
+        opacity: 0;
+        transform: translateY(-20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+    
+    @keyframes fadeInLeft {
+      from {
+        opacity: 0;
+        transform: translateX(-30px);
+      }
+      to {
+        opacity: 1;
+        transform: translateX(0);
+      }
+    }
+    
+    @keyframes fadeInRight {
+      from {
+        opacity: 0;
+        transform: translateX(30px);
+      }
+      to {
+        opacity: 1;
+        transform: translateX(0);
+      }
+    }
+    
+    @keyframes fadeInScale {
+      from {
+        opacity: 0;
+        transform: scale(0.8);
+      }
+      to {
+        opacity: 1;
+        transform: scale(1);
+      }
+    }
+    
+    /* Perk animations */
+    .showcase-perk-wrapper {
+      animation: perkPop 0.4s ease-out both;
+    }
+    
+    .showcase-perk-wrapper:nth-child(1) {
+      animation-delay: 0.4s;
+    }
+    
+    .showcase-perk-wrapper:nth-child(2) {
+      animation-delay: 0.5s;
+    }
+    
+    .showcase-perk-wrapper:nth-child(3) {
+      animation-delay: 0.6s;
+    }
+    
+    .showcase-perk-wrapper:nth-child(4) {
+      animation-delay: 0.7s;
+    }
+    
+    @keyframes perkPop {
+      from {
+        opacity: 0;
+        transform: scale(0.5) rotate(180deg);
+      }
+      to {
+        opacity: 1;
+        transform: scale(1) rotate(0deg);
+      }
     }
     
     /* Hide content when showcase is active */
@@ -688,10 +781,13 @@ function updateOverlayFile(overlayData) {
       const portrait = document.getElementById('killer-showcase-portrait');
       const perksContainer = document.getElementById('killer-showcase-perks');
       
-      // Hide list and top bar elements, show showcase
+      // Hide list and top bar elements
       overlay.classList.remove('show');
       title.classList.remove('show');
       count.classList.remove('show');
+      
+      // Hide showcase temporarily to reset animations
+      showcase.classList.remove('show');
       
       // Set total completed killers
       totalDisplay.textContent = \`\${completedKillers.length}/41\`;
@@ -730,8 +826,12 @@ function updateOverlayFile(overlayData) {
         });
       }
       
-      // Show showcase (title and count remain hidden)
-      showcase.classList.add('show');
+      // Show showcase with a small delay to trigger animations
+      requestAnimationFrame(() => {
+        requestAnimationFrame(() => {
+          showcase.classList.add('show');
+        });
+      });
     }
 
     // Update the completed killers display with current set
