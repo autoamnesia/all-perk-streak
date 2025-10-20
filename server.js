@@ -437,6 +437,12 @@ function updateOverlayFile(overlayData) {
       visibility: hidden;
     }
     
+    /* Keep progress hidden during any showcase state (including transitions) */
+    body:has(#killer-showcase:not([style*="display: none"])) #killer-card .overlay-title,
+    body:has(#killer-showcase:not([style*="display: none"])) #killer-card .progress-section {
+      visibility: hidden !important;
+    }
+    
     #killer-showcase-total {
       position: absolute;
       top: 5px;
@@ -742,11 +748,22 @@ function updateOverlayFile(overlayData) {
       const showcase = document.getElementById('killer-showcase');
       const title = document.getElementById('completed-killers-title');
       const count = document.getElementById('completed-killers-count');
+      const progressSection = document.querySelector('#killer-card .progress-section');
+      const overlayTitle = document.querySelector('#killer-card .overlay-title');
       
       overlay.classList.remove('show');
       showcase.classList.remove('show');
       title.classList.remove('show');
       count.classList.remove('show');
+      
+      // Force showcase display to none so CSS rules don't keep progress hidden
+      if (showcase) showcase.style.display = 'none';
+      
+      // Restore progress section and title visibility after a tiny delay
+      setTimeout(() => {
+        if (progressSection) progressSection.style.visibility = '';
+        if (overlayTitle) overlayTitle.style.visibility = '';
+      }, 50);
     }
     
     function showKillerList() {
@@ -780,13 +797,20 @@ function updateOverlayFile(overlayData) {
       const numberDisplay = document.getElementById('killer-showcase-number');
       const portrait = document.getElementById('killer-showcase-portrait');
       const perksContainer = document.getElementById('killer-showcase-perks');
+      const progressSection = document.querySelector('#killer-card .progress-section');
+      const overlayTitle = document.querySelector('#killer-card .overlay-title');
       
       // Hide list and top bar elements
       overlay.classList.remove('show');
       title.classList.remove('show');
       count.classList.remove('show');
       
-      // Hide showcase temporarily to reset animations
+      // Force hide progress section and title during entire showcase
+      if (progressSection) progressSection.style.visibility = 'hidden';
+      if (overlayTitle) overlayTitle.style.visibility = 'hidden';
+      
+      // Reset showcase display and hide temporarily to reset animations
+      showcase.style.display = '';
       showcase.classList.remove('show');
       
       // Set total completed killers
