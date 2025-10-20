@@ -553,7 +553,7 @@ function updateOverlayFile(overlayData) {
     </div>
     
     <!-- New Showcase Mode Display -->
-    <div id="killer-showcase">
+    <div id="killer-showcase" style="display: none;">
       <div id="killer-showcase-total">0/41</div>
       <div id="killer-showcase-content">
         <div id="killer-showcase-number">1</div>
@@ -759,11 +759,9 @@ function updateOverlayFile(overlayData) {
       // Force showcase display to none so CSS rules don't keep progress hidden
       if (showcase) showcase.style.display = 'none';
       
-      // Restore progress section and title visibility after a tiny delay
-      setTimeout(() => {
-        if (progressSection) progressSection.style.visibility = '';
-        if (overlayTitle) overlayTitle.style.visibility = '';
-      }, 50);
+      // Restore progress section and title visibility immediately
+      if (progressSection) progressSection.style.visibility = '';
+      if (overlayTitle) overlayTitle.style.visibility = '';
     }
     
     function showKillerList() {
@@ -895,7 +893,7 @@ function updateOverlayFile(overlayData) {
         
         const killerText = document.createElement('span');
         const killerNumber = startIndex + index + 1;
-        const killerName = killer.name.replace(/^The\s+/, '');
+        const killerName = killer.name.replace(/^Thes+/, '');
         killerText.textContent = \`\${killerNumber}. \${killerName}\`;
         
         killerItem.appendChild(killerImage);

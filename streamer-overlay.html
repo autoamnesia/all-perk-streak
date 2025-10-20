@@ -376,7 +376,7 @@
     </div>
     
     <!-- New Showcase Mode Display -->
-    <div id="killer-showcase">
+    <div id="killer-showcase" style="display: none;">
       <div id="killer-showcase-total">0/41</div>
       <div id="killer-showcase-content">
         <div id="killer-showcase-number">1</div>
@@ -579,7 +579,10 @@
       title.classList.remove('show');
       count.classList.remove('show');
       
-      // Restore progress section and title visibility
+      // Force showcase display to none so CSS rules don't keep progress hidden
+      if (showcase) showcase.style.display = 'none';
+      
+      // Restore progress section and title visibility immediately
       if (progressSection) progressSection.style.visibility = '';
       if (overlayTitle) overlayTitle.style.visibility = '';
     }
@@ -627,7 +630,8 @@
       if (progressSection) progressSection.style.visibility = 'hidden';
       if (overlayTitle) overlayTitle.style.visibility = 'hidden';
       
-      // Hide showcase temporarily to reset animations
+      // Reset showcase display and hide temporarily to reset animations
+      showcase.style.display = '';
       showcase.classList.remove('show');
       
       // Set total completed killers
