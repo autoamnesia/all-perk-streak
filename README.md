@@ -3,7 +3,7 @@
 Track every perk streak in Dead by Daylight (Killer + Survivor) with an easy self‑hosted web app and optional real‑time streamer overlay for OBS.
 
 ## Live Website 🔗
-[allperkstreak.help](https://www.allperkstreak.help)
+[allperkstreak.lol](https://www.allperkstreak.lol)
 
 ![DBD Perk Streak Tracker Preview](assets/preview.png)
 
