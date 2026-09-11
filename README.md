@@ -76,3 +76,13 @@ The random button selects a new perk combination from the currently available po
 
 ## Credits 🙏
 Forked from [T5K](https://github.com/Pokejongen) – huge thanks for the original foundation.
+
+## Legal & Disclaimers ⚖️
+
+This is an unofficial fan-made project. It is **not affiliated with, endorsed by, sponsored by, or approved by Behaviour Interactive Inc.**
+
+*Dead by Daylight* and all related names, characters, perks, images, icons, and assets are trademarks and/or copyrights of Behaviour Interactive Inc. or their respective owners.
+
+Assets are sourced from [https://deadbydaylight.wiki.gg](https://deadbydaylight.wiki.gg) unless otherwise noted. Please refer to that site for asset licensing and attribution requirements.
+
+**License:** You may use, copy, modify, fork, and redistribute this project for personal, non-commercial purposes. Commercial use is prohibited. This license does not grant any rights to third-party game assets or trademarks.

@@ -1,8 +1,14 @@
 {
-  "killerCompleted": 0,
+  "killerCompleted": 1,
   "killerTotal": 44,
   "survivorCompleted": 0,
   "survivorTotal": 54,
-  "completedKillers": [],
+  "completedKillers": [
+    {
+      "id": "the-executioner",
+      "name": "The Executioner",
+      "perks": []
+    }
+  ],
   "completedSurvivors": []
 }
