@@ -26,6 +26,11 @@
       "type": "survivors"
     },
     {
+      "name": "Aurora Stardotter",
+      "file": "aurora-stardotter",
+      "type": "survivors"
+    },
+    {
       "name": "Bill Overbeck",
       "file": "bill-overbeck",
       "type": "survivors"
@@ -51,8 +56,18 @@
       "type": "survivors"
     },
     {
+      "name": "Dustin Henderson",
+      "file": "dustin-henderson",
+      "type": "survivors"
+    },
+    {
       "name": "Dwight Fairfield",
       "file": "dwight-fairfield",
+      "type": "survivors"
+    },
+    {
+      "name": "Eleven",
+      "file": "eleven",
       "type": "survivors"
     },
     {
@@ -113,6 +128,11 @@
     {
       "name": "Kate Denson",
       "file": "kate-denson",
+      "type": "survivors"
+    },
+    {
+      "name": "Kwon Tae-young",
+      "file": "kwon-tae-young",
       "type": "survivors"
     },
     {
@@ -191,6 +211,11 @@
       "type": "survivors"
     },
     {
+      "name": "Shane Wiigwaas",
+      "file": "shane-wiigwaas",
+      "type": "survivors"
+    },
+    {
       "name": "Steve Harrington",
       "file": "steve-harrington",
       "type": "survivors"
@@ -216,6 +241,11 @@
       "type": "survivors"
     },
     {
+      "name": "Vee Boonyasak",
+      "file": "vee-boonyasak",
+      "type": "survivors"
+    },
+    {
       "name": "Vittorio Toscano",
       "file": "vittorio-toscano",
       "type": "survivors"
@@ -238,11 +268,6 @@
     {
       "name": "Zarina Kassir",
       "file": "zarina-kassir",
-      "type": "survivors"
-    },
-    {
-      "name": "Vee Boonyasak",
-      "file": "vee-boonyasak",
       "type": "survivors"
     }
   ],
@@ -308,6 +333,11 @@
       "type": "killers"
     },
     {
+      "name": "The First",
+      "file": "the-first",
+      "type": "killers"
+    },
+    {
       "name": "The Ghost Face",
       "file": "the-ghost-face",
       "type": "killers"
@@ -343,8 +373,18 @@
       "type": "killers"
     },
     {
+      "name": "The Judgment",
+      "file": "the-judgment",
+      "type": "killers"
+    },
+    {
       "name": "The Knight",
       "file": "the-knight",
+      "type": "killers"
+    },
+    {
+      "name": "The Krasue",
+      "file": "the-krasue",
       "type": "killers"
     },
     {
@@ -413,6 +453,11 @@
       "type": "killers"
     },
     {
+      "name": "The Slasher",
+      "file": "the-slasher",
+      "type": "killers"
+    },
+    {
       "name": "The Spirit",
       "file": "the-spirit",
       "type": "killers"
@@ -445,11 +490,6 @@
     {
       "name": "The Xenomorph",
       "file": "the-xenomorph",
-      "type": "killers"
-    },
-    {
-      "name": "The Krasue",
-      "file": "the-krasue",
       "type": "killers"
     }
   ],
@@ -1098,8 +1138,68 @@
       {
         "name": "Road Life",
         "file": "road-life.webp"
+      },
+      {
+        "name": "Bada Bada Boom",
+        "file": "bada-bada-boom.webp"
+      },
+      {
+        "name": "Change of Plan",
+        "file": "change-of-plan.webp"
+      },
+      {
+        "name": "Teamwork Full Circuit",
+        "file": "teamwork-full-circuit.webp"
+      },
+      {
+        "name": "Extrasensory Perception",
+        "file": "extrasensory-perception.webp"
+      },
+      {
+        "name": "We See You",
+        "file": "we-see-you.webp"
+      },
+      {
+        "name": "Teamwork Soft-Spoken",
+        "file": "teamwork-soft-spoken.webp"
+      },
+      {
+        "name": "Flow State",
+        "file": "flow-state.webp"
+      },
+      {
+        "name": "A Place For Us",
+        "file": "a-place-for-us.webp"
+      },
+      {
+        "name": "Five Moves Ahead",
+        "file": "five-moves-ahead.webp"
+      },
+      {
+        "name": "Wide Open Throttle",
+        "file": "wide-open-throttle.webp"
+      },
+      {
+        "name": "Lend A Hand",
+        "file": "lend-a-hand.webp"
+      },
+      {
+        "name": "Cross-Examination",
+        "file": "cross-examination.webp"
+      },
+      {
+        "name": "Fruits of Your Labor",
+        "file": "fruits-of-your-labor.webp"
+      },
+      {
+        "name": "Salvation's Cry",
+        "file": "salvations-cry.webp"
+      },
+      {
+        "name": "Boon Steadfast",
+        "file": "boon-steadfast.webp"
       }
-  ],
+    ],
     "killers": [
       {
         "name": "A Nurses Calling",
@@ -1644,6 +1744,42 @@
       {
         "name": "Wandering Eye",
         "file": "wandering-eye.webp"
+      },
+      {
+        "name": "Turn Back The Clock",
+        "file": "turn-back-the-clock.webp"
+      },
+      {
+        "name": "Secret Project",
+        "file": "secret-project.webp"
+      },
+      {
+        "name": "Hex Hive Mind",
+        "file": "hex-hive-mind.webp"
+      },
+      {
+        "name": "Hex Scared To Death",
+        "file": "hex-scared-to-death.webp"
+      },
+      {
+        "name": "Silent Shadow",
+        "file": "silent-shadow.webp"
+      },
+      {
+        "name": "Rampage",
+        "file": "rampage.webp"
+      },
+      {
+        "name": "Celestial Witness",
+        "file": "celestial-witness.webp"
+      },
+      {
+        "name": "Hex Under Your Thumb",
+        "file": "hex-under-your-thumb.webp"
+      },
+      {
+        "name": "Lay Waste",
+        "file": "lay-waste.webp"
       }
     ]
   }
